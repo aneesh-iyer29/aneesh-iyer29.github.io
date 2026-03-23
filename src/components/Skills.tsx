@@ -7,16 +7,16 @@ const categories = [
     items: ["Java", "Python", "Rust", "C", "C++", "SQL", "JavaScript", "HTML/CSS", "R", "MATLAB", "LaTeX", "Bash", "Arduino", "RISC-V"],
   },
   {
-    title: "Engineering Focus",
+    title: "Engineering",
     items: ["Control Systems", "Sensor Fusion", "Embedded Systems", "Systems Engineering", "Aerospace Systems"],
   },
   {
-    title: "Tools & Technologies",
-    items: ["Git", "SciPy", "NumPy", "Data Analytics", "Modeling & Simulation", "Microsoft 365"],
+    title: "Tools",
+    items: ["Git", "SciPy", "NumPy", "Data Analytics", "Modeling & Simulation"],
   },
   {
     title: "Interests",
-    items: ["Machine Learning", "Artificial Intelligence", "Optics", "Cryptography", "Cybersecurity", "Algorithms"],
+    items: ["Machine Learning", "AI", "Optics", "Cryptography", "Cybersecurity", "Algorithms"],
   },
 ];
 
@@ -31,14 +31,13 @@ const Skills = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-10"
         >
           <p className="section-label mb-3">Capabilities</p>
-          <h2 className="text-4xl md:text-5xl font-serif text-foreground">Skills and Technologies</h2>
-          <p className="text-muted-foreground mt-3 max-w-lg">Technical skills from coursework, research, and professional experience.</p>
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Technical Toolkit</h2>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.title}
@@ -46,8 +45,8 @@ const Skills = () => {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.08 }}
             >
-              <h3 className="text-sm font-semibold text-foreground mb-3">{cat.title}</h3>
-              <div className="flex flex-wrap gap-2">
+              <h3 className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">{cat.title}</h3>
+              <div className="flex flex-wrap gap-1.5">
                 {cat.items.map((item) => (
                   <span key={item} className="tag">{item}</span>
                 ))}

@@ -7,61 +7,42 @@ const About = () => {
 
   return (
     <section id="about" className="py-24 px-6 border-t border-border">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_1.2fr] gap-12 items-start" ref={ref}>
+      <div className="max-w-6xl mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
+          className="max-w-3xl"
         >
           <p className="section-label mb-3">About</p>
-          <h2 className="text-4xl md:text-5xl font-serif text-foreground leading-tight">
-            Who I am
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-8 leading-tight">
+            Engineering from first principles
           </h2>
-        </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="space-y-4"
-        >
-          <p className="text-base text-muted-foreground leading-relaxed">
-            I am <span className="font-semibold text-foreground">Aneesh Iyer</span>, a Computer Engineering student at Georgia Tech with a 4.0 GPA, building at the intersection of AI, control theory, and aerospace systems.
-          </p>
-          <p className="text-base text-muted-foreground leading-relaxed">
-            I currently work as a Software Engineer at <span className="font-semibold text-foreground">Architect Labs (YC S'25)</span>, where I design LLM evaluation systems and conduct AI model alignment research with synthetic data pipelines.
-          </p>
-          <p className="text-base text-muted-foreground leading-relaxed">
-            My recent work spans autonomous flight control with Extended Kalman Filters, mathematical modeling published in SIAM, and interactive educational platforms serving 70+ users.
-          </p>
-
-          <div className="grid grid-cols-2 gap-4 pt-4">
-            <div>
-              <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Location</p>
-              <p className="text-sm text-foreground mt-1">Atlanta, Georgia</p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Status</p>
-              <p className="text-sm text-foreground mt-1">Seeking internship opportunities</p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Education</p>
-              <p className="text-sm text-foreground mt-1">Georgia Tech — Computer Engineering</p>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Focus</p>
-              <p className="text-sm text-foreground mt-1">AI · Control Systems · Aerospace</p>
-            </div>
+          <div className="space-y-4 text-base text-muted-foreground leading-relaxed">
+            <p>
+              I'm a Computer Engineering student at <span className="text-foreground font-medium">Georgia Tech</span> with a 4.0 GPA. My work sits at the intersection of AI, control theory, and aerospace — always grounded in mathematical rigor and real-world validation.
+            </p>
+            <p>
+              At <span className="text-foreground font-medium">Architect Labs (YC S'25)</span>, I design LLM evaluation systems and research AI alignment through synthetic data generation. With <span className="text-foreground font-medium">Propulsive Landers</span>, I build sensor fusion and control systems for autonomous flight using Extended Kalman Filters.
+            </p>
+            <p>
+              I've won the <span className="text-foreground font-medium">M3 Math Modeling Challenge</span> (1st out of 794 teams, $20K prize, SIAM published), earned multiple <span className="text-foreground font-medium">Science Olympiad national medals</span>, and built educational platforms serving 70+ students.
+            </p>
           </div>
 
-          <div className="flex gap-3 pt-2">
-            <a
-              href="/Aneesh_Iyer_Resume.pdf"
-              target="_blank"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-sm text-foreground hover:bg-secondary transition-colors"
-            >
-              Resume
-            </a>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-border">
+            {[
+              { label: "GPA", value: "4.0 / 4.0" },
+              { label: "M3 Rank", value: "1st / 794" },
+              { label: "SciOly Nationals", value: "3rd Place" },
+              { label: "SIAM Published", value: "2025" },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="text-2xl font-serif text-foreground">{stat.value}</p>
+                <p className="text-xs text-muted-foreground mt-1 font-mono uppercase tracking-wider">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </motion.div>
       </div>
