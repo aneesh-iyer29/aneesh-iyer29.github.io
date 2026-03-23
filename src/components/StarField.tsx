@@ -39,7 +39,7 @@ const StarField = () => {
         }
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(96, 165, 250, ${star.opacity})`;
+        ctx.fillStyle = `rgba(30, 80, 160, ${star.opacity * 0.5})`;
         ctx.fill();
       });
       animationId = requestAnimationFrame(animate);
