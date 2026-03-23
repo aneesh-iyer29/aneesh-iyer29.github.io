@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# Aneesh Iyer Portfolio Website
 
-TODO: Document your project here
+Hello! This is the source code for my portfolio website. Disclaimer: Lovable was used to help create this website.
