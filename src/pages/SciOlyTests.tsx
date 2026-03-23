@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink, FileText } from "lucide-react";
+import sciOlyPhoto from "@/assets/scioly-nationals.png";
 
 interface TestItem {
   year: string;
