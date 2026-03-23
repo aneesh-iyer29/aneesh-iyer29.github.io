@@ -34,18 +34,30 @@ const Hero = () => {
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="#projects"
+              <button
+                type="button"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
+                onClick={() => {
+                  const el = document.getElementById("projects");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
               >
                 View Work <ArrowRight size={16} />
-              </a>
-              <a
-                href="#contact"
+              </button>
+              <button
+                type="button"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border text-foreground font-medium text-sm hover:bg-secondary transition-colors"
+                onClick={() => {
+                  const el = document.getElementById("contact");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
               >
                 Contact
-              </a>
+              </button>
             </div>
           </motion.div>
 
