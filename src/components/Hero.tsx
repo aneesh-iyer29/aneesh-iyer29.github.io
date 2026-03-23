@@ -1,83 +1,101 @@
 import { motion } from "framer-motion";
-import { ArrowDown, FileText, Github, Linkedin } from "lucide-react";
+import { MapPin, Briefcase, GraduationCap, Github, Linkedin, Mail, ArrowRight } from "lucide-react";
+
+const focusAreas = [
+  {
+    title: "AI & Alignment",
+    description: "LLM evaluation systems, synthetic data generation, and model alignment research.",
+  },
+  {
+    title: "Control Systems & GNC",
+    description: "Extended Kalman Filters, sensor fusion, and autonomous flight control simulations.",
+  },
+  {
+    title: "Mathematical Modeling",
+    description: "Regression analysis, predictive modeling, and SIAM-published research.",
+  },
+];
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-6">
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-[image:var(--gradient-hero)] pointer-events-none" />
-
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
+    <section className="min-h-screen flex items-center px-6 pt-20">
+      <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-[1fr_420px] gap-12 items-start">
+        {/* Left column */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-primary font-mono text-sm mb-4 tracking-widest uppercase">
-            Computer Engineering · Georgia Tech
-          </p>
-          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-4 tracking-tight">
+          <p className="section-label mb-4">Portfolio</p>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif text-foreground mb-6 leading-[1.05]">
             Aneesh Iyer
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-3 leading-relaxed">
-            Building intelligent systems at the intersection of{" "}
-            <span className="text-primary">AI</span>,{" "}
-            <span className="text-primary">control theory</span>, and{" "}
-            <span className="text-primary">aerospace engineering</span>.
+          <p className="text-xl md:text-2xl text-muted-foreground font-light mb-4 leading-relaxed max-w-lg">
+            Computer Engineer focused on AI, control systems, and aerospace.
           </p>
-          <p className="text-sm text-muted-foreground font-mono mb-8">
-            4.0 GPA · M3 Math Modeling Champion · Science Olympiad National Medalist
+          <p className="text-base text-muted-foreground max-w-lg mb-6 leading-relaxed">
+            I build intelligent systems across AI alignment, autonomous flight control, and mathematical modeling. Based in Atlanta, GA and currently studying at Georgia Tech.
           </p>
-        </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="flex flex-wrap items-center justify-center gap-4"
-        >
-          <a
-            href="#projects"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium text-sm hover:brightness-110 transition-all"
-          >
-            View Projects
-          </a>
-          <a
-            href="/Aneesh_Iyer_Resume.pdf"
-            target="_blank"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-glow bg-secondary text-secondary-foreground font-medium text-sm hover:bg-muted transition-all"
-          >
-            <FileText size={16} /> Resume
-          </a>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground mb-8">
+            <span className="inline-flex items-center gap-1.5">
+              <MapPin size={14} /> Atlanta, Georgia
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Briefcase size={14} /> SWE @ Architect Labs (YC S'25)
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <GraduationCap size={14} /> Georgia Tech
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 mb-8">
             <a
-              href="https://linkedin.com/in/aneesh-iyer"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-lg border-glow bg-secondary text-muted-foreground hover:text-primary transition-colors"
+              href="#projects"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
             >
-              <Linkedin size={18} />
+              View Work <ArrowRight size={16} />
             </a>
             <a
-              href="https://github.com/aneesh-iyer29"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-lg border-glow bg-secondary text-muted-foreground hover:text-primary transition-colors"
+              href="#contact"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border text-foreground font-medium text-sm hover:bg-secondary transition-colors"
             >
-              <Github size={18} />
+              Contact
+            </a>
+          </div>
+
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <a href="https://github.com/aneesh-iyer29" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors">
+              <Github size={15} /> GitHub
+            </a>
+            <a href="https://linkedin.com/in/aneesh-iyer" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors">
+              <Linkedin size={15} /> LinkedIn
+            </a>
+            <a href="mailto:aiyer397@gatech.edu" className="inline-flex items-center gap-1.5 hover:text-foreground transition-colors">
+              <Mail size={15} /> Email
             </a>
           </div>
         </motion.div>
 
+        {/* Right column - Current Focus card */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="card-surface p-8 mt-8 lg:mt-16"
         >
-          <a href="#about" className="text-muted-foreground animate-float block">
-            <ArrowDown size={20} />
-          </a>
+          <p className="section-label mb-6">Current Focus</p>
+          <div className="space-y-6">
+            {focusAreas.map((area, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-1">{area.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{area.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>

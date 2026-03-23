@@ -7,54 +7,74 @@ const Contact = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="contact" className="py-24 px-6">
-      <div className="max-w-2xl mx-auto text-center" ref={ref}>
+    <section id="contact" className="py-24 px-6 border-t border-border">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_1.2fr] gap-12 items-start" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-sm font-mono text-primary tracking-widest uppercase mb-3">
-            Contact
+          <p className="section-label mb-3">Contact</p>
+          <h2 className="text-4xl md:text-5xl font-serif text-foreground leading-tight">
+            Let's connect
           </h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Let's connect.
-          </h3>
-          <p className="text-muted-foreground mb-8">
-            Always open to discussing new opportunities, research collaborations, or interesting engineering challenges.
+          <p className="text-muted-foreground mt-4 max-w-sm leading-relaxed">
+            Open to internship roles, research collaborations, and technical projects in AI, aerospace, and embedded systems.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <h3 className="text-sm font-semibold text-foreground mb-6">Reach out directly</h3>
+          <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+            If you're hiring for internships or want to discuss work across AI alignment, control systems, or aerospace engineering, I'm happy to connect.
           </p>
 
-          <div className="flex items-center justify-center gap-4 flex-wrap">
+          <div className="space-y-4">
             <a
               href="mailto:aiyer397@gatech.edu"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium text-sm hover:brightness-110 transition-all"
+              className="flex items-center gap-3 group"
             >
-              <Mail size={16} /> Get in Touch
+              <Mail size={16} className="text-muted-foreground group-hover:text-foreground transition-colors" />
+              <div>
+                <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Email</p>
+                <p className="text-sm text-foreground">aiyer397@gatech.edu</p>
+              </div>
             </a>
             <a
               href="https://linkedin.com/in/aneesh-iyer"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-glow bg-secondary text-secondary-foreground font-medium text-sm hover:bg-muted transition-all"
+              className="flex items-center gap-3 group"
             >
-              <Linkedin size={16} /> LinkedIn
+              <Linkedin size={16} className="text-muted-foreground group-hover:text-foreground transition-colors" />
+              <div>
+                <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">LinkedIn</p>
+                <p className="text-sm text-foreground">linkedin.com/in/aneesh-iyer</p>
+              </div>
             </a>
             <a
               href="https://github.com/aneesh-iyer29"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border-glow bg-secondary text-secondary-foreground font-medium text-sm hover:bg-muted transition-all"
+              className="flex items-center gap-3 group"
             >
-              <Github size={16} /> GitHub
+              <Github size={16} className="text-muted-foreground group-hover:text-foreground transition-colors" />
+              <div>
+                <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">GitHub</p>
+                <p className="text-sm text-foreground">github.com/aneesh-iyer29</p>
+              </div>
             </a>
           </div>
         </motion.div>
       </div>
 
-      {/* Footer */}
-      <div className="max-w-4xl mx-auto mt-24 pt-8 border-t border-border text-center">
-        <p className="text-xs text-muted-foreground font-mono">
-          Built by Aneesh Iyer · © {new Date().getFullYear()}
+      <div className="max-w-6xl mx-auto mt-24 pt-8 border-t border-border">
+        <p className="text-xs text-muted-foreground">
+          © {new Date().getFullYear()} Aneesh Iyer. Built with care.
         </p>
       </div>
     </section>
