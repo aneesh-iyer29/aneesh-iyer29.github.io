@@ -64,13 +64,13 @@
   }
 
   .border-glow {
-    border: 1px solid hsl(210 100% 56% / 0.15);
+    border: 1px solid hsl(215 90% 42% / 0.12);
   }
 
   .bg-grid {
     background-image:
-      linear-gradient(hsl(210 100% 56% / 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(210 100% 56% / 0.03) 1px, transparent 1px);
+      linear-gradient(hsl(215 90% 42% / 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(215 90% 42% / 0.04) 1px, transparent 1px);
     background-size: 60px 60px;
   }
 
