@@ -66,12 +66,17 @@ const SciOlyTests = () => {
         >
           <p className="section-label mb-3">Science Olympiad</p>
           <h1 className="text-4xl md:text-5xl font-serif text-foreground mb-4">Test Bank</h1>
-          <p className="text-base text-muted-foreground leading-relaxed mb-4 max-w-2xl">
+          <p className="text-base text-muted-foreground leading-relaxed mb-4">
             I competed in Science Olympiad for six years, starting with the Mason Middle School team and continuing on the High School team for four years. In my senior year, I was elected team captain and helped lead us to a 3rd place finish at the National Tournament.
           </p>
-          <p className="text-base text-muted-foreground leading-relaxed mb-10 max-w-2xl">
+          <p className="text-base text-muted-foreground leading-relaxed mb-6">
             I specialized in events such as Codebusters (cryptography), Optics, Experimental Design, and Bungee Drop. Below is a comprehensive bank of tests I've written for invitational tournaments.
           </p>
+
+          <div className="rounded-xl overflow-hidden border border-border mb-10">
+            <img src={sciOlyPhoto} alt="Mason High School at the 2025 Science Olympiad National Tournament" className="w-full object-cover" />
+            <p className="text-xs text-muted-foreground px-4 py-3">Mason High School at the 2025 Science Olympiad National Tournament</p>
+          </div>
         </motion.div>
 
         {/* Filters */}
