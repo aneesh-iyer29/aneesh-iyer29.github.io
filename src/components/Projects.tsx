@@ -16,14 +16,14 @@ const projects = [
     title: "Architect Labs — LLM Alignment",
     description: "Designed synthetic data environments with automatic evaluation and custom reward systems to quantify LLM alignment. Conducted model penetration testing and failure analysis.",
     tags: ["LLM Evaluation", "Synthetic Data", "AI Safety"],
-    result: "YC S'25 backed startup",
+    result: "prev. YC S25 backed startup",
   },
   {
-    category: "Aerospace · Robotics",
+    category: "Aerospace · Rocketry",
     title: "Propulsive Landers — GNC",
     description: "Developed autonomous flight control simulations with servo command scheduling and real-time sensor fusion using Extended Kalman Filters.",
     tags: ["Python", "Rust", "EKF", "Sensor Fusion"],
-    result: "Active research team at Georgia Tech",
+    result: "Active project team at Georgia Tech",
   },
   {
     category: "Education · Award",
