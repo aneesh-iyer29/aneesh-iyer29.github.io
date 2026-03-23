@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FileText } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const links = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
+  { label: "SciOly Tests", href: "/scioly-tests", isRoute: true },
 ];
 
 const Navbar = () => {
