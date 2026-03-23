@@ -35,13 +35,13 @@ const Hero = () => {
 
             <div className="flex flex-wrap items-center gap-3">
               <a
-                href="#projects"
+                href="projects"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
               >
                 View Work <ArrowRight size={16} />
               </a>
               <a
-                href="#contact"
+                href="contact"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border text-foreground font-medium text-sm hover:bg-secondary transition-colors"
               >
                 Contact
