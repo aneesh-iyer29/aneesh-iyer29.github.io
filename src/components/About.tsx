@@ -35,7 +35,6 @@ const About = () => {
             {[
               { label: "GPA", value: "4.0 / 4.0" },
               { label: "M3 Rank", value: "1st / 794" },
-              { label: "SciOly Nationals", value: "3rd Place" },
               { label: "SIAM Published", value: "2025" },
             ].map((stat) => (
               <div key={stat.label}>
