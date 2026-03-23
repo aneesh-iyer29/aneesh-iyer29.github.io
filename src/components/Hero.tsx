@@ -26,7 +26,7 @@ const Hero = () => {
                 <MapPin size={14} /> Atlanta, GA
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <Briefcase size={14} /> Architect Labs (YC S'25)
+                <Briefcase size={14} /> Architect Labs (prev. Nuntius YC S25)
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <GraduationCap size={14} /> Georgia Tech
