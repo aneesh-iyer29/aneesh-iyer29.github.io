@@ -12,7 +12,7 @@ const About = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl"
+          className=""
         >
           <p className="section-label mb-3">About</p>
           <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-8 leading-tight">
