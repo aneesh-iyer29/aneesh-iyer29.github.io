@@ -31,7 +31,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-border">
+          <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-border text-center">
             {[
               { label: "GPA", value: "4.0 / 4.0" },
               { label: "M3 Rank", value: "1st / 794" },
