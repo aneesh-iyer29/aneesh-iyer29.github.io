@@ -12,7 +12,7 @@ const About = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl"
+          className=""
         >
           <p className="section-label mb-3">About</p>
           <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-8 leading-tight">
@@ -27,15 +27,14 @@ const About = () => {
               At <span className="text-foreground font-medium">Architect Labs (YC S'25)</span>, I design LLM evaluation systems and research AI alignment through synthetic data generation. With <span className="text-foreground font-medium">Propulsive Landers</span>, I build sensor fusion and control systems for autonomous flight using Extended Kalman Filters.
             </p>
             <p>
-              I've won the <span className="text-foreground font-medium">M3 Math Modeling Challenge</span> (1st out of 794 teams, $20K prize, SIAM published), earned multiple <span className="text-foreground font-medium">Science Olympiad national medals</span>, and built educational platforms serving 70+ students.
+              I've won the <span className="text-foreground font-medium">M3 Math Modeling Challenge</span> (1st out of 794 teams, $20K prize, SIAM published) and built educational platforms serving 70+ students.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-10 pt-8 border-t border-border">
+          <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-border">
             {[
               { label: "GPA", value: "4.0 / 4.0" },
               { label: "M3 Rank", value: "1st / 794" },
-              { label: "SciOly Nationals", value: "3rd Place" },
               { label: "SIAM Published", value: "2025" },
             ].map((stat) => (
               <div key={stat.label}>

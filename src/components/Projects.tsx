@@ -32,13 +32,6 @@ const projects = [
     tags: ["JavaScript", "HTML", "CSS"],
     result: "Instructor of the Year · Highest-rated class",
   },
-  {
-    category: "Leadership · Nationals",
-    title: "Science Olympiad",
-    description: "Led 3rd place National team of 100+ members. Directed a 270-team tournament raising $20K. Won gold at Nationals and MIT.",
-    tags: ["Leadership", "Optics", "Codebusters"],
-    result: "1st Nationals Optics · 1st MIT · 2nd Nationals Codebusters",
-  },
 ];
 
 const Projects = () => {
