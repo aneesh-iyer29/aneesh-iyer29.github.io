@@ -1,24 +1,37 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FileText } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", section: "about" },
+  { label: "Skills", section: "skills" },
+  { label: "Projects", section: "projects" },
+  { label: "Contact", section: "contact" },
   { label: "SciOly Tests", href: "/scioly-tests", isRoute: true },
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  const scrollToSection = (sectionId: string) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <motion.nav
@@ -30,28 +43,28 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="text-lg font-serif text-foreground">
+        <button onClick={() => scrollToSection("hero")} className="text-lg font-serif text-foreground">
           <span className="font-bold">Aneesh</span> Iyer
-        </a>
+        </button>
 
         <div className="hidden md:flex items-center gap-8">
           {links.map((l) =>
             (l as any).isRoute ? (
               <Link
                 key={l.href}
-                to={l.href}
+                to={l.href!}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
                 {l.label}
               </Link>
             ) : (
-              <a
-                key={l.href}
-                href={l.href}
+              <button
+                key={l.section}
+                onClick={() => scrollToSection(l.section!)}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
               >
                 {l.label}
-              </a>
+              </button>
             )
           )}
           <a
