@@ -24,7 +24,7 @@ const About = () => {
               I'm a Computer Engineering student at <span className="text-foreground font-medium">Georgia Tech</span> with a 4.0 GPA. My work sits at the intersection of AI, control theory, and aerospace — always grounded in mathematical rigor and real-world validation.
             </p>
             <p>
-              At <span className="text-foreground font-medium">Architect Labs (YC S'25)</span>, I design LLM evaluation systems and research AI alignment through synthetic data generation. With <span className="text-foreground font-medium">Propulsive Landers</span>, I build sensor fusion and control systems for autonomous flight using Extended Kalman Filters.
+              At <span className="text-foreground font-medium">Architect Labs (prev. Nuntius YC S25)</span>, I design LLM evaluation systems and research AI alignment through synthetic data generation. With <span className="text-foreground font-medium">Propulsive Landers</span>, I build sensor fusion and control systems for autonomous flight using Extended Kalman Filters.
             </p>
             <p>
               I've won the <span className="text-foreground font-medium">M3 Math Modeling Challenge</span> (1st out of 794 teams, $20K prize, SIAM published) and built educational platforms serving 70+ students.
