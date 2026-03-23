@@ -1,8 +1,23 @@
 import { motion } from "framer-motion";
 import { MapPin, Briefcase, GraduationCap, Github, Linkedin, Mail, ArrowRight } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import aneeshPhoto from "@/assets/aneesh-photo.jpeg";
 
 const Hero = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const scrollToSection = (sectionId: string) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="min-h-screen flex items-center px-6 pt-24 pb-12">
       <div className="max-w-6xl mx-auto w-full">
@@ -37,24 +52,14 @@ const Hero = () => {
               <button
                 type="button"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
-                onClick={() => {
-                  const el = document.getElementById("projects");
-                  if (el) {
-                    el.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
+                onClick={() => scrollToSection("projects")}
               >
                 View Work <ArrowRight size={16} />
               </button>
               <button
                 type="button"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border text-foreground font-medium text-sm hover:bg-secondary transition-colors"
-                onClick={() => {
-                  const el = document.getElementById("contact");
-                  if (el) {
-                    el.scrollIntoView({ behavior: "smooth" });
-                  }
-                }}
+                onClick={() => scrollToSection("contact")}
               >
                 Contact
               </button>
