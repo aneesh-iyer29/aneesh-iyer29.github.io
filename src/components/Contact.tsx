@@ -35,13 +35,13 @@ const Contact = () => {
 
           <div className="space-y-4">
             <a
-              href="mailto:aiyer397@gatech.edu"
+              href="mailto:aiyer@gatech.edu"
               className="flex items-center gap-3 group"
             >
               <Mail size={16} className="text-muted-foreground group-hover:text-foreground transition-colors" />
               <div>
                 <p className="text-xs text-muted-foreground font-mono uppercase tracking-wider">Email</p>
-                <p className="text-sm text-foreground">aiyer397@gatech.edu</p>
+                <p className="text-sm text-foreground">aiyer@gatech.edu</p>
               </div>
             </a>
             <a
