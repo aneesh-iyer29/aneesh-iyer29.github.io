@@ -33,7 +33,7 @@ const Hero = () => {
               Aneesh Iyer
             </h1>
             <p className="text-lg text-muted-foreground max-w-xl mb-6 leading-relaxed">
-              I build intelligent systems across AI alignment, autonomous flight control, and mathematical modeling — grounded in first-principles thinking and real-world impact.
+              I build intelligent systems across AI alignment, autonomous flight control, and mathematical modeling — grounded in making real-world impact.
             </p>
 
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground mb-8">
