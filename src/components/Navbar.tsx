@@ -42,7 +42,7 @@ const Navbar = () => {
         scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : ""
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
         <button onClick={() => scrollToSection("hero")} className="text-lg font-serif text-foreground">
           <span className="font-bold">Aneesh</span> Iyer
         </button>

@@ -8,7 +8,7 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-24 px-6 border-t border-border">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_1.2fr] gap-12 items-start" ref={ref}>
+      <div className="max-w-4xl mx-auto grid md:grid-cols-[1fr_1.2fr] gap-12 items-start" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -72,7 +72,7 @@ const Contact = () => {
         </motion.div>
       </div>
 
-      <div className="max-w-6xl mx-auto mt-24 pt-8 border-t border-border">
+      <div className="max-w-4xl mx-auto mt-24 pt-8 border-t border-border">
         <p className="text-xs text-muted-foreground">
           © {new Date().getFullYear()} Aneesh Iyer. Built with care.
         </p>

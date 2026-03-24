@@ -20,7 +20,7 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex items-center px-6 pt-24 pb-12">
-      <div className="max-w-6xl mx-auto w-full">
+      <div className="max-w-4xl mx-auto w-full">
         {/* Top row: intro + photo */}
         <div className="grid lg:grid-cols-[1fr_300px] gap-12 items-end mb-16">
           <motion.div
