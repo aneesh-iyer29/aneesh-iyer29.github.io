@@ -40,7 +40,7 @@ const Projects = () => {
 
   return (
     <section id="projects" className="py-24 px-6 border-t border-border">
-      <div className="max-w-6xl mx-auto" ref={ref}>
+      <div className="max-w-4xl mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
