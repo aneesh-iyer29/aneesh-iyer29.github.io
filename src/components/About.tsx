@@ -14,7 +14,6 @@ const About = () => {
           transition={{ duration: 0.6 }}
           className=""
         >
-          <p className="section-label mb-3"></p>
           <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-8 leading-tight">
             About
           </h2>
