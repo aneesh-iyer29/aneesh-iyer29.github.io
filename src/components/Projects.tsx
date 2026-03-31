@@ -1,41 +1,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ExternalLink } from "lucide-react";
-
-const projects = [
-  {
-    category: "Research · 1st Place",
-    title: "M3 Math Modeling Champion",
-    description: "Built predictive energy demand models for Memphis using multiple linear regression with backward variable selection. Published in SIAM Undergraduate Research Online.",
-    tags: ["Python", "R", "SciPy", "Statistical Modeling"],
-    result: "$20,000 grand prize · 1st out of 794 teams",
-    link: "https://doi.org/10.1137/25s1777554",
-  },
-  {
-    category: "AI · Work",
-    title: "Architect Labs — LLM Alignment",
-    description: "Designed synthetic data environments with automatic evaluation and custom reward systems to quantify LLM alignment. Conducted model penetration testing and failure analysis.",
-    tags: ["LLM Evaluation", "Synthetic Data", "AI Safety"],
-    result: "prev. YC S25 backed startup",
-  },
-  {
-    category: "Aerospace · Rocketry",
-    title: "Propulsive Landers — GNC",
-    description: "Developed autonomous flight control simulations with servo command scheduling and real-time sensor fusion using Extended Kalman Filters.",
-    tags: ["Python", "Rust", "EKF", "Sensor Fusion"],
-    result: "Active project team at Georgia Tech",
-  },
-  {
-    category: "Education · Award",
-    title: "ScioVirtual Codebusters",
-    description: "Built an interactive cryptography practice platform with real-time problem solving and instant feedback for 70+ students.",
-    tags: ["JavaScript", "HTML", "CSS"],
-    result: "Instructor of the Year · Highest-rated class",
-  },
-];
+import { useNavigate } from "react-router-dom";
+import { projects } from "@/data/projects";
 
 const Projects = () => {
   const ref = useRef(null);
+  const navigate = useNavigate();
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
@@ -58,7 +29,16 @@ const Projects = () => {
               initial={{ opacity: 0, y: 15 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="card-surface-hover p-6 md:p-8 group"
+              className="card-surface-hover p-6 md:p-8 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              role="link"
+              tabIndex={0}
+              onClick={() => navigate(`/projects/${proj.slug}`)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  navigate(`/projects/${proj.slug}`);
+                }
+              }}
             >
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                 <div className="flex-1 min-w-0">
@@ -69,6 +49,7 @@ const Projects = () => {
                         href={proj.link}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={(event) => event.stopPropagation()}
                         className="text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <ExternalLink size={14} />
