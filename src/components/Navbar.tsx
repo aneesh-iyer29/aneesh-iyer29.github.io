@@ -80,7 +80,9 @@ const Navbar = () => {
             <DropdownMenuContent align="end" className="w-72">
               {projects.map((project) => (
                 <DropdownMenuItem key={project.slug} asChild>
-                  <Link to={`/projects/${project.slug}`}>{project.title}</Link>
+                  <Link to={`/projects/${project.slug}`} state={{ background: location }}>
+                    {project.title}
+                  </Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

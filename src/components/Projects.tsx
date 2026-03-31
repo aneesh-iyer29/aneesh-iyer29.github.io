@@ -1,12 +1,13 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ExternalLink } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { projects } from "@/data/projects";
 
 const Projects = () => {
   const ref = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
@@ -32,11 +33,11 @@ const Projects = () => {
               className="card-surface-hover p-6 md:p-8 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               role="link"
               tabIndex={0}
-              onClick={() => navigate(`/projects/${proj.slug}`)}
+              onClick={() => navigate(`/projects/${proj.slug}`, { state: { background: location } })}
               onKeyDown={(event) => {
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
-                  navigate(`/projects/${proj.slug}`);
+                  navigate(`/projects/${proj.slug}`, { state: { background: location } });
                 }
               }}
             >
