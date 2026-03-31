@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown, FileText } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -21,11 +21,35 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const rafIdRef = useRef<number | null>(null);
+  const lastScrolledRef = useRef<boolean>(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
+    const update = () => {
+      rafIdRef.current = null;
+      const next = window.scrollY > 50;
+      if (next !== lastScrolledRef.current) {
+        lastScrolledRef.current = next;
+        setScrolled(next);
+      }
+    };
+
+    const onScroll = () => {
+      if (rafIdRef.current !== null) return;
+      rafIdRef.current = window.requestAnimationFrame(update);
+    };
+
+    // Initialize once on mount (e.g. if page reloads mid-scroll).
+    update();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafIdRef.current !== null) {
+        window.cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+    };
   }, []);
 
   const scrollToSection = (sectionId: string) => {
