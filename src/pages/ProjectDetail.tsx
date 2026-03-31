@@ -15,7 +15,7 @@ const ProjectDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-5xl px-6 py-12">
+      <div className="px-6 py-12">
         <Link
           to="/"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12"
@@ -27,7 +27,7 @@ const ProjectDetail = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
-          className="mb-10"
+          className="mb-10 w-full"
         >
           <p className="section-label mb-3">{project.category}</p>
           <h1 className="text-4xl md:text-5xl font-serif text-foreground mb-4">{project.title}</h1>
@@ -59,7 +59,7 @@ const ProjectDetail = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.08 }}
-          className="grid gap-6 lg:grid-cols-[1.35fr_0.82fr]"
+          className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1.35fr_0.82fr]"
         >
           <div className="space-y-6">
             <ProjectMetricsGrid metrics={project.metrics} />
