@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FileText } from "lucide-react";
+import { ChevronDown, FileText } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { projects } from "@/data/projects";
 
 const links = [
   { label: "About", section: "about" },
   { label: "Skills", section: "skills" },
-  { label: "Projects", section: "projects" },
   { label: "Contact", section: "contact" },
   { label: "SciOly Tests", href: "/scioly-tests", isRoute: true },
 ];
@@ -67,6 +73,18 @@ const Navbar = () => {
               </button>
             )
           )}
+          <DropdownMenu>
+            <DropdownMenuTrigger className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 outline-none">
+              Projects <ChevronDown size={14} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-72">
+              {projects.map((project) => (
+                <DropdownMenuItem key={project.slug} asChild>
+                  <Link to={`/projects/${project.slug}`}>{project.title}</Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
           <a
             href="/Aneesh_Iyer_Resume.pdf"
             target="_blank"
