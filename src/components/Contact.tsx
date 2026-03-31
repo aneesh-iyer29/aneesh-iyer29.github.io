@@ -19,7 +19,7 @@ const Contact = () => {
             Let's connect
           </h2>
           <p className="text-muted-foreground mt-4 max-w-sm leading-relaxed">
-            Open to internship roles, research collaborations, and technical projects in AI, aerospace, and embedded systems.
+            To prepare for working in technology as AI advances after I graduate, I plan to gain experience by continuing my work with AI alignment while simultaneously working on tangible projects at Georgia Tech with the assistance of AI generation and coding tools. Prior to graduation, I plan to have done multiple projects on AI and have published research in the field.
           </p>
         </motion.div>
 
