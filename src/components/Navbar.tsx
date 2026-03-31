@@ -77,6 +77,16 @@ const Navbar = () => {
           <span className="font-bold">Aneesh</span> Iyer
         </button>
 
+        {/* Mobile: only show Resume */}
+        <a
+          href="/Aneesh_Iyer_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="md:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-foreground hover:bg-secondary transition-colors"
+        >
+          <FileText size={14} /> Resume
+        </a>
+
         <div className="hidden md:flex items-center gap-8">
           {links.map((l) =>
             (l as any).isRoute ? (
