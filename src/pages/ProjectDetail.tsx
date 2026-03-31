@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import { ProjectCaseStudySections, ProjectMetricsGrid } from "@/components/project-detail/ProjectCaseStudySections";
 import { getProjectBySlug } from "@/data/projects";
 import NotFound from "./NotFound";
 
@@ -15,7 +14,7 @@ const ProjectDetail = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="px-6 py-12">
+      <div className="max-w-4xl mx-auto px-6 py-12">
         <Link
           to="/"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12"
@@ -34,7 +33,6 @@ const ProjectDetail = () => {
           <p className="text-base text-muted-foreground leading-relaxed max-w-3xl mb-6">
             {project.detail}
           </p>
-          <p className="max-w-3xl text-sm leading-relaxed text-foreground/80 md:text-base">{project.caseStudyIntro}</p>
 
           <div className="flex flex-wrap items-center gap-3">
             {project.tags.map((tag) => (
@@ -59,44 +57,39 @@ const ProjectDetail = () => {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.08 }}
-          className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1.35fr_0.82fr]"
+          className="grid gap-6 md:grid-cols-[1.4fr_0.9fr]"
         >
-          <div className="space-y-6">
-            <ProjectMetricsGrid metrics={project.metrics} />
-            <ProjectCaseStudySections sections={project.sections} />
-          </div>
+          <article className="card-surface p-7">
+            <p className="section-label mb-3">Overview</p>
+            <p className="text-base text-muted-foreground leading-relaxed mb-6">
+              {project.description}
+            </p>
+            <div>
+              <p className="section-label mb-3">Key Contributions</p>
+              <ul className="space-y-3">
+                {project.highlights.map((highlight) => (
+                  <li key={highlight} className="text-sm text-muted-foreground leading-relaxed pl-4 relative">
+                    <span className="absolute left-0 top-2 h-1.5 w-1.5 rounded-full bg-primary" />
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
 
-          <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-            <section className="card-surface p-7">
-              <p className="section-label mb-3">Outcome</p>
-              <p className="text-lg font-semibold text-foreground leading-snug mb-6">{project.result}</p>
-              <div>
-                <p className="section-label mb-3">Project Focus</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="tag-accent">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+          <aside className="card-surface p-7">
+            <p className="section-label mb-3">Outcome</p>
+            <p className="text-lg font-semibold text-foreground leading-snug mb-6">{project.result}</p>
+            <div>
+              <p className="section-label mb-3">Project Focus</p>
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span key={tag} className="tag-accent">
+                    {tag}
+                  </span>
+                ))}
               </div>
-            </section>
-
-            <section className="card-surface p-7">
-              <p className="section-label mb-3">Overview</p>
-              <p className="text-sm leading-relaxed text-muted-foreground mb-6">{project.description}</p>
-              <div>
-                <p className="section-label mb-3">Key Contributions</p>
-                <ul className="space-y-3">
-                  {project.highlights.map((highlight) => (
-                    <li key={highlight} className="relative pl-4 text-sm leading-relaxed text-muted-foreground">
-                      <span className="absolute left-0 top-2 h-1.5 w-1.5 rounded-full bg-primary" />
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </section>
+            </div>
           </aside>
         </motion.section>
       </div>
