@@ -79,7 +79,7 @@ const Navbar = () => {
 
         {/* Mobile: only show Resume */}
         <a
-          href="/Aneesh_Iyer_Resume.pdf"
+          href="https://raw.githubusercontent.com/aneesh-iyer29/resume/main/aneesh_iyer_resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="md:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-foreground hover:bg-secondary transition-colors"
@@ -122,8 +122,9 @@ const Navbar = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           <a
-            href="/Aneesh_Iyer_Resume.pdf"
+            href="https://raw.githubusercontent.com/aneesh-iyer29/resume/main/aneesh_iyer_resume.pdf"
             target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-foreground hover:bg-secondary transition-colors"
           >
             <FileText size={14} /> Resume
