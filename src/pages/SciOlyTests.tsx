@@ -14,6 +14,23 @@ interface TestItem {
 }
 
 const tests: TestItem[] = [
+  { year: "2026", event: "Codebusters", title: "2026 Ohio State Tournament - Machines C (April 2026)", privateRelease: true},
+  { year: "2026", event: "Codebusters", title: "2026 Florida State Tournament - Machines B/C (April 2026)", privateRelease: true},
+  { year: "2026", event: "Codebusters", title: "2026 Northern California State Tournament - Codebusters C (April 2026)", privateRelease: true},
+  { year: "2026", event: "Machines", title: "2026 Georgia State Tournament - Machines C (April 2026)", privateRelease: true},
+  { year: "2026", event: "Codebusters", title: "2026 Georgia State Tournament - Codebusters C (April 2026)", privateRelease: true},
+  { year: "2026", event: "Codebusters", title: "2026 Santa Clara Regionals - Codebusters B/C (March 2026)", privateRelease: true},
+  { year: "2026", event: "Codebusters", title: "2026 Ohio CORE Regionals - Codebusters B (March 2026)", privateRelease: true},
+  { year: "2026", event: "Machines", title: "2026 New Jersey State Tournament - Machines C (March 2026)", privateRelease: true},
+  { year: "2026", event: "Codebusters", title: "2026 UMASO Invitational - Codebusters C (February 2026)", testLink: "https://drive.google.com/file/d/1q5NXTSyrVmEIKNwNo7qtVC3aGkcGJ3Kw/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1ytWNjow4BttacHjQ6To0S2WLT4pimj6M/view?usp=drive_link" },
+  { year: "2026", event: "Codebusters", title: "2026 PUSO Invitational - Codebusters C (February 2026)", testLink: "https://drive.google.com/file/d/1YRk790vL3uF53YdZm0JevWOul2qaX74s/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1NRqie_tuFAlvkKwW_at8HrMnVRHmsWXd/view?usp=drive_link" },
+  { year: "2026", event: "Codebusters", title: "2026 MIT Invitational - Codebusters C (January 2026)", testLink: "https://drive.google.com/file/d/1dGZF6mhtmH0Ogcq_AIlCyEvggxWvIJk4/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1Xv5L7dYsfmorEqztdk7eTZvEdHhkz2TQ/view?usp=drive_link" },
+  { year: "2026", event: "Machines", title: "2026 MIT Invitational - Machines C FRQ #2 (January 2026)", testLink: "https://drive.google.com/file/d/1uZVFC7NRDrubej5mbUF7KvAFGtuqBf5f/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/19xOM2OQ-1nG8nfdHRj8NH7sQL05d39aN/view?usp=drive_link" },
+  { year: "2026", event: "Codebusters", title: "2026 Yellow Jacket Invitational - Codebusters C (January 2026)", testLink: "https://drive.google.com/file/d/1L3sTILtLGh4AKzQg_oSXNLRDcTNlgXWH/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/15QIsSo4QxP4xTbnMbWlTcsFMj0Eq_cJ9/view?usp=drive_link" },
+  { year: "2025", event: "Codebusters", title: "2026 GullSO Invitational - Codebusters C (December 2025)", testLink: "https://drive.google.com/file/d/18K80nhGLIiTpN1QfI2m0cCYlTJN03n-Z/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/11ER3x2mWYgo6tRWpiS1x7vAM6jtVYojN/view?usp=drive_link" },
+  { year: "2025", event: "Codebusters", title: "2026 Mason Invitational - Codebusters C (November 2025)", testLink: "https://drive.google.com/file/d/1Rpkye59-Llh0I-vJYLz1aGwnXhx7TcVz/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1uryTxfqNOZ6OvMWEeDY2npgczWrUgXRA/view?usp=drive_link" },
+  { year: "2025", event: "Codebusters", title: "2026 Mason Invitational - Codebusters B (November 2025)", testLink: "https://drive.google.com/file/d/1VNoQwTPlomvv8ofGl8rTJDTsF3ZGuf_z/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1hbYBonE8VxImPJv-zf_zfWABbm7fcCV5/view?usp=drive_link" },
+  { year: "2025", event: "Codebusters", title: "2026 Rickards Invitational - Codebusters C (November 2025)", testLink: "https://drive.google.com/file/d/1VUxtjg0rzphKXLlznQ-DW_isGjiWmCzX/view?usp=sharing", keyLink: "https://drive.google.com/file/d/1haa9uLTllx-aSVTVJYieCm6nDc0E9ugm/view?usp=drive_link" },
   { year: "2025", event: "Codebusters", title: "2025 SOUP Invitational - Codebusters C (February 2025)", testLink: "https://drive.google.com/file/d/1_0Xghzgv4RTn_v18UZJlJy8oZuuZg3df/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1Tqx6CZSxqc-pZKJZllPdzXA8dK9Ut_pc/view?usp=drive_link" },
   { year: "2025", event: "Codebusters", title: "2025 UMASO Invitational - Codebusters C (February 2025)", testLink: "https://drive.google.com/file/d/1FmXgJVQJ-BFwk74YVh64PtyccjNTyX6U/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1Eerro3XGb3QSaVnzZM5xBPWSPMvJb2sk/view?usp=drive_link" },
   { year: "2025", event: "Optics", title: "2025 CurdSO Invitational - Optics C (March 2025)", testLink: "https://drive.google.com/file/d/1BdugpG4qVidzS9MVTeYBC0sR49rMTT6C/view?usp=drive_link", keyLink: "https://drive.google.com/file/d/1TPQSaudDyy7ETOVuL3ypf0Qeotnq9uSc/view?usp=drive_link" },
@@ -33,8 +50,8 @@ const tests: TestItem[] = [
   { year: "2023", event: "Experimental Design", title: "2024 Rickards Invitational - Experimental Design C (November 2023)", testLink: "https://docs.google.com/document/d/1lgrWCwfDcuL-Wn0e8EVCpBTkLsYRAedspwQ5RK1Nb9Y/edit?usp=drive_link" },
 ];
 
-const years = ["All Years", "2025", "2024", "2023"];
-const events = ["All Events", "Codebusters", "Optics", "Experimental Design"];
+const years = ["All Years", "2026", "2025", "2024", "2023"];
+const events = ["All Events", "Codebusters", "Optics", "Experimental Design", "Machines"];
 
 const SciOlyTests = () => {
   const [yearFilter, setYearFilter] = useState("All Years");
