@@ -15,7 +15,7 @@ interface TestItem {
 
 const tests: TestItem[] = [
   { year: "2026", event: "Codebusters", title: "2026 Ohio State Tournament - Machines C (April 2026)", privateRelease: true},
-  { year: "2026", event: "Codebusters", title: "2026 Florida State Tournament - Machines B/C (April 2026)", privateRelease: true},
+  { year: "2026", event: "Machines", title: "2026 Florida State Tournament - Machines B/C (April 2026)", privateRelease: true},
   { year: "2026", event: "Codebusters", title: "2026 Northern California State Tournament - Codebusters C (April 2026)", privateRelease: true},
   { year: "2026", event: "Machines", title: "2026 Georgia State Tournament - Machines C (April 2026)", privateRelease: true},
   { year: "2026", event: "Codebusters", title: "2026 Georgia State Tournament - Codebusters C (April 2026)", privateRelease: true},
