@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getProjectBySlug } from "@/data/projects";
 import NotFound from "./NotFound";
@@ -8,6 +9,10 @@ import { projectDetailBodies } from "@/pages/projects/projectDetailBodies";
 const ProjectDetail = () => {
   const { slug } = useParams();
   const project = getProjectBySlug(slug);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   if (!project) {
     return <NotFound />;

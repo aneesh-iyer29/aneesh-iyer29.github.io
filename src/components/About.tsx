@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import aneeshPhoto from "@/assets/aneesh-photo.jpeg";
 
 const About = () => {
   const ref = useRef(null);
@@ -7,40 +8,46 @@ const About = () => {
 
   return (
     <section id="about" className="py-24 px-6 border-t border-border">
-      <div className="max-w-4xl mx-auto" ref={ref}>
+      <div className="max-w-5xl mx-auto" ref={ref}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className=""
+          className="grid md:grid-cols-[180px_1fr] gap-8"
         >
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground mb-8 leading-tight">
-            About
-          </h2>
+          <p className="eyebrow">About</p>
 
-          <div className="space-y-4 text-base text-muted-foreground leading-relaxed">
-            <p>
-              I'm a Computer Engineering student at <span className="text-foreground font-medium">Georgia Tech</span> with a 4.0 GPA, focused on building systems at the intersection of AI, control theory, and aerospace. My work emphasizes mathematical rigor, reliability, and real-world validation.
-            </p>
-            <p>
-              At <span className="text-foreground font-medium">Architect Labs (prev. Nuntius YC S25)</span>, I design evaluation frameworks for large language models, developing synthetic data pipelines and reward systems to study alignment in tool-based environments. With <span className="text-foreground font-medium">Propulsive Landers</span>, I build control and estimation systems for autonomous flight, including sensor fusion pipelines using Extended Kalman Filters.
-            </p>
-            <p>
-              I’ve led projects ranging from research-level mathematical modeling to scalable educational platforms, including a first-place finish in the <span className="text-foreground font-medium">MathWorks Math Modeling Challenge</span> (1st out of 794 teams, $20K prize, SIAM published) and building educational platforms used by students nationwide. I'm interested in applying my skills in practical systems that must perform under uncertainty, constraints, and scale.
-            </p>
-          </div>
+          <div className="flex flex-col-reverse gap-10 lg:flex-row lg:items-start">
+            <div className="space-y-4 text-base text-muted-foreground leading-relaxed max-w-2xl flex-1">
+              <p>
+                I'm a Computer Engineering student at <span className="text-foreground font-medium">Georgia Tech</span>{" "}
+                (4.0 GPA, Cybersecurity &amp; Systems/Architecture threads) working at the intersection of AI training
+                infrastructure and control systems.
+              </p>
+              <p>
+                At <span className="text-foreground font-medium">Transpira Labs</span>, I build full-stack services and
+                RL benchmarks that support expert contractors producing frontier AI training data. Before that, at{" "}
+                <span className="text-foreground font-medium">Nuntius (YC S25)</span>, I directed a team of eight
+                engineers delivering RL environments and adversarial evaluations for LLM agents. On{" "}
+                <span className="text-foreground font-medium">GT Propulsive Landers</span>, I write the estimation and
+                control software for a self-landing rocket.
+              </p>
+              <p>
+                I care about work that gets measured: benchmarks with deterministic rewards, estimators checked against
+                ground truth, and models judged on held-out tasks. That thread runs from my{" "}
+                <span className="text-foreground font-medium">MathWorks M3 Challenge</span> win (1st of 794, published
+                in SIAM Undergraduate Research Online) through the evaluation systems I build today.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-3 gap-6 mt-10 pt-8 border-t border-border text-center">
-            {[
-              { label: "GPA", value: "4.0 / 4.0" },
-              { label: "M3 Rank", value: "1st / 794" },
-              { label: "SIAM Published", value: "2025" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="text-2xl font-serif text-foreground">{stat.value}</p>
-                <p className="text-xs text-muted-foreground mt-1 font-mono uppercase tracking-wider">{stat.label}</p>
+            <div className="w-full max-w-[220px] shrink-0">
+              <div className="rounded-lg overflow-hidden aspect-[3/4] border border-border">
+                <img src={aneeshPhoto} alt="Aneesh Iyer" className="w-full h-full object-cover object-top" />
               </div>
-            ))}
+              <p className="mt-2 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+                Fig. 01 · Atlanta, GA
+              </p>
+            </div>
           </div>
         </motion.div>
       </div>

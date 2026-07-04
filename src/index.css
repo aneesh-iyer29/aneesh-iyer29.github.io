@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,35 +6,37 @@
 
 @layer base {
   :root {
-    --background: 40 30% 95%;
-    --foreground: 160 20% 15%;
+    color-scheme: dark;
 
-    --card: 40 25% 97%;
-    --card-foreground: 160 20% 15%;
+    --background: 225 35% 7%;
+    --foreground: 220 25% 93%;
 
-    --popover: 40 25% 97%;
-    --popover-foreground: 160 20% 15%;
+    --card: 224 30% 10%;
+    --card-foreground: 220 25% 93%;
 
-    --primary: 160 25% 22%;
-    --primary-foreground: 40 30% 95%;
+    --popover: 224 30% 10%;
+    --popover-foreground: 220 25% 93%;
 
-    --secondary: 40 18% 90%;
-    --secondary-foreground: 160 20% 15%;
+    --primary: 220 25% 93%;
+    --primary-foreground: 225 35% 8%;
 
-    --muted: 40 15% 91%;
-    --muted-foreground: 160 10% 45%;
+    --secondary: 224 25% 14%;
+    --secondary-foreground: 220 25% 93%;
 
-    --accent: 160 25% 22%;
-    --accent-foreground: 40 30% 95%;
+    --muted: 224 25% 14%;
+    --muted-foreground: 222 14% 64%;
 
-    --destructive: 0 84% 60%;
+    --accent: 24 95% 55%;
+    --accent-foreground: 225 35% 8%;
+
+    --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 40 15% 85%;
-    --input: 40 15% 85%;
-    --ring: 160 25% 22%;
+    --border: 223 20% 20%;
+    --input: 223 20% 24%;
+    --ring: 24 95% 55%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
   }
 }
 
@@ -45,10 +47,15 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   html {
     scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.3);
   }
 }
 
@@ -57,26 +64,60 @@
     @apply text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground;
   }
 
+  .eyebrow {
+    @apply text-[0.7rem] font-mono font-medium tracking-[0.22em] uppercase text-accent;
+  }
+
   .heading-serif {
-    font-family: 'DM Serif Display', serif;
+    font-family: 'IBM Plex Serif', serif;
   }
 
   .card-surface {
-    @apply bg-card rounded-xl border border-border;
+    @apply bg-card rounded-lg border border-border;
   }
 
   .card-surface-hover {
-    @apply bg-card rounded-xl border border-border transition-all duration-300;
+    @apply bg-card rounded-lg border border-border transition-all duration-300;
   }
   .card-surface-hover:hover {
-    @apply border-primary/20 shadow-sm;
+    @apply border-accent/40 shadow-sm;
   }
 
   .tag {
-    @apply text-xs font-medium px-3 py-1.5 rounded-full bg-secondary text-muted-foreground;
+    @apply text-xs font-mono px-2.5 py-1 rounded border border-border bg-card text-muted-foreground;
   }
 
   .tag-accent {
-    @apply text-xs font-medium px-3 py-1.5 rounded-full bg-primary/10 text-primary;
+    @apply text-xs font-mono px-2.5 py-1 rounded bg-accent/10 text-accent;
+  }
+
+  /* Tabular figures for readout stats */
+  .readout {
+    @apply font-mono tabular-nums;
+  }
+
+  /* Telemetry trace draw-on animation (hero) */
+  .trace-draw {
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+    animation: trace-draw 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+  }
+  .trace-draw-slow {
+    stroke-dasharray: 1500;
+    stroke-dashoffset: 1500;
+    animation: trace-draw 2.6s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards;
+  }
+  @keyframes trace-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trace-draw,
+    .trace-draw-slow {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
   }
 }

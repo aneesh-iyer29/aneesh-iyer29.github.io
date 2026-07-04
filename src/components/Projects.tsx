@@ -1,73 +1,99 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ExternalLink } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { projects } from "@/data/projects";
 
 const Projects = () => {
   const ref = useRef(null);
-  const navigate = useNavigate();
-  const location = useLocation();
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="projects" className="py-24 px-6 border-t border-border">
-      <div className="max-w-4xl mx-auto" ref={ref}>
+    <section id="work" className="py-24 px-6 border-t border-border">
+      <div className="max-w-5xl mx-auto" ref={ref}>
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-12 flex flex-wrap items-end justify-between gap-4"
         >
-          <p className="section-label mb-3">Selected Work</p>
-          <h2 className="text-3xl md:text-4xl font-serif text-foreground">Projects & Research</h2>
+          <div>
+            <p className="eyebrow mb-3">Selected work</p>
+            <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground tracking-tight">
+              Projects &amp; case studies
+            </h2>
+          </div>
+          <p className="font-mono text-xs text-muted-foreground readout">{projects.length} entries</p>
         </motion.div>
 
-        <div className="space-y-4">
+        <div className="grid md:grid-cols-2 gap-6">
           {projects.map((proj, i) => (
             <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 15 }}
+              key={proj.slug}
+              initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
-              className="card-surface-hover p-6 md:p-8 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              role="link"
-              tabIndex={0}
-              onClick={() => navigate(`/projects/${proj.slug}`, { state: { background: location } })}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault();
-                  navigate(`/projects/${proj.slug}`, { state: { background: location } });
-                }
-              }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
             >
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="tag-accent text-[11px]">{proj.category}</span>
-                    {proj.link && (
-                      <a
-                        href={proj.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(event) => event.stopPropagation()}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        <ExternalLink size={14} />
-                      </a>
-                    )}
+              <Link
+                to={`/projects/${proj.slug}`}
+                className="card-surface-hover group flex h-full flex-col overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                {/* Media */}
+                {proj.image ? (
+                  <div className="border-b border-border bg-secondary overflow-hidden">
+                    <img
+                      src={proj.image}
+                      alt={proj.title}
+                      loading="lazy"
+                      className="block w-full aspect-[16/9] object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{proj.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-3">{proj.description}</p>
-                  <p className="text-xs font-medium text-foreground/70">{proj.result}</p>
-                </div>
+                ) : (
+                  <div
+                    className="grid place-items-center border-b border-border bg-secondary px-6 py-4 text-center aspect-[16/9]"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(hsl(var(--foreground) / 0.04) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground) / 0.04) 1px, transparent 1px)",
+                      backgroundSize: "24px 24px",
+                    }}
+                  >
+                    <div>
+                      <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-accent">Image slot</p>
+                      {proj.imagePlaceholder && (
+                        <p className="mx-auto mt-2 max-w-xs text-xs leading-relaxed text-muted-foreground">
+                          {proj.imagePlaceholder}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
 
-                <div className="flex flex-wrap md:flex-col md:items-end gap-1.5 shrink-0">
-                  {proj.tags.map((t) => (
-                    <span key={t} className="tag text-[11px]">{t}</span>
-                  ))}
+                {/* Body */}
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <span className="eyebrow !text-[0.62rem]">{proj.category}</span>
+                    <span className="font-mono text-xs text-muted-foreground readout">{proj.year}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2 flex items-start gap-1.5">
+                    {proj.title}
+                    <ArrowUpRight
+                      size={15}
+                      className="mt-1 shrink-0 text-muted-foreground opacity-0 -translate-x-1 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0"
+                    />
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">{proj.description}</p>
+                  <div className="mt-auto">
+                    <p className="font-mono text-xs text-foreground/75 border-t border-border pt-3">{proj.result}</p>
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {proj.tags.map((t) => (
+                        <span key={t} className="tag !text-[0.65rem]">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>

@@ -1,18 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { projects } from "@/data/projects";
 
 const links = [
   { label: "About", section: "about" },
-  { label: "Skills", section: "skills" },
+  { label: "Experience", section: "experience" },
+  { label: "Work", section: "work" },
   { label: "Contact", section: "contact" },
   { label: "SciOly Tests", href: "/scioly-tests", isRoute: true },
 ];
@@ -69,12 +63,18 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : ""
+        scrolled ? "bg-background/85 backdrop-blur-xl border-b border-border" : ""
       }`}
     >
-      <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-        <button onClick={() => scrollToSection("hero")} className="text-lg font-serif text-foreground">
-          <span className="font-bold">Aneesh</span> Iyer
+      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <button
+          onClick={() => scrollToSection("hero")}
+          className="font-serif font-semibold text-lg text-foreground tracking-tight"
+        >
+          Aneesh Iyer
+          <span className="ml-2 font-mono text-[0.6rem] font-normal uppercase tracking-[0.18em] text-accent align-middle hidden sm:inline">
+            GT '28
+          </span>
         </button>
 
         {/* Mobile: only show Resume */}
@@ -82,14 +82,14 @@ const Navbar = () => {
           href="https://raw.githubusercontent.com/aneesh-iyer29/resume/main/Aneesh_Iyer_Resume.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          className="md:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-foreground hover:bg-secondary transition-colors"
+          className="md:hidden inline-flex items-center gap-2 px-4 py-2 rounded border border-border text-sm text-foreground hover:bg-secondary transition-colors"
         >
           <FileText size={14} /> Resume
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-7">
           {links.map((l) =>
-            (l as any).isRoute ? (
+            l.isRoute ? (
               <Link
                 key={l.href}
                 to={l.href!}
@@ -107,25 +107,11 @@ const Navbar = () => {
               </button>
             )
           )}
-          <DropdownMenu>
-            <DropdownMenuTrigger className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 outline-none">
-              Projects <ChevronDown size={14} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-72">
-              {projects.map((project) => (
-                <DropdownMenuItem key={project.slug} asChild>
-                  <Link to={`/projects/${project.slug}`} state={{ background: location }}>
-                    {project.title}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
           <a
             href="https://raw.githubusercontent.com/aneesh-iyer29/resume/main/Aneesh_Iyer_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-foreground hover:bg-secondary transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded border border-border text-sm text-foreground hover:bg-secondary transition-colors"
           >
             <FileText size={14} /> Resume
           </a>
