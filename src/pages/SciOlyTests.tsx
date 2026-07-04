@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink, FileText } from "lucide-react";
@@ -56,6 +56,17 @@ const events = ["All Events", "Codebusters", "Optics", "Experimental Design", "M
 const SciOlyTests = () => {
   const [yearFilter, setYearFilter] = useState("All Years");
   const [eventFilter, setEventFilter] = useState("All Events");
+
+  // Open at the top of the page, not wherever the portfolio was scrolled to.
+  // Temporarily disable the global smooth scroll so it jumps to the top on
+  // mount rather than animating up through the whole page.
+  useEffect(() => {
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    html.style.scrollBehavior = prev;
+  }, []);
 
   const filtered = useMemo(() => {
     return tests.filter((t) => {

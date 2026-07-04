@@ -18,13 +18,21 @@ function NavBarInner({ overHero }: { overHero: boolean }) {
   const navigate = useNavigate();
 
   const scrollToSection = (sectionId: string) => {
+    const go = () => {
+      // Contact is the final full-height section; scroll to the true page
+      // bottom so the whole footer (and the rocket touchdown) is in view.
+      if (sectionId === "contact") {
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+      } else {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
     if (location.pathname !== "/") {
       navigate("/");
-      setTimeout(() => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      setTimeout(go, 100);
     } else {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      go();
     }
   };
 

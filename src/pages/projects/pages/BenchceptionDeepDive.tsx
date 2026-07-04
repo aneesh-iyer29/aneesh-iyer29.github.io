@@ -59,8 +59,11 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
     stroke: active === stage ? ACCENT : NEUTRAL,
     strokeOpacity: active === 0 || active === stage ? 1 : 0.18,
     strokeWidth: 2,
-    transition: "0.3s",
+    strokeDasharray: active === stage ? "5 7" : undefined,
+    transition: "stroke 0.3s, stroke-opacity 0.3s",
   });
+  // Active connections get flowing dashes so the selected stage feels live.
+  const flow = (stage: number) => (active === stage ? "decor-flow" : undefined);
 
   return (
     <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }}>
@@ -174,17 +177,17 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
                   <path d="M0,0 L6,3 L0,6 Z" fill="context-stroke" />
                 </marker>
               </defs>
-              <path d="M300,100 L300,150" style={conn(1)} markerEnd="url(#bcArw)" />
-              <path d="M300,228 C300,242 150,234 150,248" style={conn(2)} markerEnd="url(#bcArw)" />
-              <path d="M300,228 C300,242 450,234 450,248" style={conn(2)} markerEnd="url(#bcArw)" />
-              <path d="M150,334 L150,378" style={conn(2)} markerEnd="url(#bcArw)" />
-              <path d="M450,334 L450,378" style={conn(2)} markerEnd="url(#bcArw)" />
-              <path d="M150,456 C150,480 108,482 108,502" style={conn(3)} markerEnd="url(#bcArw)" />
-              <path d="M450,456 C450,480 492,482 492,502" style={conn(3)} markerEnd="url(#bcArw)" />
-              <path d="M108,590 C108,624 220,636 248,650" style={conn(4)} markerEnd="url(#bcArw)" />
-              <path d="M300,590 L300,650" style={conn(4)} markerEnd="url(#bcArw)" />
-              <path d="M492,590 C492,624 380,636 352,650" style={conn(4)} markerEnd="url(#bcArw)" />
-              <path d="M300,744 L300,788" style={conn(4)} markerEnd="url(#bcArw)" />
+              <path d="M300,100 L300,150" style={conn(1)} className={flow(1)} markerEnd="url(#bcArw)" />
+              <path d="M300,228 C300,242 150,234 150,248" style={conn(2)} className={flow(2)} markerEnd="url(#bcArw)" />
+              <path d="M300,228 C300,242 450,234 450,248" style={conn(2)} className={flow(2)} markerEnd="url(#bcArw)" />
+              <path d="M150,334 L150,378" style={conn(2)} className={flow(2)} markerEnd="url(#bcArw)" />
+              <path d="M450,334 L450,378" style={conn(2)} className={flow(2)} markerEnd="url(#bcArw)" />
+              <path d="M150,456 C150,480 108,482 108,502" style={conn(3)} className={flow(3)} markerEnd="url(#bcArw)" />
+              <path d="M450,456 C450,480 492,482 492,502" style={conn(3)} className={flow(3)} markerEnd="url(#bcArw)" />
+              <path d="M108,590 C108,624 220,636 248,650" style={conn(4)} className={flow(4)} markerEnd="url(#bcArw)" />
+              <path d="M300,590 L300,650" style={conn(4)} className={flow(4)} markerEnd="url(#bcArw)" />
+              <path d="M492,590 C492,624 380,636 352,650" style={conn(4)} className={flow(4)} markerEnd="url(#bcArw)" />
+              <path d="M300,744 L300,788" style={conn(4)} className={flow(4)} markerEnd="url(#bcArw)" />
             </svg>
 
             <DiagNode pos={{ left: "31.667%", top: "2.273%", width: "36.667%", height: "9.091%" }} style={nodeStyle("build")}>
@@ -221,7 +224,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
 
             <DiagNode pos={{ left: "3%", top: "57.045%", width: "30%", height: "10%" }} style={nodeStyle("qO")}>
               <NodeKicker>Student</NodeKicker>
-              <NodeTitle className="text-[14px] font-bold">Qwen-8B</NodeTitle>
+              <NodeTitle className="font-bold">Qwen-8B</NodeTitle>
               <NodeSub>trained · Opus env</NodeSub>
             </DiagNode>
             <DiagNode
@@ -231,12 +234,12 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               bg="hsl(var(--secondary))"
             >
               <NodeKicker>Baseline</NodeKicker>
-              <NodeTitle className="text-[14px] font-bold">Qwen-8B</NodeTitle>
+              <NodeTitle className="font-bold">Qwen-8B</NodeTitle>
               <NodeSub>untrained</NodeSub>
             </DiagNode>
             <DiagNode pos={{ left: "67%", top: "57.045%", width: "30%", height: "10%" }} style={nodeStyle("qG")}>
               <NodeKicker>Student</NodeKicker>
-              <NodeTitle className="text-[14px] font-bold">Qwen-8B</NodeTitle>
+              <NodeTitle className="font-bold">Qwen-8B</NodeTitle>
               <NodeSub>trained · GPT env</NodeSub>
             </DiagNode>
 
@@ -258,8 +261,8 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               <div className="font-mono text-[9.5px] font-bold uppercase tracking-[0.13em] text-accent">
                 Held-out evaluation
               </div>
-              <div className="text-[15px] font-bold text-foreground">Three-Way Contest on Golden Bench</div>
-              <div className="text-[11.5px] text-muted-foreground">all three play the held-out Supply Chain Bench</div>
+              <div className="text-[13.5px] font-bold leading-[1.25] text-foreground">Three-Way Contest on Golden Bench</div>
+              <div className="text-[10.5px] leading-[1.3] text-muted-foreground">all three play the held-out Supply Chain Bench</div>
             </div>
 
             <div
@@ -282,7 +285,13 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       </section>
 
       {/* RESULTS / LEADERBOARD ------------------------------------------- */}
-      <section className="mt-16 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className="mt-16 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10"
+      >
         <div className="flex flex-wrap items-start gap-x-14 gap-y-10">
           <div className="min-w-[300px] flex-[1_1_360px]">
             <p className="eyebrow mb-3">Results</p>
@@ -312,18 +321,24 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               <span className="font-mono text-[11px] text-muted-foreground">success rate</span>
             </div>
             <LeaderRow rank="T-1" label="Qwen-8B · untrained baseline" pct={45} tone="neutral" />
-            <LeaderRow rank="T-1" label="Qwen-8B · trained on Opus env" pct={45} tone="accent" />
-            <LeaderRow rank="T-1" label="Qwen-8B · trained on GPT env" pct={44} tone="accent" last />
+            <LeaderRow rank="T-1" label="Qwen-8B · trained on Opus env" pct={45} tone="accent" delay={0.15} />
+            <LeaderRow rank="T-1" label="Qwen-8B · trained on GPT env" pct={44} tone="accent" delay={0.3} last />
             <div className="mt-4 text-[11.5px] leading-[1.5] text-muted-foreground">
               Tied within noise (±2% across seeds). Neither trained student shows a reliable lift over the untrained
               baseline.
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* BLOCKS → SPEC --------------------------------------------------- */}
-      <section className="mt-16 flex flex-wrap items-start gap-x-14 gap-y-10">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className="mt-16 flex flex-wrap items-start gap-x-14 gap-y-10"
+      >
         <div className="min-w-[300px] flex-[1_1_420px]">
           <p className="eyebrow mb-3.5">How we built the environments in-house</p>
           <h2 className="font-serif text-3xl font-semibold leading-[1.05] tracking-tight text-foreground">
@@ -355,7 +370,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             <MockBlock kind="Environment" color="#9AA4B8">
               a supply-chain operator working a live order queue…
             </MockBlock>
-            <MockBlock kind="Tool" color="#6FB5C4" indent>
+            <MockBlock kind="Tool" color="#6FB5C4">
               check_inventory(sku) → units on hand
             </MockBlock>
             <MockBlock kind="Task" color="hsl(var(--accent))">
@@ -385,10 +400,16 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             rubric reward.&quot;
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* ROADMAP --------------------------------------------------------- */}
-      <section className="mt-16 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10">
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        className="mt-16 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10"
+      >
         <div className="mb-8 flex flex-wrap items-end justify-between gap-7">
           <div>
             <p className="eyebrow mb-3">Roadmap</p>
@@ -415,12 +436,8 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             An automated pipeline that turns any research paper into a golden environment on HUD, scaling the golden
             set far beyond what we can hand-author.
           </RoadmapCard>
-          <RoadmapCard n="04" title="Human verification">
-            Human-in-the-loop review on every generated golden environment, guaranteeing the dataset stays correct,
-            fair, and trustworthy.
-          </RoadmapCard>
         </div>
-      </section>
+      </motion.section>
 
       <div className="mt-10 flex flex-wrap items-center justify-end gap-4 font-mono text-[11.5px] uppercase tracking-[0.06em] text-muted-foreground">
         <a
@@ -483,7 +500,7 @@ function DiagNode({
 }) {
   return (
     <div
-      className="absolute flex flex-col justify-center rounded-md px-3.5"
+      className="absolute flex flex-col justify-center gap-px overflow-hidden rounded-md px-3"
       style={{
         ...pos,
         background: bg,
@@ -500,14 +517,16 @@ function DiagNode({
 
 function NodeKicker({ children }: { children: React.ReactNode }) {
   return (
-    <div className="font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-muted-foreground">{children}</div>
+    <div className="font-mono text-[8.5px] font-semibold uppercase leading-[1.4] tracking-[0.09em] text-muted-foreground">
+      {children}
+    </div>
   );
 }
 function NodeTitle({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`text-[15px] font-semibold text-foreground ${className}`}>{children}</div>;
+  return <div className={`text-[13px] font-semibold leading-[1.25] text-foreground ${className}`}>{children}</div>;
 }
 function NodeSub({ children }: { children: React.ReactNode }) {
-  return <div className="text-[11.5px] text-muted-foreground">{children}</div>;
+  return <div className="text-[10.5px] leading-[1.3] text-muted-foreground">{children}</div>;
 }
 
 function LeaderRow({
@@ -515,12 +534,14 @@ function LeaderRow({
   label,
   pct,
   tone,
+  delay = 0,
   last,
 }: {
   rank: string;
   label: string;
   pct: number;
   tone: "neutral" | "accent";
+  delay?: number;
   last?: boolean;
 }) {
   return (
@@ -534,9 +555,13 @@ function LeaderRow({
           <span className="readout text-sm font-bold">{pct}%</span>
         </div>
         <div className="h-2 rounded-sm border border-border bg-muted">
-          <div
+          <motion.div
             className="h-full"
-            style={{ width: `${pct}%`, background: tone === "accent" ? "hsl(var(--accent))" : NEUTRAL }}
+            initial={{ width: 0 }}
+            whileInView={{ width: `${pct}%` }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
+            style={{ background: tone === "accent" ? "hsl(var(--accent))" : NEUTRAL }}
           />
         </div>
       </div>
@@ -556,17 +581,15 @@ function MiniNote({ label, children }: { label: string; children: React.ReactNod
 function MockBlock({
   kind,
   color,
-  indent,
   children,
 }: {
   kind: string;
   color: string;
-  indent?: boolean;
   children: React.ReactNode;
 }) {
   return (
     <div
-      className={`flex items-start gap-3 rounded-md border border-border bg-card px-3 py-2.5 ${indent ? "ml-4" : ""}`}
+      className="flex items-start gap-3 rounded-md border border-border bg-card px-3 py-2.5"
       style={{ borderLeft: `5px solid ${color}` }}
     >
       <span
