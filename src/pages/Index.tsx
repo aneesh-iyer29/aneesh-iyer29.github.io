@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { BlueprintGrid, FieldParticles, PageComets, AltitudeReadout } from "@/components/decor";
+import { BlueprintGrid, FieldParticles, PageComets, PageLander } from "@/components/decor";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -14,7 +14,7 @@ const Index = () => {
       <BlueprintGrid />
       <FieldParticles />
       <PageComets />
-      <AltitudeReadout />
+      <PageLander />
       <Navbar />
       <main>
         <Hero />

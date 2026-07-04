@@ -2,7 +2,8 @@
    Every element is aria-hidden, pointer-events-none, and drawn in
    low-opacity strokes so it reads as texture, not content. */
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 
 const INK = "hsl(var(--foreground) / 0.09)";
 const INK_SOFT = "hsl(var(--foreground) / 0.055)";
@@ -35,42 +36,14 @@ export function GeorgiaOutline({ className = "" }: { className?: string }) {
   );
 }
 
-/* Static scene for the lander decor: dashed descent trajectory, altitude
-   ticks, and the pad. The vehicle itself is a separate component that the
-   Experience section flies along this path as the page scrolls. */
-export function LanderScene({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 260 520"
-      aria-hidden="true"
-      className={`pointer-events-none absolute select-none ${className}`}
-      fill="none"
-    >
-      {/* descent trajectory */}
-      <path d="M238,10 C205,120 150,180 138,258 L138,374" stroke={INK} strokeWidth="1.2" strokeDasharray="3 9" className="decor-flow" />
-      {/* altitude ticks */}
-      {[60, 120, 180].map((y) => (
-        <g key={y}>
-          <line x1="18" y1={y} x2="30" y2={y} stroke={INK} strokeWidth="1" />
-          <text x="36" y={y + 3} fontFamily="IBM Plex Mono, monospace" fontSize="9" letterSpacing="0.1em" fill={INK}>
-            {(240 - y).toFixed(0)}m
-          </text>
-        </g>
-      ))}
-      {/* ground line */}
-      <line x1="40" y1="446" x2="230" y2="446" stroke={INK} strokeWidth="1.2" strokeDasharray="6 6" />
-      <text x="40" y="464" fontFamily="IBM Plex Mono, monospace" fontSize="9" letterSpacing="0.14em" fill={INK}>
-        TOUCHDOWN +0.63% DEV
-      </text>
-    </svg>
-  );
-}
-
-/* The monoprop vehicle alone, so it can be animated along the descent path. */
-export function LanderVehicle({ className = "" }: { className?: string }) {
+/* The monoprop vehicle alone, so it can be animated along the descent path.
+   `bright` is for the page-following lander, which should read clearly. */
+export function LanderVehicle({ className = "", bright = false }: { className?: string; bright?: boolean }) {
+  const body = bright ? "hsl(var(--foreground) / 0.32)" : INK;
+  const plume = bright ? "hsl(var(--accent) / 0.65)" : GLOW;
   return (
     <svg viewBox="0 0 148 190" aria-hidden="true" className={`pointer-events-none select-none ${className}`} fill="none">
-      <g stroke={INK} strokeWidth="1.5">
+      <g stroke={body} strokeWidth="1.5">
         {/* nose cone */}
         <path d="M54,28 C54,12 74,4 94,28" />
         {/* fuselage */}
@@ -86,12 +59,174 @@ export function LanderVehicle({ className = "" }: { className?: string }) {
         <path d="M94,112 L128,172 M128,172 L118,172 M128,172 L138,172" />
       </g>
       {/* thrust plume */}
-      <g stroke={GLOW} strokeWidth="1.2" className="decor-flicker">
+      <g stroke={plume} strokeWidth="1.2" className="decor-flicker">
         <line x1="75" y1="164" x2="75" y2="184" strokeDasharray="2 5" />
         <line x1="64" y1="162" x2="60" y2="178" strokeDasharray="2 6" />
         <line x1="86" y1="162" x2="90" y2="178" strokeDasharray="2 6" />
       </g>
     </svg>
+  );
+}
+
+/* The page-following lander: fades in after the hero, glides down a dashed
+   flight line that weaves across the page, and touches down on the border
+   above the final (contact) section. Sized for a 72px vehicle; the anchor
+   offsets below assume that width (center +36,+46; feet +84). */
+const FLIGHT_PATH = [
+  { t: 0.0, x: 0.8, y: 0.3, r: 0 },
+  { t: 0.22, x: 0.66, y: 0.48, r: -5 },
+  { t: 0.44, x: 0.18, y: 0.4, r: -10 },
+  { t: 0.62, x: 0.3, y: 0.54, r: 4 },
+  { t: 0.8, x: 0.72, y: 0.42, r: 8 },
+  { t: 0.92, x: 0.55, y: 0.46, r: -4 },
+  { t: 1.0, x: 0.5, y: 0.5, r: 0 },
+];
+const smooth = (f: number) => f * f * (3 - 2 * f);
+
+type FlightMetrics = { start: number; end: number; landY: number; vw: number; vh: number };
+
+/* Shared by the rocket and the drawn trail, so they always agree.
+   Returns the pose in DOCUMENT space (yDoc is the vehicle center's document
+   y); the rocket converts to viewport space by subtracting the live scroll. */
+function flightPose(sy: number, m: FlightMetrics) {
+  const t = Math.min(1, Math.max(0, (sy - m.start) / Math.max(1, m.end - m.start)));
+  let i = 0;
+  while (i < FLIGHT_PATH.length - 2 && t > FLIGHT_PATH[i + 1].t) i++;
+  const a = FLIGHT_PATH[i];
+  const b = FLIGHT_PATH[i + 1];
+  const e = smooth(Math.min(1, Math.max(0, (t - a.t) / Math.max(1e-6, b.t - a.t))));
+  let x = (a.x + (b.x - a.x) * e) * m.vw - 36;
+  let yDoc = (a.y + (b.y - a.y) * e) * m.vh + sy;
+  let r = a.r + (b.r - a.r) * e;
+  // Final approach: converge on the landing line, then stay anchored to it.
+  const lb = Math.min(1, Math.max(0, (t - 0.84) / 0.16));
+  if (lb > 0) {
+    const lbe = smooth(lb);
+    const landX = 0.5 * m.vw - 36;
+    const landYDoc = m.landY - 38; // vehicle center when feet sit on the border
+    x += (landX - x) * lbe;
+    yDoc += (landYDoc - yDoc) * lbe;
+    r *= 1 - lbe;
+  }
+  return { x, yDoc, r, t };
+}
+
+export function PageLander() {
+  const { scrollY } = useScroll();
+  const prefersReducedMotion = useReducedMotion();
+  const metrics = useRef<FlightMetrics>({ start: 400, end: 4000, landY: 5000, vw: 1280, vh: 800 });
+  const [trail, setTrail] = useState<{ d: string; w: number; h: number } | null>(null);
+
+  useEffect(() => {
+    const measure = () => {
+      const hero = document.getElementById("hero");
+      const contact = document.getElementById("contact");
+      const vh = window.innerHeight;
+      const vw = window.innerWidth;
+      const contactTop = contact ? contact.offsetTop : document.documentElement.scrollHeight - vh;
+      const m: FlightMetrics = {
+        start: hero ? hero.offsetHeight - vh * 0.5 : vh * 0.5,
+        // The flight completes while the landing line is still mid-viewport;
+        // after that the rocket is part of the page and scrolls with it.
+        end: Math.max(1, contactTop - vh * 0.62),
+        landY: contactTop,
+        vw,
+        vh,
+      };
+      metrics.current = m;
+      // Trace the same pose math into a document-space dashed trail.
+      const pts: string[] = [];
+      const steps = 90;
+      for (let s = 0; s <= steps; s++) {
+        const t = s / steps;
+        const sy = m.start + t * (m.end - m.start);
+        const p = flightPose(sy, m);
+        pts.push(`${(p.x + 36).toFixed(1)},${p.yDoc.toFixed(1)}`);
+      }
+      setTrail({ d: `M${pts.join(" L")}`, w: vw, h: contactTop });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    const ro = new ResizeObserver(measure);
+    ro.observe(document.body);
+    return () => {
+      window.removeEventListener("resize", measure);
+      ro.disconnect();
+    };
+  }, []);
+
+  // Smooth the *progress along the line* (one scalar), then evaluate the
+  // exact path pose from it: the rocket's document position is always a
+  // point on the drawn trail, just eased along it.
+  const pathSy = useSpring(scrollY, { stiffness: 30, damping: 19, mass: 1 });
+  const sx = useTransform(pathSy, (sp) => flightPose(sp, metrics.current).x);
+  const sySpring = useTransform(
+    [pathSy, scrollY],
+    ([sp, sn]: number[]) => flightPose(sp, metrics.current).yDoc - 46 - sn
+  );
+  const sRotate = useTransform(pathSy, (sp) => flightPose(sp, metrics.current).r);
+  const opacity = useTransform(pathSy, (v) => {
+    const m = metrics.current;
+    return Math.min(1, Math.max(0, (v - (m.start - 180)) / 180));
+  });
+  const landed = useTransform(pathSy, (v) => (flightPose(v, metrics.current).t >= 0.995 ? 1 : 0));
+  const label = useTransform(pathSy, (v) => {
+    const { t } = flightPose(v, metrics.current);
+    return t >= 0.995
+      ? "TOUCHDOWN CONFIRMED"
+      : `DESCENT · ALT ${Math.max(0, Math.round((1 - t) * 12400)).toLocaleString()}M`;
+  });
+  const labelColor = useTransform(landed, (l) => (l ? "hsl(var(--accent) / 0.85)" : "hsl(var(--foreground) / 0.45)"));
+
+  if (prefersReducedMotion) return null;
+
+  return (
+    <>
+      {/* The dashed flight line, drawn in document space behind the content. */}
+      {trail && (
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 z-0 hidden select-none lg:block"
+          width="100%"
+          height={trail.h}
+          viewBox={`0 0 ${trail.w} ${trail.h}`}
+          preserveAspectRatio="none"
+          fill="none"
+        >
+          <path
+            d={trail.d}
+            stroke="hsl(var(--foreground) / 0.09)"
+            strokeWidth="1.2"
+            strokeDasharray="4 10"
+            className="decor-flow"
+          />
+        </svg>
+      )}
+
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-0 hidden lg:block"
+        style={{ x: sx, y: sySpring, opacity }}
+      >
+        <motion.div style={{ rotate: sRotate }}>
+          <LanderVehicle bright className="w-[72px]" />
+        </motion.div>
+      </motion.div>
+
+      {/* Corner telemetry, synced to the rocket's flight. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed bottom-5 right-6 z-40 hidden items-center gap-2 md:flex"
+      >
+        <span className="size-1.5 rounded-full bg-accent decor-pulse" />
+        <motion.span
+          className="font-mono text-[0.62rem] uppercase tracking-[0.18em]"
+          style={{ color: labelColor }}
+        >
+          {label}
+        </motion.span>
+      </div>
+    </>
   );
 }
 
@@ -558,24 +693,6 @@ export function PageComets() {
     <div aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
       <div className="page-comet" style={{ top: "16%", animationDuration: "14s", animationDelay: "2s" }} />
       <div className="page-comet" style={{ top: "56%", animationDuration: "23s", animationDelay: "9s" }} />
-    </div>
-  );
-}
-
-/* Scroll-linked descent readout: altitude winds down as you approach the
-   footer, then flips to touchdown. */
-export function AltitudeReadout() {
-  const { scrollYProgress } = useScroll();
-  const label = useTransform(scrollYProgress, (p) => {
-    const alt = Math.max(0, Math.round((1 - p) * 12400));
-    return alt <= 60 ? "TOUCHDOWN CONFIRMED" : `DESCENT · ALT ${alt.toLocaleString()}M`;
-  });
-  return (
-    <div aria-hidden="true" className="fixed bottom-5 right-6 z-40 hidden items-center gap-2 md:flex pointer-events-none">
-      <span className="size-1.5 rounded-full bg-accent decor-pulse" />
-      <motion.span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </motion.span>
     </div>
   );
 }
