@@ -10,9 +10,10 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
       <div className="max-w-5xl mx-auto px-6 py-12">
         <Link
           to="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12"
+          className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12"
         >
-          <ArrowLeft size={15} /> Back to portfolio
+          <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" /> Back to
+          portfolio
         </Link>
 
         <motion.header

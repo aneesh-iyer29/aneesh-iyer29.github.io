@@ -1,14 +1,21 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import aneeshPhoto from "@/assets/aneesh-photo.jpeg";
+import { GeorgiaOutline, OrbitSat, Waveform, NormalCurve, DraftMark } from "@/components/decor";
 
 const About = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="about" className="py-24 px-6 border-t border-border">
-      <div className="max-w-5xl mx-auto" ref={ref}>
+    <section id="about" className="relative overflow-hidden py-24 px-6 border-t border-border">
+      <GeorgiaOutline className="left-[-60px] bottom-[-120px] w-[340px] hidden md:block" />
+      <OrbitSat className="right-[-50px] top-[36px] w-[230px] hidden lg:block" />
+      <Waveform label="IMU CH-01" className="left-[28px] top-[150px] w-[230px] hidden xl:block" />
+      <NormalCurve className="right-[36px] bottom-[28px] w-[210px] hidden lg:block" />
+      <DraftMark className="right-8 top-8" />
+      <DraftMark className="left-[46%] bottom-6" />
+      <div className="relative max-w-5xl mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}

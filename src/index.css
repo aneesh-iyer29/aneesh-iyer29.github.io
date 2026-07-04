@@ -8,32 +8,32 @@
   :root {
     color-scheme: dark;
 
-    --background: 225 35% 7%;
+    --background: 225 28% 10%;
     --foreground: 220 25% 93%;
 
-    --card: 224 30% 10%;
+    --card: 224 26% 13%;
     --card-foreground: 220 25% 93%;
 
-    --popover: 224 30% 10%;
+    --popover: 224 26% 13%;
     --popover-foreground: 220 25% 93%;
 
     --primary: 220 25% 93%;
-    --primary-foreground: 225 35% 8%;
+    --primary-foreground: 225 28% 10%;
 
-    --secondary: 224 25% 14%;
+    --secondary: 224 21% 17%;
     --secondary-foreground: 220 25% 93%;
 
-    --muted: 224 25% 14%;
-    --muted-foreground: 222 14% 64%;
+    --muted: 224 21% 17%;
+    --muted-foreground: 222 14% 66%;
 
     --accent: 24 95% 55%;
-    --accent-foreground: 225 35% 8%;
+    --accent-foreground: 225 28% 10%;
 
     --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 223 20% 20%;
-    --input: 223 20% 24%;
+    --border: 223 18% 23%;
+    --input: 223 18% 27%;
     --ring: 24 95% 55%;
 
     --radius: 0.5rem;
@@ -52,6 +52,11 @@
 
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Anchored sections clear the fixed nav when scrolled to. */
+  section[id] {
+    scroll-margin-top: 4.5rem;
   }
 
   ::selection {
@@ -80,11 +85,36 @@
     @apply bg-card rounded-lg border border-border transition-all duration-300;
   }
   .card-surface-hover:hover {
-    @apply border-accent/40 shadow-sm;
+    @apply border-accent/40 -translate-y-1;
+    box-shadow: 0 14px 44px -14px hsl(var(--accent) / 0.22);
+  }
+
+  /* Nav links get a sliding accent underline. */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 1px;
+    background: hsl(var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
   }
 
   .tag {
-    @apply text-xs font-mono px-2.5 py-1 rounded border border-border bg-card text-muted-foreground;
+    @apply text-xs font-mono px-2.5 py-1 rounded border border-border bg-card text-muted-foreground transition-colors duration-300;
+  }
+  .tag:hover {
+    @apply border-accent/40 text-foreground;
   }
 
   .tag-accent {
@@ -113,11 +143,153 @@
     }
   }
 
+  /* Decor life: flowing dashes, pulsing markers, flickering thrust. */
+  .decor-flow {
+    animation: decor-flow 1.8s linear infinite;
+  }
+  @keyframes decor-flow {
+    to {
+      stroke-dashoffset: -24;
+    }
+  }
+  .decor-pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: decor-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes decor-pulse {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.5);
+    }
+  }
+  .decor-flicker {
+    animation: decor-flicker 1.2s ease-in-out infinite;
+  }
+  /* Drifting dust motes scattered across the whole page. */
+  .particle {
+    position: absolute;
+    border-radius: 9999px;
+    opacity: 0;
+    animation: particle-drift ease-in-out infinite;
+  }
+  @keyframes particle-drift {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    25% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 0.25;
+    }
+    75% {
+      opacity: 0.55;
+    }
+    100% {
+      transform: translateY(-28px);
+      opacity: 0;
+    }
+  }
+
+  /* A hairline meteor that crosses the whole viewport now and then. */
+  .page-comet {
+    position: absolute;
+    left: -12%;
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--foreground) / 0.55), transparent);
+    transform: rotate(7deg);
+    opacity: 0;
+    animation: page-comet linear infinite;
+  }
+  @keyframes page-comet {
+    0% {
+      opacity: 0;
+      translate: 0 0;
+    }
+    2% {
+      opacity: 0.4;
+    }
+    7% {
+      opacity: 0;
+      translate: 70vw 9vw;
+    }
+    100% {
+      opacity: 0;
+      translate: 70vw 9vw;
+    }
+  }
+
+  /* A meteor that streaks by every few seconds, invisible in between. */
+  .decor-comet {
+    opacity: 0;
+    animation: decor-comet 9s ease-out infinite;
+  }
+  @keyframes decor-comet {
+    0% {
+      opacity: 0;
+      transform: translate(-30px, 18px);
+    }
+    5% {
+      opacity: 0.6;
+    }
+    12% {
+      opacity: 0;
+      transform: translate(90px, -44px);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(90px, -44px);
+    }
+  }
+  @keyframes decor-flicker {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    40% {
+      opacity: 0.25;
+    }
+    65% {
+      opacity: 0.5;
+    }
+    85% {
+      opacity: 0.3;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .trace-draw,
     .trace-draw-slow {
       animation: none;
       stroke-dashoffset: 0;
+    }
+    .card-surface-hover:hover {
+      transform: none;
+    }
+    .nav-link::after {
+      transition: none;
+    }
+    .decor-flow,
+    .decor-pulse,
+    .decor-flicker,
+    .decor-comet,
+    .particle,
+    .page-comet {
+      animation: none;
+      opacity: 0;
+    }
+    /* SMIL-driven decor (satellite, radar sweep, gimbal) can't be paused
+       from CSS, so hide it entirely. */
+    .decor-kinetic {
+      display: none;
     }
   }
 }

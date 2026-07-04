@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
 import { MapPin, Briefcase, GraduationCap, Github, Linkedin, Mail, ArrowRight } from "lucide-react";
 import heroStars from "@/assets/hero-stars.jpg";
 
@@ -30,18 +31,33 @@ const stats = [
   { value: "4.00", label: "GPA · Georgia Tech" },
 ];
 
+const rise: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
+};
+
 const Hero = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  // The sky drifts slower than the page, so the hero feels dimensional.
+  const skyY = useTransform(scrollYProgress, [0, 1], ["0%", prefersReducedMotion ? "0%" : "22%"]);
+
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id="hero" className="relative overflow-hidden">
+    <section id="hero" ref={sectionRef} className="relative overflow-hidden">
       {/* Night-sky backdrop fading into the solid content background. */}
-      <img
+      <motion.img
         src={heroStars}
         alt=""
         aria-hidden="true"
+        style={{ y: skyY, scale: 1.12 }}
         className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
       />
       <div
@@ -54,17 +70,29 @@ const Hero = () => {
       />
 
       <div className="relative z-10 max-w-5xl mx-auto w-full px-6 pt-40 pb-16">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <p className="eyebrow mb-6">Computer Engineering · Georgia Tech · Class of 2028</p>
-          <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-serif font-semibold text-foreground mb-6 leading-[1.04] tracking-tight">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } } }}
+        >
+          <motion.p variants={rise} className="eyebrow mb-6">
+            Computer Engineering · Georgia Tech · Class of 2028
+          </motion.p>
+          <motion.h1
+            variants={rise}
+            className="text-5xl md:text-6xl lg:text-[4.5rem] font-serif font-semibold text-foreground mb-6 leading-[1.04] tracking-tight"
+          >
             Aneesh Iyer
-          </h1>
-          <p className="text-lg md:text-xl text-foreground/85 max-w-2xl mb-7 leading-relaxed">
+          </motion.h1>
+          <motion.p variants={rise} className="text-lg md:text-xl text-foreground/85 max-w-2xl mb-7 leading-relaxed">
             I build the systems that train and measure AI agents: RL environments, evaluations, and training
             infrastructure for frontier models. I also write the guidance software that lands rockets.
-          </p>
+          </motion.p>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-foreground/70 mb-9 font-mono">
+          <motion.div
+            variants={rise}
+            className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-foreground/70 mb-9 font-mono"
+          >
             <span className="inline-flex items-center gap-1.5">
               <MapPin size={13} /> Atlanta, GA
             </span>
@@ -74,15 +102,15 @@ const Hero = () => {
             <span className="inline-flex items-center gap-1.5">
               <GraduationCap size={13} /> Georgia Tech
             </span>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <motion.div variants={rise} className="flex flex-wrap items-center gap-3">
             <button
               type="button"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
-              onClick={() => scrollToSection("work")}
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
+              onClick={() => scrollToSection("projects")}
             >
-              View work <ArrowRight size={16} />
+              View projects <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
             </button>
             <button
               type="button"
@@ -102,7 +130,7 @@ const Hero = () => {
                 <Mail size={17} />
               </a>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Telemetry strip: raw sensor noise vs. the filtered estimate. */}
@@ -139,16 +167,16 @@ const Hero = () => {
 
         {/* Readout stats */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.55 }}
+          initial="hidden"
+          animate="show"
+          variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.55 } } }}
           className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6"
         >
           {stats.map((stat) => (
-            <div key={stat.label} className="border-t border-foreground/20 pt-3">
+            <motion.div key={stat.label} variants={rise} className="border-t border-foreground/20 pt-3">
               <p className="readout text-xl md:text-2xl text-foreground">{stat.value}</p>
               <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </div>

@@ -1,15 +1,48 @@
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ExternalLink } from "lucide-react";
 import { experience, volunteering } from "@/data/experience";
+import { LanderScene, LanderVehicle, GimbalRings, CipherStrip, GroundStation, DraftMark } from "@/components/decor";
+
+/* Scroll progress through the section flies the lander down the dashed
+   trajectory in the scene (curve, flip to vertical, touchdown on the pad). */
+const FLIGHT_STOPS = [0, 0.3, 0.55, 0.92, 1];
+const FLIGHT_X = [189, 122, 74, 74, 74];
+const FLIGHT_Y = [-104, 53, 182, 316, 316];
+const FLIGHT_TILT = [-14, -8, 0, 0, 0];
 
 const Experience = () => {
   const ref = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const landerX = useTransform(scrollYProgress, FLIGHT_STOPS, FLIGHT_X);
+  const landerY = useTransform(scrollYProgress, FLIGHT_STOPS, FLIGHT_Y);
+  const landerTilt = useTransform(scrollYProgress, FLIGHT_STOPS, FLIGHT_TILT);
 
   return (
-    <section id="experience" className="py-24 px-6 border-t border-border">
-      <div className="max-w-5xl mx-auto" ref={ref}>
+    <section id="experience" ref={sectionRef} className="relative overflow-hidden py-24 px-6 border-t border-border">
+      <div className="pointer-events-none absolute right-[-30px] top-[220px] hidden h-[600px] w-[300px] lg:block" aria-hidden="true">
+        <LanderScene className="inset-0 w-full" />
+        <motion.div
+          className="absolute left-0 top-0 w-[171px]"
+          style={
+            prefersReducedMotion
+              ? { x: FLIGHT_X[4], y: FLIGHT_Y[4] }
+              : { x: landerX, y: landerY, rotate: landerTilt }
+          }
+        >
+          <LanderVehicle className="w-full" />
+        </motion.div>
+      </div>
+      <GimbalRings className="left-[-50px] bottom-[60px] w-[180px] hidden lg:block" />
+      <CipherStrip className="left-[32px] top-[46%] w-[210px] hidden xl:block" />
+      <GroundStation className="right-[64px] bottom-[36px] w-[130px] hidden lg:block" />
+      <DraftMark className="left-8 bottom-10" />
+      <DraftMark className="right-12 top-14" />
+      <div className="relative max-w-5xl mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -80,7 +113,7 @@ const Experience = () => {
           <p className="eyebrow mb-8">Volunteering</p>
           <div className="grid md:grid-cols-2 gap-6">
             {volunteering.map((item) => (
-              <div key={item.org} className="card-surface p-6">
+              <div key={item.org} className="card-surface-hover p-6">
                 <p className="readout text-xs text-muted-foreground mb-2">{item.period}</p>
                 <h3 className="text-base font-semibold text-foreground">{item.org}</h3>
                 <p className="text-sm text-muted-foreground mb-3">{item.role}</p>

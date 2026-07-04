@@ -3,14 +3,21 @@ import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { projects } from "@/data/projects";
+import { RLLoop, Constellation, BlockStack, TelemetryBars, DraftMark } from "@/components/decor";
 
 const Projects = () => {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="work" className="py-24 px-6 border-t border-border">
-      <div className="max-w-5xl mx-auto" ref={ref}>
+    <section id="projects" className="relative overflow-hidden py-24 px-6 border-t border-border">
+      <RLLoop className="right-[-150px] top-[250px] w-[380px] hidden lg:block" />
+      <Constellation className="left-[-80px] bottom-[100px] w-[260px] hidden lg:block" />
+      <BlockStack className="right-[-24px] bottom-[130px] w-[190px] hidden lg:block" />
+      <TelemetryBars className="left-[36px] top-[230px] w-[120px] hidden xl:block" />
+      <DraftMark className="left-10 top-16" />
+      <DraftMark className="right-10 bottom-12" />
+      <div className="relative max-w-5xl mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -18,7 +25,7 @@ const Projects = () => {
           className="mb-12 flex flex-wrap items-end justify-between gap-4"
         >
           <div>
-            <p className="eyebrow mb-3">Selected work</p>
+            <p className="eyebrow mb-3">Selected projects</p>
             <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground tracking-tight">
               Projects &amp; case studies
             </h2>

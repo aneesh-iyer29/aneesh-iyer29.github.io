@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { CircuitTrace, StepResponse, RadarSweep, HexColumn, Waveform, DraftMark } from "@/components/decor";
 
 const categories = [
   {
@@ -25,8 +26,15 @@ const Skills = () => {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section id="skills" className="py-24 px-6 border-t border-border">
-      <div className="max-w-5xl mx-auto" ref={ref}>
+    <section id="skills" className="relative overflow-hidden py-24 px-6 border-t border-border">
+      <CircuitTrace className="left-[-20px] bottom-[-30px] w-[380px] hidden md:block" />
+      <StepResponse className="right-[-110px] top-[120px] w-[330px] hidden xl:block" />
+      <RadarSweep className="right-[60px] bottom-[30px] w-[120px] hidden lg:block" />
+      <HexColumn className="left-[36px] top-[110px] w-[105px] hidden xl:block" />
+      <Waveform label="EKF RESIDUAL" className="left-[40%] bottom-[14px] w-[220px] hidden lg:block" />
+      <DraftMark className="right-10 top-12" />
+      <DraftMark className="left-8 top-1/2" />
+      <div className="relative max-w-5xl mx-auto" ref={ref}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}

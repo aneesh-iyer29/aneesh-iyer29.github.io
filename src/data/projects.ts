@@ -1,4 +1,6 @@
 import buildCanvas from "@/assets/build-canvas.png";
+import benchceptionLeaderboard from "@/assets/benchception-leaderboard.png";
+import m3Finals from "@/assets/m3-finals.jpg";
 
 export interface ProjectItem {
   slug: string;
@@ -47,31 +49,11 @@ export const projects: ProjectItem[] = [
     tags: ["LLM Evaluation", "RL Training", "Benchmarking"],
     result: "Revealed under 1% lift: authoring good RL environments is genuinely hard",
     year: "2026",
-    imagePlaceholder:
-      "Screenshot of the Benchception pipeline diagram or the leaderboard view (the interactive version lives on the detail page).",
+    image: benchceptionLeaderboard,
     highlights: [
       "Designed a contamination-free evaluation: the golden benchmark is revealed only at final evaluation.",
       "Trained Qwen-8B students on environments authored by Claude Opus 4.8 and GPT-5.5 from identical specs.",
       "A three-way tie against the untrained baseline exposed how hard environment-authoring actually is.",
-    ],
-  },
-  {
-    slug: "classhopper-set",
-    category: "Case Study · RL Fine-Tuning",
-    title: "Classhopper Set: Fine-Tuning GPT OSS 120B",
-    description:
-      "Built 100 real-world bug-fixing tasks from a production codebase and trained GPT OSS 120B with GRPO on HUD: +13% Best@10, +8% Pass@1, and 4 fewer steps per task.",
-    detail:
-      "We used HUD's RL platform to fine-tune GPT OSS 120B on 100 real-world bug-fixing tasks built from Classhopper, a production pre-AI-era codebase. Training with GRPO yielded a +13% improvement on Best@10 runs, better first-attempt reliability, and fewer steps per task, with gains that transferred to a completely unseen codebase.",
-    tags: ["GRPO", "Code Generation", "HUD", "RL Environments"],
-    result: "+13% Best@10 · +8% on an unseen out-of-domain codebase",
-    year: "2026",
-    imagePlaceholder:
-      "The GRPO training curve (pass rate over 20 training steps) or the HUD results dashboard for the trained model.",
-    highlights: [
-      "Authored 100 validated bug-fixing tasks across frontend, backend, and cross-stack categories.",
-      "Used a three-branch task structure (baseline, test, golden) with binary rewards for a clean training signal.",
-      "Verified real skill transfer with an out-of-domain eval on a separate application.",
     ],
   },
   {
@@ -86,8 +68,7 @@ export const projects: ProjectItem[] = [
     result: "$20,000 grand prize · 1st of 794 teams · SIAM published",
     year: "2025",
     link: "https://doi.org/10.1137/25s1777554",
-    imagePlaceholder:
-      "A figure from the paper (e.g. the zip-code vulnerability heat map of Memphis) or a photo from the finals presentation in New York City.",
+    image: m3Finals,
     highlights: [
       "Quantified heat vulnerability across 27 Memphis zip codes by reducing variables to 4 significant features via backward selection.",
       "Modeled urban electricity demand over five emissions pathways with simulations and sensitivity analysis.",
@@ -111,25 +92,6 @@ export const projects: ProjectItem[] = [
       "Automated PID tuning for a 1.8 kN engine simulation via 8 step-response metrics logged to CSV each run.",
       "Engineered sensor fusion pipelines with 3 distinct EKFs spanning IMU, GPS, and LIDAR to filter noisy inputs.",
       "Achieved a 0.63% average deviation from simulated ground truth, demonstrating robust estimation accuracy.",
-    ],
-  },
-  {
-    slug: "sciovirtual-codebusters",
-    category: "Education · Award",
-    title: "ScioVirtual Codebusters",
-    description:
-      "An interactive cryptography practice platform with real-time solving and instant feedback for 70+ students. Highest-rated course of 20+ offerings; 2025 Instructor of the Year.",
-    detail:
-      "ScioVirtual is a non-profit organization that provides interactive science education in the summer to students in grades 5-10 virtually. Since 2025, I have been an instructor for the Codebusters course, which focuses on cryptography and decrypting messages that have been encoded using various different ciphers.\n\nTraditionally, cryptography problems are very hands-on and require space for the students to write down various pieces of information and interact directly with the ciphertext. Given the virtual format of this course, I built an interactive browser-based platform that allowed students to solve the problems in real-time, with immediate feedback and a dynamic interface for interacting with the ciphertext naturally.",
-    tags: ["TypeScript", "HTML", "CSS", "Education"],
-    result: "Instructor of the Year · Highest-rated course of 20+",
-    year: "2025",
-    imagePlaceholder:
-      "Screenshot of the Codebusters solving interface mid-problem, showing the interactive ciphertext and live feedback.",
-    highlights: [
-      "Mimics the experience of solving cryptography problems on paper, entirely in the browser.",
-      "Automated solution verification lets students revisit missed problems and get instant feedback without an instructor.",
-      "Voted the highest-rated class in the program (of 20+) and named 2025 Instructor of the Year.",
     ],
   },
 ];
