@@ -73,7 +73,7 @@ const Contact = () => {
             <div>
               <p className="eyebrow mb-3">Contact</p>
               <h2 className="text-4xl md:text-5xl font-serif font-semibold text-foreground leading-tight tracking-tight">
-                Let's build something measurable.
+                Let's connect.
               </h2>
               <p className="text-foreground/75 mt-5 max-w-md leading-relaxed">
                 I'm open to internships and research across AI training infrastructure, evaluation, and autonomous
