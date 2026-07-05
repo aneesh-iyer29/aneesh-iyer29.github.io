@@ -1,27 +1,10 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import aneeshPhoto from "@/assets/aneesh-photo.jpeg";
-import { GeorgiaOutline, OrbitSat, Waveform, NormalCurve, DraftMark } from "@/components/decor";
 
 const About = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="about" className="relative overflow-hidden py-24 px-6 border-t border-border">
-      <GeorgiaOutline className="left-[-60px] bottom-[-120px] w-[340px] hidden md:block" />
-      <OrbitSat className="right-[-50px] top-[36px] w-[230px] hidden lg:block" />
-      <Waveform label="IMU CH-01" className="left-[28px] top-[150px] w-[230px] hidden xl:block" />
-      <NormalCurve className="right-[36px] bottom-[28px] w-[210px] hidden lg:block" />
-      <DraftMark className="right-8 top-8" />
-      <DraftMark className="left-[46%] bottom-6" />
-      <div className="relative max-w-5xl mx-auto" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="grid md:grid-cols-[180px_1fr] gap-8"
-        >
+    <section id="about" className="relative py-24 px-6 border-t border-border">
+      <div className="relative max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-[180px_1fr] gap-8">
           <p className="eyebrow">About</p>
 
           <div className="flex flex-col-reverse gap-10 lg:flex-row lg:items-start">
@@ -51,12 +34,9 @@ const About = () => {
               <div className="rounded-lg overflow-hidden aspect-[3/4] border border-border">
                 <img src={aneeshPhoto} alt="Aneesh Iyer" className="w-full h-full object-cover object-top" />
               </div>
-              <p className="mt-2 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
-                Fig. 01 · Atlanta, GA
-              </p>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

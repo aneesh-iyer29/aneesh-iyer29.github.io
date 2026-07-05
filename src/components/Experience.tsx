@@ -1,41 +1,21 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import { ExternalLink } from "lucide-react";
 import { experience, volunteering } from "@/data/experience";
-import { Waveform, GimbalRings, CipherStrip, GroundStation, DraftMark } from "@/components/decor";
 
 const Experience = () => {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="experience" className="relative overflow-hidden py-24 px-6 border-t border-border">
-      <Waveform label="GYRO CH-02" className="right-[36px] top-[180px] w-[230px] hidden lg:block" />
-      <GimbalRings className="left-[-50px] bottom-[60px] w-[180px] hidden lg:block" />
-      <CipherStrip className="left-[32px] top-[46%] w-[210px] hidden xl:block" />
-      <GroundStation className="right-[64px] bottom-[36px] w-[130px] hidden lg:block" />
-      <DraftMark className="left-8 bottom-10" />
-      <DraftMark className="right-12 top-14" />
-      <div className="relative max-w-5xl mx-auto" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-14"
-        >
+    <section id="experience" className="relative py-24 px-6 border-t border-border">
+      <div className="relative max-w-5xl mx-auto">
+        <div className="mb-14">
           <p className="eyebrow mb-3">Experience</p>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold text-foreground tracking-tight">
             Where I've worked
           </h2>
-        </motion.div>
+        </div>
 
         <div className="space-y-14">
-          {experience.map((job, i) => (
-            <motion.article
+          {experience.map((job) => (
+            <article
               key={job.org}
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, delay: i * 0.08 }}
               className="grid md:grid-cols-[180px_1fr] gap-x-8 gap-y-3 border-t border-border pt-8"
             >
               <div className="font-mono text-xs text-muted-foreground leading-relaxed">
@@ -73,21 +53,16 @@ const Experience = () => {
                   ))}
                 </ul>
               </div>
-            </motion.article>
+            </article>
           ))}
         </div>
 
         {/* Volunteering */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.45, delay: 0.3 }}
-          className="mt-20"
-        >
+        <div className="mt-20">
           <p className="eyebrow mb-8">Volunteering</p>
           <div className="grid md:grid-cols-2 gap-6">
             {volunteering.map((item) => (
-              <div key={item.org} className="card-surface-hover p-6">
+              <div key={item.org} className="card-surface p-6">
                 <p className="readout text-xs text-muted-foreground mb-2">{item.period}</p>
                 <h3 className="text-base font-semibold text-foreground">{item.org}</h3>
                 <p className="text-sm text-muted-foreground mb-3">{item.role}</p>
@@ -101,7 +76,7 @@ const Experience = () => {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

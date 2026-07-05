@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { BlueprintGrid, FieldParticles, PageComets, PageLander } from "@/components/decor";
+import PageBackdrop from "@/components/PageBackdrop";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -9,21 +9,19 @@ import Contact from "@/components/Contact";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Ambient layers: blueprint grid, dust motes, and passing meteors. */}
-      <BlueprintGrid />
-      <FieldParticles />
-      <PageComets />
-      <PageLander />
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Skills />
-        <Contact />
-      </main>
+    <div className="min-h-screen">
+      <PageBackdrop />
+      <div className="relative z-10">
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Experience />
+          <Projects />
+          <Skills />
+          <Contact />
+        </main>
+      </div>
     </div>
   );
 };

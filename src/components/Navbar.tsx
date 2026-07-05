@@ -19,13 +19,7 @@ function NavBarInner({ overHero }: { overHero: boolean }) {
 
   const scrollToSection = (sectionId: string) => {
     const go = () => {
-      // Contact is the final full-height section; scroll to the true page
-      // bottom so the whole footer (and the rocket touchdown) is in view.
-      if (sectionId === "contact") {
-        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
-      } else {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-      }
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
     };
 
     if (location.pathname !== "/") {
@@ -93,12 +87,10 @@ function NavBarInner({ overHero }: { overHero: boolean }) {
   );
 }
 
-/* Transpira-style nav: a transparent bar sits over the hero and scrolls away
-   with the page; once the hero is passed, a solid blurred bar slides down.
-   The sticky bar stays mounted so it can transition out smoothly too. */
+/* A transparent bar sits over the hero and scrolls away with the page;
+   once the hero is passed, a solid blurred bar slides down. */
 const Navbar = () => {
   const [showSticky, setShowSticky] = useState(false);
-  const [overFooter, setOverFooter] = useState(false);
 
   useEffect(() => {
     let rafId: number | null = null;
@@ -108,9 +100,6 @@ const Navbar = () => {
       const hero = document.getElementById("hero");
       const threshold = hero ? hero.offsetHeight - 90 : window.innerHeight - 110;
       setShowSticky(window.scrollY > threshold);
-      // Once the footer reaches the bar, the solid chrome melts away again.
-      const contact = document.getElementById("contact");
-      setOverFooter(contact ? contact.getBoundingClientRect().top <= 72 : false);
     };
 
     const onScroll = () => {
@@ -134,16 +123,12 @@ const Navbar = () => {
         <NavBarInner overHero />
       </header>
       <header
-        className={`fixed top-0 inset-x-0 z-50 border-b transition-all duration-300 ease-out will-change-transform ${
+        className={`fixed top-0 inset-x-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl transition-all duration-300 ease-out will-change-transform ${
           showSticky ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
-        } ${
-          overFooter
-            ? "bg-transparent border-transparent"
-            : "bg-background/85 backdrop-blur-xl border-border"
         }`}
         aria-hidden={showSticky ? undefined : true}
       >
-        <NavBarInner overHero={overFooter} />
+        <NavBarInner overHero={false} />
       </header>
     </>
   );

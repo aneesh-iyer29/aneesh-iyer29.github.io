@@ -1,8 +1,15 @@
-import { motion } from "framer-motion";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { PropsWithChildren } from "react";
 import type { ProjectItem } from "@/data/projects";
+
+const linkLabel = (href: string) => {
+  try {
+    return new URL(href).hostname;
+  } catch {
+    return "View link";
+  }
+};
 
 export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ project: ProjectItem }>) {
   return (
@@ -10,18 +17,12 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
       <div className="max-w-5xl mx-auto px-6 py-12">
         <Link
           to="/"
-          className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12"
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12"
         >
-          <ArrowLeft size={15} className="transition-transform duration-300 group-hover:-translate-x-1" /> Back to
-          portfolio
+          <ArrowLeft size={15} /> Back to portfolio
         </Link>
 
-        <motion.header
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-          className="mb-10 w-full"
-        >
+        <header className="mb-10 w-full">
           <p className="eyebrow mb-3">{project.category}</p>
           <h1 className="text-4xl md:text-5xl font-serif font-semibold tracking-tight text-foreground mb-4">{project.title}</h1>
           <p className="text-base text-muted-foreground leading-relaxed w-full mb-6 whitespace-pre-line">
@@ -39,17 +40,16 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm text-foreground hover:bg-secondary transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded border border-border text-sm text-foreground hover:bg-secondary transition-colors"
               >
-                <ExternalLink size={14} /> View external link
+                <ExternalLink size={14} /> {linkLabel(project.link)}
               </a>
             )}
           </div>
-        </motion.header>
+        </header>
 
         {children}
       </div>
     </div>
   );
 }
-
