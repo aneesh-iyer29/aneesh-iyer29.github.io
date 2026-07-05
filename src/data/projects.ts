@@ -80,18 +80,18 @@ export const projects: ProjectItem[] = [
     category: "Aerospace · GNC",
     title: "Propulsive Landers GNC",
     description:
-      "Guidance, navigation, and control for a self-landing rocket: automated PID tuning for a 1.8 kN engine simulation and sensor fusion with three Extended Kalman Filters.",
+      "Guidance, navigation, and control for a self-landing rocket: automated PID tuning for a 1.8 kN engine simulation and a full-state error-state Kalman filter fusing IMU, GPS, and magnetometer data.",
     detail:
-      "Propulsive Landers @ Georgia Tech (GTPL) is a student-led team working to become the first student team in the world to achieve vertical take-off and landing of a hybrid rocket. On the Guidance, Navigation, and Control subteam, I build the estimation and control software that flies the vehicle.\n\nI automated PID tuning for a 1.8 kN engine simulation via 8 step-response metrics logged to CSV each run, and engineered sensor fusion pipelines with 3 distinct Extended Kalman Filters spanning IMU, GPS, and LIDAR to filter noisy inputs, achieving a 0.63% average deviation from simulated ground truth.",
+      "Propulsive Landers @ Georgia Tech (GTPL) is a student-led team working to become the first student team in the world to achieve vertical take-off and landing of a hybrid rocket. On the Guidance, Navigation, and Control subteam, I build the estimation and control software that flies the vehicle.\n\nI automated PID tuning for a 1.8 kN engine simulation via 8 step-response metrics logged to CSV each run, and built a 16-state error-state Extended Kalman Filter (ES-EKF) in Rust that fuses IMU, GPS, and magnetometer data, with process noise derived from the VN-200 IMU datasheet. Adding magnetometer fusion made yaw observable and eliminated gyro-bias drift, achieving a 0.14% average deviation (0.17 degrees average attitude error) from simulated ground truth.",
     tags: ["Python", "Rust", "EKF", "Sensor Fusion", "Control Systems"],
-    result: "0.63% average deviation from simulated ground truth",
+    result: "0.14% average deviation from simulated ground truth",
     year: "2026",
     link: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV",
-    image: "/projects/landers/generated/attitude_animation.gif",
+    image: "/projects/landers/generated/esekf_attitude.gif",
     highlights: [
       "Automated PID tuning for a 1.8 kN engine simulation via 8 step-response metrics logged to CSV each run.",
-      "Engineered sensor fusion pipelines with 3 distinct EKFs spanning IMU, GPS, and LIDAR to filter noisy inputs.",
-      "Achieved a 0.63% average deviation from simulated ground truth, demonstrating robust estimation accuracy.",
+      "Built a 16-state error-state EKF in Rust fusing IMU, GPS, and magnetometer data, with process noise derived from the VN-200 IMU datasheet.",
+      "Made yaw observable through magnetometer fusion and diagnosed a covariance tuning bug, cutting average deviation from simulated ground truth to 0.14% (0.17 degrees of attitude error).",
     ],
   },
 ];
