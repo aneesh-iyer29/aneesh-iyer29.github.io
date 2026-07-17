@@ -2,6 +2,11 @@ import buildCanvas from "@/assets/build-canvas.png";
 import benchceptionLeaderboard from "@/assets/benchception-leaderboard.png";
 import m3Finals from "@/assets/m3-finals.jpg";
 
+export interface ProjectLink {
+  label: "Code" | "Demo" | "Paper";
+  href: string;
+}
+
 export interface ProjectItem {
   slug: string;
   category: string;
@@ -12,6 +17,8 @@ export interface ProjectItem {
   result: string;
   year: string;
   link?: string;
+  /** Labeled evidence links (Code / Demo / Paper) shown on the card and detail page. */
+  links?: ProjectLink[];
   highlights: string[];
   /** Card media: an imported image, or a description of the image to add later. */
   image?: string;
@@ -31,6 +38,7 @@ export const projects: ProjectItem[] = [
     result: "1st of 70 · $50K+ in prizes at the HUD × YC hackathon",
     year: "2026",
     link: "https://build.transpiralabs.com",
+    links: [{ label: "Demo", href: "https://build.transpiralabs.com" }],
     image: buildCanvas,
     highlights: [
       "Compiles plain-language block trees into real, deployable HUD reinforcement-learning environments.",
@@ -40,7 +48,7 @@ export const projects: ProjectItem[] = [
   },
   {
     slug: "benchception",
-    category: "Case Study · Research",
+    category: "Research · Built at Transpira Labs",
     title: "Benchception",
     description:
       "Which frontier model is best at building RL environments? Benchception makes environment-authoring the thing under test: models compete not by answering but by teaching, and a held-out benchmark decides the winner.",
@@ -68,6 +76,7 @@ export const projects: ProjectItem[] = [
     result: "$20,000 grand prize · 1st of 794 teams · SIAM published",
     year: "2025",
     link: "https://doi.org/10.1137/25s1777554",
+    links: [{ label: "Paper", href: "https://doi.org/10.1137/25s1777554" }],
     image: m3Finals,
     highlights: [
       "Quantified heat vulnerability across 27 Memphis zip codes by reducing variables to 4 significant features via backward selection.",
@@ -87,6 +96,7 @@ export const projects: ProjectItem[] = [
     result: "0.14% average deviation from simulated ground truth",
     year: "2026",
     link: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV",
+    links: [{ label: "Code", href: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV" }],
     image: "/projects/landers/generated/esekf_attitude.gif",
     highlights: [
       "Automated PID tuning for a 1.8 kN engine simulation via 8 step-response metrics logged to CSV each run.",

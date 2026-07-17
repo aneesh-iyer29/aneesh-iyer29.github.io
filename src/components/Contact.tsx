@@ -1,13 +1,10 @@
-import { Mail, Linkedin, Github, FileText } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Mail, Linkedin, Github, FileText, Copy, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const EMAIL = "aiyer@gatech.edu";
+
 const channels = [
-  {
-    label: "Email",
-    value: "aiyer@gatech.edu",
-    href: "mailto:aiyer@gatech.edu",
-    icon: Mail,
-  },
   {
     label: "LinkedIn",
     value: "in/aneesh-iyer",
@@ -22,13 +19,33 @@ const channels = [
   },
   {
     label: "Resume",
-    value: "PDF",
-    href: "https://raw.githubusercontent.com/aneesh-iyer29/resume/main/Aneesh_Iyer_Resume.pdf",
+    value: "resume.pdf",
+    href: "/resume.pdf",
     icon: FileText,
   },
 ];
 
 const Contact = () => {
+  const [copied, setCopied] = useState(false);
+  const resetTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimer.current !== null) window.clearTimeout(resetTimer.current);
+    };
+  }, []);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      if (resetTimer.current !== null) window.clearTimeout(resetTimer.current);
+      resetTimer.current = window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${EMAIL}`;
+    }
+  };
+
   return (
     <section id="contact" className="relative border-t border-border">
       <div className="relative px-6 pt-28 pb-8">
@@ -40,17 +57,41 @@ const Contact = () => {
                 Get in touch
               </h2>
               <p className="text-foreground/75 mt-5 max-w-md leading-relaxed">
-                I'm open to internships and research across AI training infrastructure, evaluation, and autonomous
-                systems. If you're working on any of those, I'd like to hear about it.
+                I'm looking for Summer 2027 software engineering and ML infrastructure internships, and I'm open to
+                research across AI training infrastructure, evaluation, and autonomous systems. If you're working on
+                any of those, I'd like to hear about it.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 md:pt-12">
+              {/* Email gets a copy affordance alongside the mailto link. */}
+              <div className="group border-t border-foreground/25 pt-3 transition-colors duration-200 hover:border-accent/70">
+                <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-foreground/60 flex items-center gap-2 transition-colors duration-200 group-hover:text-accent">
+                  <Mail size={12} /> Email
+                </p>
+                <div className="mt-1.5 flex items-center gap-2">
+                  <a href={`mailto:${EMAIL}`} className="text-sm text-foreground hover:text-accent transition-colors">
+                    {EMAIL}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    aria-label={copied ? "Email copied" : "Copy email address"}
+                    className="press inline-flex h-6 w-6 items-center justify-center rounded text-foreground/60 hover:text-foreground hover:bg-secondary transition-colors"
+                  >
+                    {copied ? <Check size={13} className="text-accent" /> : <Copy size={13} />}
+                  </button>
+                  <span aria-live="polite" className="font-mono text-[0.65rem] text-accent">
+                    {copied ? "Copied" : ""}
+                  </span>
+                </div>
+              </div>
+
               {channels.map((channel) => (
                 <a
                   key={channel.label}
                   href={channel.href}
-                  target={channel.href.startsWith("mailto:") ? undefined : "_blank"}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="group border-t border-foreground/25 pt-3 transition-colors duration-200 hover:border-accent/70"
                 >

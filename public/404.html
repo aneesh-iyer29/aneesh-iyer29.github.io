@@ -4,9 +4,10 @@
     <meta charset="utf-8" />
     <title>Redirecting...</title>
     <script>
-      // Redirect to hash-based route for GitHub Pages SPA support
-      var path = window.location.pathname;
-      window.location.replace(window.location.origin + '/#' + path);
+      // GitHub Pages SPA fallback: remember the requested path, load the app
+      // shell at "/", and let index.html restore the URL before React mounts.
+      sessionStorage.redirect = location.pathname + location.search + location.hash;
+      location.replace(location.origin);
     </script>
   </head>
   <body></body>

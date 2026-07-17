@@ -25,8 +25,16 @@ const About = () => {
               <p>
                 I care about work that gets measured: benchmarks with deterministic rewards, estimators checked against
                 ground truth, and models judged on held-out tasks. That thread runs from my{" "}
-                <span className="text-foreground font-medium">MathWorks M3 Challenge</span> win (1st of 794, published
-                in SIAM Undergraduate Research Online) through the evaluation systems I build today.
+                <span className="text-foreground font-medium">MathWorks M3 Challenge</span> win (1st of 794,{" "}
+                <a
+                  href="https://doi.org/10.1137/25s1777554"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground font-medium underline decoration-accent/60 underline-offset-4 hover:decoration-accent transition-colors"
+                >
+                  published in SIAM Undergraduate Research Online
+                </a>
+                ) through the evaluation systems I build today.
               </p>
             </div>
 

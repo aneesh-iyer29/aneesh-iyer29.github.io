@@ -6,6 +6,7 @@ export interface ExperienceItem {
   location: string;
   link?: string;
   bullets: string[];
+  stack: string[];
 }
 
 export const experience: ExperienceItem[] = [
@@ -19,8 +20,9 @@ export const experience: ExperienceItem[] = [
     bullets: [
       "Developed full-stack services for a platform supporting 40+ expert contractors building frontier AI training data.",
       "Packaged 288 supply-chain benchmark tasks into a reproducible environment with deterministic rewards.",
-      "Created a benchmark for LLM agents on their ability to RL-train agents, revealing under 1% lift from instruction.",
+      "Built Benchception, an internal benchmark testing whether frontier models can author RL environments, revealing under 1% lift from instruction.",
     ],
+    stack: ["TypeScript", "React", "Python", "NVIDIA NeMo Gym", "Docker"],
   },
   {
     org: "Nuntius",
@@ -33,6 +35,7 @@ export const experience: ExperienceItem[] = [
       "Built 5+ RL environments with automated graders and custom rewards; created 300+ adversarial tasks.",
       "Designed trajectory-aware evaluators assigning partial credit on intermediate steps instead of binary results.",
     ],
+    stack: ["Python", "Pydantic", "RL Environments", "LLM Evaluation"],
   },
   {
     org: "GT Propulsive Landers",
@@ -42,9 +45,10 @@ export const experience: ExperienceItem[] = [
     link: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV",
     bullets: [
       "Automated PID tuning for a 1.8 kN engine simulation via 8 step-response metrics logged to CSV each run.",
-      "Engineered sensor fusion pipelines with 3 distinct EKFs spanning IMU, GPS, and LIDAR to filter noisy inputs.",
-      "Achieved a 0.63% average deviation from simulated ground truth, demonstrating robust estimation accuracy.",
+      "Built a 16-state error-state EKF in Rust fusing IMU, GPS, and magnetometer data, with process noise derived from the VN-200 IMU datasheet.",
+      "Made yaw observable through magnetometer fusion, holding estimates within 0.14% of simulated ground truth (0.17 degrees average attitude error).",
     ],
+    stack: ["Rust", "Python", "Sensor Fusion", "Control Systems"],
   },
 ];
 

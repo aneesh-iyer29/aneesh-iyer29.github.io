@@ -52,6 +52,13 @@ const Experience = () => {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {job.stack.map((item) => (
+                    <span key={item} className="tag !text-[0.65rem]">
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
             </article>
           ))}

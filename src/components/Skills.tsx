@@ -5,7 +5,11 @@ const categories = [
   },
   {
     title: "AI / ML",
-    items: ["RL Environment Creation", "LLM Evaluation & Benchmarking", "RLVR / GRPO", "NVIDIA NeMo Gym"],
+    items: ["PyTorch", "RL Environment Creation", "LLM Evaluation & Benchmarking", "RLVR / GRPO", "NVIDIA NeMo Gym"],
+  },
+  {
+    title: "Web & Infrastructure",
+    items: ["React", "Node.js", "FastAPI", "Tailwind CSS", "Vite", "Linux", "GitHub Actions"],
   },
   {
     title: "Tools & Systems",

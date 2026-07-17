@@ -1,14 +1,12 @@
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink, FileText, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { PropsWithChildren } from "react";
-import type { ProjectItem } from "@/data/projects";
+import type { ProjectItem, ProjectLink } from "@/data/projects";
 
-const linkLabel = (href: string) => {
-  try {
-    return new URL(href).hostname;
-  } catch {
-    return "View link";
-  }
+const linkIcons: Record<ProjectLink["label"], typeof Github> = {
+  Code: Github,
+  Demo: ExternalLink,
+  Paper: FileText,
 };
 
 export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ project: ProjectItem }>) {
@@ -35,16 +33,20 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
                 {tag}
               </span>
             ))}
-            {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded border border-border text-sm text-foreground hover:bg-secondary transition-colors"
-              >
-                <ExternalLink size={14} /> {linkLabel(project.link)}
-              </a>
-            )}
+            {project.links?.map((l) => {
+              const Icon = linkIcons[l.label];
+              return (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="press inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border text-sm text-foreground hover:bg-secondary transition-colors"
+                >
+                  <Icon size={14} /> {l.label}
+                </a>
+              );
+            })}
           </div>
         </header>
 

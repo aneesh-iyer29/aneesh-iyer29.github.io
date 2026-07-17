@@ -1,6 +1,12 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ExternalLink, FileText, Github } from "lucide-react";
 import { Link } from "react-router-dom";
-import { projects } from "@/data/projects";
+import { projects, type ProjectLink } from "@/data/projects";
+
+const linkIcons: Record<ProjectLink["label"], typeof Github> = {
+  Code: Github,
+  Demo: ExternalLink,
+  Paper: FileText,
+};
 
 const Projects = () => {
   return (
@@ -15,11 +21,17 @@ const Projects = () => {
 
         <div className="grid md:grid-cols-2 gap-6">
           {projects.map((proj) => (
-            <Link
+            <article
               key={proj.slug}
-              to={`/projects/${proj.slug}`}
-              className="card-surface-hover group flex h-full flex-col overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="card-surface-hover group relative flex h-full flex-col overflow-hidden"
             >
+              {/* Whole-card link to the case study; external links sit above it. */}
+              <Link
+                to={`/projects/${proj.slug}`}
+                aria-label={`${proj.title} case study`}
+                className="absolute inset-0 z-[1] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              />
+
               {/* Media */}
               {proj.image ? (
                 <div className="border-b border-border bg-secondary overflow-hidden">
@@ -46,13 +58,7 @@ const Projects = () => {
                   <span className="eyebrow !text-[0.62rem]">{proj.category}</span>
                   <span className="font-mono text-xs text-muted-foreground readout">{proj.year}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2 flex items-start justify-between gap-2">
-                  {proj.title}
-                  <ArrowUpRight
-                    size={15}
-                    className="mt-1 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground"
-                  />
-                </h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{proj.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">{proj.description}</p>
                 <div className="mt-auto">
                   <p className="font-mono text-xs text-foreground/75 border-t border-border pt-3">{proj.result}</p>
@@ -63,9 +69,30 @@ const Projects = () => {
                       </span>
                     ))}
                   </div>
+
+                  {/* Labeled exits: the case study plus direct evidence links. */}
+                  <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-3 text-sm">
+                    <span className="inline-flex items-center gap-1 font-medium text-foreground/85 transition-colors group-hover:text-accent">
+                      Case study <ArrowUpRight size={14} />
+                    </span>
+                    {proj.links?.map((l) => {
+                      const Icon = linkIcons[l.label];
+                      return (
+                        <a
+                          key={l.href}
+                          href={l.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="press relative z-[2] inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                        >
+                          <Icon size={13} /> {l.label}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </Link>
+            </article>
           ))}
         </div>
       </div>

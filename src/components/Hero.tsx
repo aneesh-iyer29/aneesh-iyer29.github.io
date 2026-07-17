@@ -22,10 +22,6 @@ const estPath = Array.from({ length: 91 }, (_, i) => {
 }).join(" ");
 
 const Hero = () => {
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section id="hero" className="relative">
       <div className="relative max-w-5xl mx-auto w-full px-6 pt-40 pb-20">
@@ -36,9 +32,12 @@ const Hero = () => {
           <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-serif font-semibold text-foreground mb-6 leading-[1.04] tracking-tight">
             Aneesh Iyer
           </h1>
-          <p className="text-lg md:text-xl text-foreground/85 max-w-2xl mb-7 leading-relaxed">
+          <p className="text-lg md:text-xl text-foreground/85 max-w-2xl mb-5 leading-relaxed">
             I build the systems that train and measure AI agents: RL environments, evaluations, and training
             infrastructure for frontier models. I also write the guidance software that lands rockets.
+          </p>
+          <p className="font-mono text-sm text-accent mb-7">
+            Seeking Summer 2027 SWE / ML infrastructure internships
           </p>
 
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-foreground/70 mb-9 font-mono">
@@ -54,20 +53,18 @@ const Hero = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              className="inline-flex items-center px-6 py-3 rounded bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
-              onClick={() => scrollToSection("projects")}
+            <a
+              href="/#projects"
+              className="press inline-flex items-center px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
             >
               View projects
-            </button>
-            <button
-              type="button"
-              className="inline-flex items-center px-6 py-3 rounded border border-foreground/25 bg-background/30 backdrop-blur-sm text-foreground font-medium text-sm hover:bg-background/60 transition-colors"
-              onClick={() => scrollToSection("contact")}
+            </a>
+            <a
+              href="/#contact"
+              className="press inline-flex items-center px-6 py-3 rounded-md border border-foreground/25 bg-background/30 backdrop-blur-sm text-foreground font-medium text-sm hover:bg-background/60 transition-colors"
             >
               Contact
-            </button>
+            </a>
             <div className="flex items-center gap-4 ml-2 text-foreground/70">
               <a href="https://github.com/aneesh-iyer29" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-foreground transition-colors">
                 <Github size={17} />
@@ -109,8 +106,8 @@ const Hero = () => {
             <path d={estPath} fill="none" stroke="hsl(var(--accent))" strokeWidth="1.8" className="trace-draw-slow" />
           </svg>
           <p className="border-t border-border px-4 py-2.5 text-xs leading-relaxed text-muted-foreground">
-            From my GT Propulsive Landers work: three Extended Kalman Filters fuse IMU, GPS, and LIDAR data, holding
-            estimates within 0.63% of simulated ground truth.
+            From my GT Propulsive Landers work: a 16-state error-state Kalman filter fuses IMU, GPS, and magnetometer
+            data, holding estimates within 0.14% of simulated ground truth.
           </p>
         </div>
       </div>

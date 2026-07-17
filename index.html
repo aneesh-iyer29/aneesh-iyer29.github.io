@@ -21,6 +21,20 @@
   </head>
 
   <body>
+    <script>
+      // Restore the deep link captured by 404.html, and rewrite legacy
+      // hash-router URLs (/#/projects/x) to clean paths.
+      (function () {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.pathname + location.search + location.hash) {
+          history.replaceState(null, "", redirect);
+        }
+        if (location.hash.indexOf("#/") === 0) {
+          history.replaceState(null, "", location.hash.slice(1));
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

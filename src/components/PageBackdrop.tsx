@@ -10,7 +10,7 @@ const PageBackdrop = () => {
   const { scrollYProgress } = useScroll();
   const starsOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const riverOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const scrimOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.48, 0.88, 0.88, 0.7]);
+  const scrimOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.48, 0.94, 0.94, 0.72]);
 
   return (
     <div className="fixed inset-0 z-0" aria-hidden="true">
