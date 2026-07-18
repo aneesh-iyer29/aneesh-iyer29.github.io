@@ -29,7 +29,7 @@ const Hero = () => {
           <p className="eyebrow mb-6 !text-foreground/70">
             Computer Engineering · Georgia Tech · Class of 2028
           </p>
-          <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-serif font-semibold text-foreground mb-6 leading-[1.04] tracking-tight">
+          <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-serif font-semibold text-foreground mb-6 leading-[1.04] display-tracking">
             Aneesh Iyer
           </h1>
           <p className="text-lg md:text-xl text-foreground/85 max-w-2xl mb-5 leading-relaxed">
@@ -53,16 +53,10 @@ const Hero = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <a
-              href="/#projects"
-              className="press inline-flex items-center px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity"
-            >
+            <a href="/#projects" className="btn-primary">
               View projects
             </a>
-            <a
-              href="/#contact"
-              className="press inline-flex items-center px-6 py-3 rounded-md border border-foreground/25 bg-background/30 backdrop-blur-sm text-foreground font-medium text-sm hover:bg-background/60 transition-colors"
-            >
+            <a href="/#contact" className="btn-glass">
               Contact
             </a>
             <div className="flex items-center gap-4 ml-2 text-foreground/70">
@@ -80,8 +74,8 @@ const Hero = () => {
         </div>
 
         {/* Attitude-estimation trace from the Propulsive Landers GNC work. */}
-        <div className="fade-up-delayed mt-16 rounded-lg border border-border bg-card/70 backdrop-blur-md overflow-hidden">
-          <div className="flex items-center justify-between border-b border-border px-4 py-2">
+        <div className="fade-up-delayed mt-16 glass rounded-2xl overflow-hidden">
+          <div className="flex items-center justify-between border-b border-foreground/10 px-5 py-2.5">
             <span className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
               Attitude estimate
             </span>
@@ -105,7 +99,7 @@ const Hero = () => {
             <path d={rawPath} fill="none" stroke="hsl(var(--muted-foreground) / 0.5)" strokeWidth="1" className="trace-draw" />
             <path d={estPath} fill="none" stroke="hsl(var(--accent))" strokeWidth="1.8" className="trace-draw-slow" />
           </svg>
-          <p className="border-t border-border px-4 py-2.5 text-xs leading-relaxed text-muted-foreground">
+          <p className="border-t border-foreground/10 px-5 py-3 text-xs leading-relaxed text-muted-foreground">
             From my GT Propulsive Landers work: a 16-state error-state Kalman filter fuses IMU, GPS, and magnetometer
             data, holding estimates within 0.14% of simulated ground truth.
           </p>

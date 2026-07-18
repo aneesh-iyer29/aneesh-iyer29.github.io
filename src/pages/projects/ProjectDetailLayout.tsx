@@ -41,7 +41,7 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
                   href={l.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="press inline-flex items-center gap-2 px-4 py-2 rounded-md border border-border text-sm text-foreground hover:bg-secondary transition-colors"
+                  className="btn-glass btn-compact text-sm"
                 >
                   <Icon size={14} /> {l.label}
                 </a>

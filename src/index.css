@@ -24,7 +24,7 @@
     --secondary-foreground: 220 25% 93%;
 
     --muted: 224 21% 17%;
-    --muted-foreground: 222 14% 66%;
+    --muted-foreground: 222 15% 71%;
 
     --accent: 24 95% 55%;
     --accent-foreground: 225 28% 10%;
@@ -87,30 +87,107 @@
     font-family: 'IBM Plex Serif', serif;
   }
 
+  /* Liquid glass material: blurs the backdrop, catches light on the top
+     edge, and casts a shadow scaled for the busy photographic background. */
+  .glass {
+    background: hsl(var(--card) / 0.55);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid hsl(var(--foreground) / 0.09);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.07),
+      0 8px 32px hsl(225 40% 4% / 0.35);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      background: hsl(var(--card));
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+  @media (prefers-contrast: more) {
+    .glass {
+      background: hsl(var(--card));
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-color: hsl(var(--foreground) / 0.4);
+    }
+  }
+
   .card-surface {
-    @apply bg-card rounded-lg border border-border;
+    @apply glass rounded-2xl;
   }
 
   .card-surface-hover {
-    @apply bg-card rounded-lg border border-border transition-colors duration-200;
+    @apply glass rounded-2xl transition-colors duration-200;
   }
   .card-surface-hover:hover {
-    @apply border-foreground/30;
+    border-color: hsl(var(--foreground) / 0.22);
   }
 
-  /* Translucent chrome for the fixed nav; content scrolls underneath. */
-  .nav-material {
-    background: hsl(var(--background) / 0.8);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid hsl(var(--border));
+  /* Capsule controls: Apple's shape language for tappable things. */
+  .btn-primary {
+    @apply press inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90;
+  }
+  .btn-glass {
+    @apply press glass inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-foreground transition-colors;
+  }
+  .btn-glass:hover {
+    background: hsl(var(--secondary) / 0.8);
+  }
+  .btn-compact {
+    @apply px-4 py-2;
+  }
+
+  /* Floating glass capsule for the scrolled nav; content passes beneath it.
+     No hard divider: the material's own edge and shadow do the separating. */
+  .nav-capsule {
+    background: hsl(var(--background) / 0.65);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid hsl(var(--foreground) / 0.1);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.08),
+      0 8px 24px hsl(225 40% 4% / 0.4);
   }
   @media (prefers-reduced-transparency: reduce) {
-    .nav-material {
+    .nav-capsule {
       background: hsl(var(--background));
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
+  }
+  @media (prefers-contrast: more) {
+    .nav-capsule {
+      background: hsl(var(--background));
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-color: hsl(var(--foreground) / 0.4);
+    }
+  }
+
+  /* Bigger surfaces read as thicker material: the mobile sheet gets a
+     heavier fill and stronger blur so content can't bleed through it. */
+  .nav-sheet {
+    background: hsl(var(--background) / 0.92);
+    backdrop-filter: blur(32px) saturate(180%);
+    -webkit-backdrop-filter: blur(32px) saturate(180%);
+    border: 1px solid hsl(var(--foreground) / 0.1);
+    box-shadow:
+      inset 0 1px 0 hsl(0 0% 100% / 0.08),
+      0 16px 48px hsl(225 40% 4% / 0.5);
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    .nav-sheet {
+      background: hsl(var(--background));
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  /* Display type wants tighter tracking than any fixed utility gives it. */
+  .display-tracking {
+    letter-spacing: -0.035em;
   }
 
   /* Instant press feedback on tap targets, on pointer-down not release. */
@@ -142,15 +219,19 @@
     transform: scaleX(1);
   }
 
+  /* Quiet capsule chips: fills, not outlines, so chip walls stay calm. */
   .tag {
-    @apply text-xs font-mono px-2.5 py-1 rounded border border-border bg-card text-muted-foreground transition-colors duration-300;
+    @apply text-xs font-mono px-3 py-1 rounded-full text-muted-foreground transition-colors duration-300;
+    background: hsl(var(--foreground) / 0.06);
+    border: 1px solid hsl(var(--foreground) / 0.07);
   }
   .tag:hover {
-    @apply border-accent/40 text-foreground;
+    @apply text-foreground;
+    border-color: hsl(var(--accent) / 0.4);
   }
 
   .tag-accent {
-    @apply text-xs font-mono px-2.5 py-1 rounded bg-accent/10 text-accent;
+    @apply text-xs font-mono px-3 py-1 rounded-full bg-accent/10 text-accent;
   }
 
   /* Tabular figures for readout stats */

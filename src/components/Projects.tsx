@@ -29,12 +29,12 @@ const Projects = () => {
               <Link
                 to={`/projects/${proj.slug}`}
                 aria-label={`${proj.title} case study`}
-                className="absolute inset-0 z-[1] rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="absolute inset-0 z-[1] rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
 
               {/* Media */}
               {proj.image ? (
-                <div className="border-b border-border bg-secondary overflow-hidden">
+                <div className="border-b border-foreground/10 bg-secondary overflow-hidden">
                   <img
                     src={proj.image}
                     alt={proj.title}
@@ -43,7 +43,7 @@ const Projects = () => {
                   />
                 </div>
               ) : (
-                <div className="grid place-items-center border-b border-border bg-secondary px-6 py-4 text-center aspect-[16/9]">
+                <div className="grid place-items-center border-b border-foreground/10 bg-secondary px-6 py-4 text-center aspect-[16/9]">
                   {proj.imagePlaceholder && (
                     <p className="mx-auto max-w-xs text-xs leading-relaxed text-muted-foreground">
                       {proj.imagePlaceholder}
@@ -61,7 +61,7 @@ const Projects = () => {
                 <h3 className="text-lg font-semibold text-foreground mb-2">{proj.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-4">{proj.description}</p>
                 <div className="mt-auto">
-                  <p className="font-mono text-xs text-foreground/75 border-t border-border pt-3">{proj.result}</p>
+                  <p className="font-mono text-xs text-foreground/75 border-t border-foreground/10 pt-3">{proj.result}</p>
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {proj.tags.map((t) => (
                       <span key={t} className="tag !text-[0.65rem]">
@@ -71,7 +71,7 @@ const Projects = () => {
                   </div>
 
                   {/* Labeled exits: the case study plus direct evidence links. */}
-                  <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-3 text-sm">
+                  <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-foreground/10 pt-3 text-sm">
                     <span className="inline-flex items-center gap-1 font-medium text-foreground/85 transition-colors group-hover:text-accent">
                       Case study <ArrowUpRight size={14} />
                     </span>
