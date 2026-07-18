@@ -24,23 +24,23 @@ const estPath = Array.from({ length: 91 }, (_, i) => {
 const Hero = () => {
   return (
     <section id="hero" className="relative">
-      <div className="relative max-w-5xl mx-auto w-full px-6 pt-40 pb-20">
-        <div className="fade-up">
-          <p className="eyebrow mb-6 !text-foreground/70">
+      <div className="relative max-w-5xl mx-auto w-full px-6 pt-44 pb-24">
+        <div className="fade-up flex flex-col items-center text-center">
+          <p className="eyebrow mb-6">
             Computer Engineering · Georgia Tech · Class of 2028
           </p>
-          <h1 className="text-5xl md:text-6xl lg:text-[4.5rem] font-serif font-semibold text-foreground mb-6 leading-[1.04] display-tracking">
+          <h1 className="text-5xl md:text-7xl font-semibold text-foreground mb-6 leading-[1.02] display-tracking">
             Aneesh Iyer
           </h1>
-          <p className="text-lg md:text-xl text-foreground/85 max-w-2xl mb-5 leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-5 leading-relaxed">
             I build the systems that train and measure AI agents: RL environments, evaluations, and training
             infrastructure for frontier models. I also write the guidance software that lands rockets.
           </p>
-          <p className="font-mono text-sm text-accent mb-7">
+          <p className="font-mono text-sm text-accent mb-8">
             Seeking Summer 2027 SWE / ML infrastructure internships
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-foreground/70 mb-9 font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted-foreground mb-10 font-mono">
             <span className="inline-flex items-center gap-1.5">
               <MapPin size={13} /> Atlanta, GA
             </span>
@@ -52,14 +52,14 @@ const Hero = () => {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <a href="/#projects" className="btn-primary">
               View projects
             </a>
             <a href="/#contact" className="btn-glass">
               Contact
             </a>
-            <div className="flex items-center gap-4 ml-2 text-foreground/70">
+            <div className="flex items-center gap-4 ml-2 text-muted-foreground">
               <a href="https://github.com/aneesh-iyer29" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-foreground transition-colors">
                 <Github size={17} />
               </a>

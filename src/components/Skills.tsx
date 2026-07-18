@@ -23,7 +23,7 @@ const categories = [
 
 const Skills = () => {
   return (
-    <section id="skills" className="relative py-24 px-6 border-t border-border">
+    <section id="skills" className="relative py-28 px-6">
       <div className="relative max-w-5xl mx-auto">
         <div className="mb-12">
           <p className="eyebrow mb-3">Capabilities</p>

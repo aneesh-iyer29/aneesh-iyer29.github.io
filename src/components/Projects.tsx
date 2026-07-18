@@ -10,7 +10,7 @@ const linkIcons: Record<ProjectLink["label"], typeof Github> = {
 
 const Projects = () => {
   return (
-    <section id="projects" className="relative py-24 px-6 border-t border-border">
+    <section id="projects" className="relative py-28 px-6">
       <div className="relative max-w-5xl mx-auto">
         <div className="mb-12">
           <p className="eyebrow mb-3">Selected projects</p>

@@ -3,7 +3,7 @@ import { experience, volunteering } from "@/data/experience";
 
 const Experience = () => {
   return (
-    <section id="experience" className="relative py-24 px-6 border-t border-border">
+    <section id="experience" className="relative py-28 px-6">
       <div className="relative max-w-5xl mx-auto">
         <div className="mb-14">
           <p className="eyebrow mb-3">Experience</p>

@@ -2,7 +2,7 @@ import aneeshPhoto from "@/assets/aneesh-photo.jpeg";
 
 const About = () => {
   return (
-    <section id="about" className="relative py-24 px-6 border-t border-border">
+    <section id="about" className="relative py-28 px-6">
       <div className="relative max-w-5xl mx-auto">
         <div className="grid md:grid-cols-[180px_1fr] gap-8">
           <p className="eyebrow">About</p>
@@ -38,9 +38,11 @@ const About = () => {
               </p>
             </div>
 
-            <div className="w-full max-w-[220px] shrink-0">
-              <div className="rounded-lg overflow-hidden aspect-[3/4] border border-border">
-                <img src={aneeshPhoto} alt="Aneesh Iyer" className="w-full h-full object-cover object-top" />
+            <div className="w-full max-w-[230px] shrink-0">
+              <div className="glass rounded-3xl p-2">
+                <div className="rounded-2xl overflow-hidden aspect-[3/4]">
+                  <img src={aneeshPhoto} alt="Aneesh Iyer" className="w-full h-full object-cover object-top" />
+                </div>
               </div>
             </div>
           </div>

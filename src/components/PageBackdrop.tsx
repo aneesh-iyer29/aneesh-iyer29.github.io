@@ -1,32 +1,18 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import heroStars from "@/assets/hero-stars.jpg";
-import contactRiver from "@/assets/contact-river.jpg";
-
-/* A fixed backdrop behind the whole page: the night sky at the top
-   cross-fades into the river as the page scrolls. A background-colored
-   scrim stays heavy through the content sections so text reads cleanly,
-   easing off at the very top and bottom where the photos lead. */
+/* A fixed daylight field behind the whole page: porcelain base with a faint
+   cobalt sky glow at the top and a cooler drift near the foot. Static by
+   design; the content, not the backdrop, carries the page. */
 const PageBackdrop = () => {
-  const { scrollYProgress } = useScroll();
-  const starsOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-  const riverOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const scrimOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.48, 0.94, 0.94, 0.72]);
-
   return (
     <div className="fixed inset-0 z-0" aria-hidden="true">
-      <motion.img
-        src={heroStars}
-        alt=""
-        style={{ opacity: starsOpacity }}
-        className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
+      <div className="absolute inset-0 bg-background" />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(110% 55% at 50% -12%, hsl(var(--accent) / 0.09), transparent 62%)," +
+            "radial-gradient(85% 45% at 85% 112%, hsl(200 60% 55% / 0.07), transparent 58%)",
+        }}
       />
-      <motion.img
-        src={contactRiver}
-        alt=""
-        style={{ opacity: riverOpacity }}
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <motion.div className="absolute inset-0 bg-background" style={{ opacity: scrimOpacity }} />
     </div>
   );
 };
