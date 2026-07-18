@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <section id="hero" className="relative">
       <div className="relative max-w-5xl mx-auto w-full px-6 pt-44 pb-28">
-        <div className="fade-up">
+        <div className="fade-up flex flex-col items-center text-center">
           <p className="eyebrow mb-6 !text-foreground/70">
             Computer Engineering · Georgia Tech · Class of 2028
           </p>
@@ -19,7 +19,7 @@ const Hero = () => {
             Seeking Summer 2027 SWE / ML infrastructure internships
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-foreground/70 mb-9 font-mono">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-foreground/70 mb-9 font-mono">
             <span className="inline-flex items-center gap-1.5">
               <MapPin size={13} /> Atlanta, GA
             </span>
@@ -31,7 +31,7 @@ const Hero = () => {
             </span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <a href="/#projects" className="btn-primary">
               View projects
             </a>
