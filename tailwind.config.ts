@@ -14,11 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        /* One grotesque does display and body work; "serif" stays mapped so
-           existing display-role classes keep working after the 2026 retheme. */
-        sans: ["Instrument Sans", "system-ui", "sans-serif"],
-        serif: ["Instrument Sans", "system-ui", "sans-serif"],
-        mono: ["Geist Mono", "ui-monospace", "SFMono-Regular", "monospace"],
+        sans: ["IBM Plex Sans", "system-ui", "sans-serif"],
+        serif: ["IBM Plex Serif", "Georgia", "serif"],
+        mono: ["IBM Plex Mono", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
