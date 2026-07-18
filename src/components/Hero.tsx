@@ -12,8 +12,8 @@ const Hero = () => {
             Aneesh Iyer
           </h1>
           <p className="text-lg md:text-xl text-foreground/85 max-w-2xl mb-5 leading-relaxed">
-            I build the systems that train and measure AI agents: RL environments, evaluations, and training
-            infrastructure for frontier models. I also write the guidance software that lands rockets.
+            Software engineer working on RL environments, evals, and benchmarks for frontier LLMs. Currently at
+            Transpira Labs building infrastructure for frontier AI training data.
           </p>
           <p className="font-mono text-sm text-accent mb-7">
             Seeking Summer 2027 SWE / ML infrastructure internships
