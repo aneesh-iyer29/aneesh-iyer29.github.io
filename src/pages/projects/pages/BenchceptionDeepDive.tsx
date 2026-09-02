@@ -386,7 +386,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-[18px]">
+        <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-4">
           <RoadmapCard n="01" title="Harden the golden set">
             Broaden and diversify the golden environments so no single benchmark can be gamed. Variety is the defense
             against contamination and overfitting.
@@ -398,6 +398,10 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
           <RoadmapCard n="03" title="Paper → environment">
             An automated pipeline that turns any research paper into a golden environment on HUD, scaling the golden
             set far beyond what we can hand-author.
+          </RoadmapCard>
+          <RoadmapCard n="04" title="Human verification">
+            Human-in-the-loop review on every generated golden environment, guaranteeing the dataset stays correct,
+            fair, and trustworthy.
           </RoadmapCard>
         </div>
       </motion.section>
