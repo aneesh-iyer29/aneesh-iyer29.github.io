@@ -22,7 +22,6 @@ export function BuildDeepDive(_props: ProjectDetailBodyProps) {
   return (
     <div className="max-w-[52rem]">
       <div className="tag-accent gap-2 px-3 py-1.5 text-xs normal-case tracking-normal">
-        <span aria-hidden="true">🏆</span>
         1st place of 70 teams at the HUD × Y Combinator Frontier/RSI RL Environments Hackathon
       </div>
 

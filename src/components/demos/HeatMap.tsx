@@ -33,7 +33,10 @@ const HOMES: Home[] = [
 const WALL_HEIGHT = 3.048;
 const SPECIFIC_HEAT = 1.005;
 const DENSITY = 1293;
-const WINDOW_RATIO = 0.2;
+/* Table 2.5.1 lists r_w = 0.2, but the published curves (Home 3 peaking
+   at 31.6 °C, the 89 °F the paper cites) reproduce only with the r_w = 0.9
+   used in the appendix's sensitivity script, so that is the value here. */
+const WINDOW_RATIO = 0.9;
 const RESISTANCE = 13;
 const FLOORS = 1;
 const T_IN_0 = 29.444;
@@ -49,12 +52,12 @@ const Y_TICKS = [28, 30, 32, 34, 36, 38];
 
 /* Outdoor temperature (deg C) at t hours after midnight: the paper's fitted sinusoid (Fig. 2.4.1). */
 function outdoorTemp(t: number): number {
-  return 4.9796776692867555 * Math.sin(0.31958467920431916 * t + -2.7753696625091497) + 32.23606417137194;
+  return 4.979677669286756 * Math.sin(0.3195846792043192 * t + -2.77536966250915) + 32.23606417137194;
 }
 
 /* Global horizontal irradiance (W/m^2): the paper's piecewise quadratic (Fig. 2.4.2), zero before 7 AM. */
 function irradiance(t: number): number {
-  return t < 7 ? 0 : -24.099845890995997 * t * t + 623.6904007623635 * t + -3166.8881716727808;
+  return t < 7 ? 0 : -24.099845890996 * t * t + 623.6904007623635 * t + -3166.888171672781;
 }
 
 interface Series {
@@ -134,7 +137,7 @@ function useElementWidth<T extends HTMLElement>(fallback: number): [RefObject<T>
   return [ref, width];
 }
 
-const HeatMap = ({ compact = false, className = "" }: DemoProps) => {
+const HeatMap = ({ interactive = true, compact = false, className = "" }: DemoProps) => {
   const reduce = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
   const inView = useInView(rootRef, { amount: 0.3, once: true });
@@ -258,29 +261,38 @@ const HeatMap = ({ compact = false, className = "" }: DemoProps) => {
         </li>
         {homes.map((home) => {
           const emphasized = active === home.id;
+          const swatch = (
+            <>
+              <span className="inline-block h-0 w-4 border-t-[1.5px]" style={{ borderColor: home.color }} aria-hidden="true" />
+              <span className="text-foreground">{home.label}</span>
+              <span>
+                A<sub>b</sub> {home.area} m² · r<sub>s</sub> {home.shade}
+              </span>
+            </>
+          );
           return (
             <li key={home.id}>
-              <button
-                type="button"
-                className={`flex items-center gap-2 rounded-sm px-1 py-0.5 text-left transition-opacity ${active !== null && !emphasized ? "opacity-50" : ""}`}
-                aria-label={`Highlight ${home.label}, floor area ${home.area} square meters, solar exposure ${home.shade}`}
-                onMouseEnter={() => setActive(home.id)}
-                onMouseLeave={() => setActive(null)}
-                onFocus={() => setActive(home.id)}
-                onBlur={() => setActive(null)}
-              >
-                <span className="inline-block h-0 w-4 border-t-[1.5px]" style={{ borderColor: home.color }} aria-hidden="true" />
-                <span className="text-foreground">{home.label}</span>
-                <span>
-                  A<sub>b</sub> {home.area} m² · r<sub>s</sub> {home.shade}
-                </span>
-              </button>
+              {interactive ? (
+                <button
+                  type="button"
+                  className={`flex items-center gap-2 rounded-sm px-1 py-0.5 text-left transition-opacity ${active !== null && !emphasized ? "opacity-50" : ""}`}
+                  aria-label={`Highlight ${home.label}, floor area ${home.area} square meters, solar exposure ${home.shade}`}
+                  onMouseEnter={() => setActive(home.id)}
+                  onMouseLeave={() => setActive(null)}
+                  onFocus={() => setActive(home.id)}
+                  onBlur={() => setActive(null)}
+                >
+                  {swatch}
+                </button>
+              ) : (
+                <span className="flex items-center gap-2 px-1 py-0.5">{swatch}</span>
+              )}
             </li>
           );
         })}
       </ul>
 
-      <p className="font-mono text-[0.6rem] text-muted-foreground">Model and parameters from Table 2.5.1 and Appendix 7.1 of the paper.</p>
+      <p className="font-mono text-[0.6rem] text-muted-foreground">Model, T_out(t), I(t), and home parameters from Table 2.5.1 and Appendix 7.1 of the paper; r_w = 0.9 as in the appendix code.</p>
     </div>
   );
 };

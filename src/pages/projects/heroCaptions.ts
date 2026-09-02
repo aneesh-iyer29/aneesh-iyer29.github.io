@@ -22,3 +22,18 @@ export const heroNotes: Record<string, string> = {
   "propulsive-landers-gnc": "replay",
   "m3-math-modeling-champion": "photo",
 };
+
+/* Where each project's static media sits relative to the interactive
+   figure (always Fig. 1): "after" as Fig. 2, "end" as the last figure,
+   or "none" when the interactive figure already shows the same thing. */
+export const heroPlacement: Record<string, "after" | "end" | "none"> = {
+  "build-rl-environments": "after",
+  benchception: "none",
+  "propulsive-landers-gnc": "after",
+  "m3-math-modeling-champion": "end",
+};
+export const heroLabels: Record<string, string> = {
+  "build-rl-environments": "Fig. 2",
+  "propulsive-landers-gnc": "Fig. 2",
+  "m3-math-modeling-champion": "Fig. 6",
+};

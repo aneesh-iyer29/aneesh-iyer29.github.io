@@ -5,7 +5,9 @@ import type { PropsWithChildren } from "react";
 import PageShell from "@/components/layout/PageShell";
 import { ImgFigure } from "@/components/casestudy";
 import { projects, type ProjectItem, type ProjectLink } from "@/data/projects";
-import { heroCaptions, heroInset, heroNotes } from "@/pages/projects/heroCaptions";
+import Figure from "@/components/layout/Figure";
+import { Demo } from "@/components/demos";
+import { heroCaptions, heroInset, heroLabels, heroNotes, heroPlacement } from "@/pages/projects/heroCaptions";
 
 const linkIcons: Record<ProjectLink["label"], typeof Github> = {
   Code: Github,
@@ -22,6 +24,20 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
   const next = projects[(index + 1) % projects.length];
   const caption = heroCaptions[project.slug] ?? project.result;
   const note = heroNotes[project.slug];
+  const placement = heroPlacement[project.slug] ?? "after";
+  const media =
+    project.image && placement !== "none" ? (
+      <ImgFigure
+        src={project.image}
+        alt={project.title}
+        label={heroLabels[project.slug] ?? "Fig. 2"}
+        note={note}
+        caption={caption}
+        inset={heroInset.has(project.slug)}
+        loading={placement === "after" ? "eager" : "lazy"}
+        className={placement === "after" ? "mt-8" : "mt-16"}
+      />
+    ) : null;
 
   return (
     <PageShell>
@@ -71,20 +87,15 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
           </p>
         </header>
 
-        {project.image ? (
-          <ImgFigure
-            src={project.image}
-            alt={project.title}
-            label="Fig. 1"
-            note={note}
-            caption={caption}
-            inset={heroInset.has(project.slug)}
-            loading="eager"
-            className="mt-12"
-          />
-        ) : null}
+        <Figure label="Fig. 1" note="interactive" caption={project.figureCaption} className="mt-12">
+          <Demo id={project.demo} interactive />
+        </Figure>
+
+        {placement === "after" ? media : null}
 
         <div className="mt-16">{children}</div>
+
+        {placement === "end" ? media : null}
 
         <nav aria-label="Next project" className="mt-24 border-t border-border pt-8">
           <p className="eyebrow">Next project</p>

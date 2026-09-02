@@ -121,7 +121,7 @@ export const projects: ProjectItem[] = [
     image: m3Finals,
     demo: "heat-map",
     figureCaption:
-      "Reproduction of the paper's Figure 2.5.2: predicted indoor temperature of four Memphis homes without air conditioning over a heatwave day, from the paper's heat-transfer ODE, against the fitted outdoor temperature. The unshaded home peaks near 31.7 °C, matching a resident's reported 89 °F.",
+      "Reproduction of the paper's Figure 2.5.2: predicted indoor temperature of four Memphis homes without air conditioning over a heatwave day, integrating the paper's heat-transfer ODE with its fitted outdoor-temperature and irradiance curves. The unshaded home peaks at 31.6 °C, the 89 °F a resident reported during the June 2023 outages.",
     highlights: [
       "Quantified heat vulnerability across 27 Memphis zip codes by reducing variables to 4 significant features via backward selection.",
       "Modeled urban electricity demand over five emissions pathways with simulations and sensitivity analysis.",
