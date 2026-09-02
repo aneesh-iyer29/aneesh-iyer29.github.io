@@ -171,15 +171,11 @@ const EkfReplay = ({ interactive = true, className = "" }: DemoProps) => {
         {geom.estPaths.map((d, i) => (
           <motion.path key={`es${i}`} d={d} fill="none" stroke={accent} strokeWidth={1.5} strokeDasharray="4 3" strokeLinejoin="round" {...draw(0.2 + 0.05 * i)} />
         ))}
-        {/* Axis labels at the right edge of each truth line. */}
-        {AXES.map((name, i) => {
-          const last = samples[samples.length - 1];
-          return (
-            <text key={name} x={W - PAD.r - 2} y={geom.yTop(last.truth[i]) - 4} fontSize={9} textAnchor="end" fill={i === 2 ? ink : graphite}>
-              {name}
-            </text>
-          );
-        })}
+        {/* Yaw is the only line that leaves the origin; label it at its end.
+            Roll and pitch stay within a degree or two and are named in the legend. */}
+        <text x={W - PAD.r - 2} y={geom.yTop(samples[samples.length - 1].truth[2]) - 5} fontSize={9} textAnchor="end" fill={ink}>
+          yaw
+        </text>
 
         {/* Error panel. */}
         <path d={geom.errArea} fill={accent} opacity={0.1} />
@@ -204,7 +200,7 @@ const EkfReplay = ({ interactive = true, className = "" }: DemoProps) => {
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-2 pb-2 pt-1 font-mono text-[0.65rem] text-muted-foreground">
         <span className="flex items-center gap-4">
           <span className="flex items-center gap-1.5">
-            <span className="inline-block h-0.5 w-4 bg-foreground" /> truth
+            <span className="inline-block h-0.5 w-4 bg-foreground" /> truth (yaw; roll and pitch in gray)
           </span>
           <span className="flex items-center gap-1.5">
             <span className="inline-block h-0.5 w-4 border-t-2 border-dashed border-accent" /> ES-EKF
