@@ -87,7 +87,7 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
           </p>
         </header>
 
-        <Figure label="Fig. 1" note="interactive" caption={project.figureCaption} className="mt-12">
+        <Figure label="Fig. 1" caption={project.figureCaption} className="mt-12">
           <Demo id={project.demo} interactive />
         </Figure>
 
