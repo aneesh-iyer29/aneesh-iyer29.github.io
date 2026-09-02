@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
 import type { ProjectDetailBodyProps } from "@/pages/projects/types";
-import { Highlights, ImgFigure, P } from "@/components/casestudy";
-import p1 from "./images/p1.png";
-import p21 from "./images/p21.png";
-import p22 from "./images/p22.png";
-import p3 from "./images/p3.png";
+import { Highlights, P } from "@/components/casestudy";
+import HeatModel from "./m3/HeatModel";
+import DemandChart from "./m3/DemandChart";
+import VulnerabilityChart from "./m3/VulnerabilityChart";
 
 const reveal = {
   initial: { opacity: 0, y: 16 },
@@ -58,12 +57,7 @@ export function M3DeepDive({ project }: ProjectDetailBodyProps) {
           title="Modeling the indoor temperature of sample homes without Air Conditioning"
           impact="Shows the impact of heatwaves on residents in Memphis and the need for solutions to reduce heat-related risks."
         >
-          <ImgFigure
-            src={p1}
-            label="Fig. 2"
-            alt="Heatwave temperatures during the day"
-            caption="Heatwave temperatures modeled for four different homes across a 24 hour day, as well as a summarized derivation of the equation defining the model."
-          />
+          <HeatModel />
           <FigureExplanation>
             We developed a mathematical model grounded in Newton’s Law of Cooling to describe how internal temperature
             evolves over time as a function of heat capacity, radiative energy transfer, and energy flow. For each of
@@ -79,35 +73,20 @@ export function M3DeepDive({ project }: ProjectDetailBodyProps) {
           title="Peak Energy Demand in Memphis during the Summer"
           impact="Quantifies the necessary infastructure to prevent power outages. We chose to define this in two ways: the generation requirement (the amount of energy needed for the peak summer month) and the transmission requirement (the amount of generated energy that should be deliverable during the peak hour of demand)."
         >
+          <DemandChart />
           <div className="grid gap-8 md:grid-cols-2">
-            <div>
-              <ImgFigure
-                src={p21}
-                label="Fig. 3"
-                alt="mtemp vs demand"
-                caption="Historical maximum temperatures vs. peak hourly energy demand"
-              />
-              <FigureExplanation>
-                We found that the biggest factor impacting the necessary hourly energy demand (representing the
-                transmission requirement of the grid) was the maximum temperature of the year. To model this, we used a
-                multiple linear regressions model (with other minor factors) and evaluated it using emissions estimates
-                for future maximum temperature predictions.
-              </FigureExplanation>
-            </div>
-            <div>
-              <ImgFigure
-                src={p22}
-                label="Fig. 4"
-                alt="population vs. total consumption"
-                caption="Historical population vs. total energy consumption"
-              />
-              <FigureExplanation>
-                For predicting the total energy consumption demands for Memphis, we found that this correlated with the
-                population level of Memphis. Similarly, we used another multiple linear regressions model to predict the
-                total energy consumption as a function of population, and then evaluated it using population prediction
-                data found online.
-              </FigureExplanation>
-            </div>
+            <FigureExplanation>
+              We found that the biggest factor impacting the necessary hourly energy demand (representing the
+              transmission requirement of the grid) was the maximum temperature of the year. To model this, we used a
+              multiple linear regressions model (with other minor factors) and evaluated it using emissions estimates
+              for future maximum temperature predictions.
+            </FigureExplanation>
+            <FigureExplanation>
+              For predicting the total energy consumption demands for Memphis, we found that this correlated with the
+              population level of Memphis. Similarly, we used another multiple linear regressions model to predict the
+              total energy consumption as a function of population, and then evaluated it using population prediction
+              data found online.
+            </FigureExplanation>
           </div>
         </Part>
 
@@ -116,12 +95,7 @@ export function M3DeepDive({ project }: ProjectDetailBodyProps) {
           title="Neighborhood Vulnerability scores"
           impact="Guides resource allocation to provide assistance to vulerable populations to defend against heat-related illnesses."
         >
-          <ImgFigure
-            src={p3}
-            label="Fig. 5"
-            alt="Vulnerability scores plot"
-            caption="Vulnerability scores visualized for various neighborhoods in Memphis, as well as the ten highest scoring zip codes."
-          />
+          <VulnerabilityChart />
           <FigureExplanation>
             For quantifying the vulnerability of different zip codes in Memphis to heatwaves, we chose to model the
             expected annual loss of each neighborhood based on various factors. By using this consistant baseline for

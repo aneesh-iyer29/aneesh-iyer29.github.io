@@ -36,8 +36,8 @@ const About = () => (
 
       <Reveal delay={0.1} className="lg:col-span-3">
         <figure className="figure-frame max-w-[16rem] lg:max-w-none">
-          <div className="aspect-square overflow-hidden">
-            <img src={aneeshPhoto} alt="Aneesh Iyer" className="h-full w-full object-cover object-[center_15%]" loading="lazy" />
+          <div className="aspect-[3/2] overflow-hidden">
+            <img src={aneeshPhoto} alt="Aneesh Iyer" className="h-full w-full object-cover object-[center_12%]" loading="lazy" />
           </div>
           <figcaption className="border-t border-border px-4 py-3">
             <p className="eyebrow">Education</p>

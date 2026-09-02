@@ -15,7 +15,7 @@ interface TestItem {
 }
 
 const tests: TestItem[] = [
-  { year: "2026", event: "Codebusters", title: "2026 Ohio State Tournament - Machines C (April 2026)", privateRelease: true},
+  { year: "2026", event: "Machines", title: "2026 Ohio State Tournament - Machines C (April 2026)", privateRelease: true},
   { year: "2026", event: "Machines", title: "2026 Florida State Tournament - Machines B/C (April 2026)", privateRelease: true},
   { year: "2026", event: "Codebusters", title: "2026 Northern California State Tournament - Codebusters C (April 2026)", privateRelease: true},
   { year: "2026", event: "Machines", title: "2026 Georgia State Tournament - Machines C (April 2026)", privateRelease: true},
@@ -117,21 +117,20 @@ const SciOlyTests = () => {
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-page px-6 pb-24 pt-28 md:pt-32">
+      <div className="mx-auto max-w-[60rem] px-6 pb-24 pt-28 md:pt-32">
         <motion.header
           initial={reduce ? { opacity: 1 } : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-[52rem]"
         >
           <p className="eyebrow">Science Olympiad</p>
           <h1 className="display mt-4 text-4xl leading-[1.05] text-foreground md:text-5xl">Test bank</h1>
-          <p className="mt-8 max-w-prose text-base leading-relaxed text-muted-foreground">
+          <p className="mt-8 text-base leading-relaxed text-muted-foreground">
             I competed in Science Olympiad for six years, starting with the Mason Middle School team and continuing on
             the High School team for four years. In my senior year of High School, I was elected team captain and
             helped lead us to a 3rd place finish at the National Tournament.
           </p>
-          <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             In College, I help give back to the community by volunteering through my school's alumni chapter (Science
             Olympiad @ Georgia Tech), as well as authoring/proctoring tests for various high-profile invitationals
             nationwide. In 2028, Georgia Tech will be hosting the Science Olympiad National Tournament!
