@@ -59,9 +59,10 @@ const Work = () => (
                   </span>
                 ))}
               </div>
-              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-                <Link to={`/projects/${p.slug}`} className="link inline-flex items-center gap-1 font-medium">
-                  Read the case study <ArrowUpRight size={14} />
+              <div className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+                <Link to={`/projects/${p.slug}`} className="btn-accent group/cta">
+                  Read the case study
+                  <ArrowUpRight size={14} className="transition-transform duration-300 ease-out group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5" />
                 </Link>
                 {p.links?.map((l) => {
                   const Icon = linkIcons[l.label];
