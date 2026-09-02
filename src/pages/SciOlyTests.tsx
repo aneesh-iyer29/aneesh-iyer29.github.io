@@ -1,7 +1,8 @@
 import { useState, useMemo, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { ArrowLeft, ExternalLink, FileText } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ExternalLink, FileText } from "lucide-react";
+import PageShell from "@/components/layout/PageShell";
+import { ImgFigure } from "@/components/casestudy";
 import sciOlyPhoto from "@/assets/scioly-nationals.png";
 
 interface TestItem {
@@ -53,9 +54,47 @@ const tests: TestItem[] = [
 const years = ["All Years", "2026", "2025", "2024", "2023"];
 const events = ["All Events", "Codebusters", "Optics", "Experimental Design", "Machines"];
 
+/* A row of segmented pill buttons that behaves like a single-select filter. */
+function PillGroup({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: string[];
+  value: string;
+  onChange: (next: string) => void;
+}) {
+  return (
+    <div role="group" aria-label={label} className="flex flex-wrap items-center gap-1.5">
+      <span className="mr-1.5 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">{label}</span>
+      {options.map((opt) => {
+        const on = opt === value;
+        return (
+          <button
+            key={opt}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onChange(opt)}
+            className={`press rounded-md border px-2.5 py-1 font-mono text-[0.7rem] transition-colors ${
+              on
+                ? "border-foreground bg-foreground text-background"
+                : "border-border bg-card text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+            }`}
+          >
+            {opt}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 const SciOlyTests = () => {
   const [yearFilter, setYearFilter] = useState("All Years");
   const [eventFilter, setEventFilter] = useState("All Events");
+  const reduce = useReducedMotion();
 
   // Open at the top of the page, not wherever the portfolio was scrolled to.
   // Temporarily disable the global smooth scroll so it jumps to the top on
@@ -77,119 +116,101 @@ const SciOlyTests = () => {
   }, [yearFilter, eventFilter]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        {/* Back link */}
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12"
+    <PageShell>
+      <div className="mx-auto max-w-page px-6 pb-24 pt-28 md:pt-32">
+        <motion.header
+          initial={reduce ? { opacity: 1 } : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-[52rem]"
         >
-          <ArrowLeft size={15} /> Back to portfolio
-        </Link>
+          <p className="eyebrow">Science Olympiad</p>
+          <h1 className="display mt-4 text-4xl leading-[1.05] text-foreground md:text-5xl">Test bank</h1>
+          <p className="mt-8 max-w-prose text-base leading-relaxed text-muted-foreground">
+            I competed in Science Olympiad for six years, starting with the Mason Middle School team and continuing on
+            the High School team for four years. In my senior year of High School, I was elected team captain and
+            helped lead us to a 3rd place finish at the National Tournament.
+          </p>
+          <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">
+            In College, I help give back to the community by volunteering through my school's alumni chapter (Science
+            Olympiad @ Georgia Tech), as well as authoring/proctoring tests for various high-profile invitationals
+            nationwide. In 2028, Georgia Tech will be hosting the Science Olympiad National Tournament!
+          </p>
+        </motion.header>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduce ? { opacity: 1 } : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="section-label mb-3">Science Olympiad</p>
-          <h1 className="text-4xl md:text-5xl font-serif text-foreground mb-4">Test Bank</h1>
-          <p className="text-base text-muted-foreground leading-relaxed mb-4">
-            I competed in Science Olympiad for six years, starting with the Mason Middle School team and continuing on the High School team for four years. In my senior year of High School, I was elected team captain and helped lead us to a 3rd place finish at the National Tournament.
-          </p>
-          <p className="text-base text-muted-foreground leading-relaxed mb-6">
-            In College, I help give back to the community by volunteering through my school's alumni chapter (Science Olympiad @ Georgia Tech), as well as authoring/proctoring tests for various high-profile invitationals nationwide. In 2028, Georgia Tech will be hosting the Science Olympiad National Tournament!
-          </p>
-          <div className="rounded-xl overflow-hidden border border-border mb-10">
-            <img src={sciOlyPhoto} alt="Mason High School at the 2025 Science Olympiad National Tournament" className="w-full object-cover" />
-            <p className="text-xs text-muted-foreground px-4 py-3">Mason High School at the 2025 Science Olympiad National Tournament</p>
-          </div>
+          <ImgFigure
+            src={sciOlyPhoto}
+            alt="Mason High School at the 2025 Science Olympiad National Tournament"
+            label="Fig. 1"
+            note="photo"
+            caption="Mason High School at the 2025 Science Olympiad National Tournament"
+            loading="eager"
+            imgClassName="object-cover"
+            className="mt-12"
+          />
         </motion.div>
 
         {/* Filters */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={reduce ? { opacity: 1 } : { opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.15 }}
-          className="flex flex-wrap gap-3 mb-8"
+          transition={{ duration: 0.4, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-16 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-b border-border pb-5"
         >
-          <select
-            value={yearFilter}
-            onChange={(e) => setYearFilter(e.target.value)}
-            className="px-4 py-2 rounded-lg bg-card border border-border text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-          >
-            {years.map((y) => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
-          <select
-            value={eventFilter}
-            onChange={(e) => setEventFilter(e.target.value)}
-            className="px-4 py-2 rounded-lg bg-card border border-border text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-          >
-            {events.map((e) => (
-              <option key={e} value={e}>{e}</option>
-            ))}
-          </select>
-          <span className="text-xs text-muted-foreground self-center font-mono">
+          <div className="flex flex-wrap gap-x-8 gap-y-3">
+            <PillGroup label="Year" options={years} value={yearFilter} onChange={setYearFilter} />
+            <PillGroup label="Event" options={events} value={eventFilter} onChange={setEventFilter} />
+          </div>
+          <p className="readout text-xs text-muted-foreground" aria-live="polite">
             {filtered.length} result{filtered.length !== 1 ? "s" : ""}
-          </span>
+          </p>
         </motion.div>
 
         {/* Test list */}
-        <div className="space-y-3">
+        <ul className="divide-y divide-border">
           {filtered.map((test, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
+            <motion.li
+              key={`${test.title}-${i}`}
+              initial={reduce ? { opacity: 1 } : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: i * 0.02 }}
-              className="card-surface-hover p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+              transition={{ duration: 0.3, delay: Math.min(i, 12) * 0.02 }}
+              className="grid gap-x-6 gap-y-2 py-4 sm:grid-cols-[1fr_auto] sm:items-center"
             >
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-foreground">{test.title}</h3>
-                <span className="tag-accent text-[10px] mt-1.5 inline-block">{test.event}</span>
+              <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1.5">
+                <h2 className="text-sm font-medium text-foreground">{test.title}</h2>
+                <span className="tag">{test.event}</span>
               </div>
-              <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-4 text-xs">
                 {test.privateRelease ? (
-                  <span className="text-xs text-muted-foreground italic">Private Release</span>
+                  <span className="italic text-muted-foreground">Private release</span>
                 ) : (
                   <>
                     {test.testLink && (
-                      <a
-                        href={test.testLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
-                      >
-                        <FileText size={13} /> Test
+                      <a href={test.testLink} target="_blank" rel="noopener noreferrer" className="link-accent inline-flex items-center gap-1.5">
+                        <FileText size={12} aria-hidden="true" /> Test
                       </a>
                     )}
                     {test.keyLink && (
-                      <a
-                        href={test.keyLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:text-primary transition-colors"
-                      >
-                        <ExternalLink size={13} /> Key
+                      <a href={test.keyLink} target="_blank" rel="noopener noreferrer" className="link-accent inline-flex items-center gap-1.5">
+                        <ExternalLink size={12} aria-hidden="true" /> Key
                       </a>
                     )}
                   </>
                 )}
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-        </div>
-
-        {/* Footer */}
-        <div className="mt-16 pt-8 border-t border-border">
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Aneesh Iyer
-          </p>
-        </div>
+        </ul>
+        {filtered.length === 0 ? (
+          <p className="py-10 text-sm text-muted-foreground">No tests match those filters.</p>
+        ) : null}
       </div>
-    </div>
+    </PageShell>
   );
 };
 

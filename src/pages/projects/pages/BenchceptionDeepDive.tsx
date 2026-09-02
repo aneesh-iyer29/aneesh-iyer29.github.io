@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import type { ProjectDetailBodyProps } from "@/pages/projects/types";
+import { Callout, SectionHeading, Stat } from "@/components/casestudy";
 
 const ACCENT = "hsl(var(--accent))";
 const NEUTRAL = "hsl(var(--muted-foreground) / 0.45)";
@@ -40,6 +41,13 @@ const STEPS = [
   },
 ];
 
+const reveal = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+};
+
 export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
   const [active, setActive] = useState(0);
   const toggle = (s: number) => setActive((cur) => (cur === s ? 0 : s));
@@ -66,72 +74,65 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
   const flow = (stage: number) => (active === stage ? "decor-flow" : undefined);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.08 }}>
+    <div>
       {/* PIPELINE + DIAGRAM ------------------------------------------------ */}
       <section className="flex flex-wrap items-start gap-x-14 gap-y-12">
         <div className="min-w-[300px] flex-[1_1_360px] pt-1.5">
-          <p className="max-w-[32em] text-sm leading-relaxed text-muted-foreground">
+          <p className="max-w-[32em] text-base leading-relaxed text-muted-foreground">
             For this experiment, our golden environment is{" "}
-            <a
-              href="https://arxiv.org/pdf/2602.07342"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent underline underline-offset-2"
-            >
+            <a href="https://arxiv.org/pdf/2602.07342" target="_blank" rel="noopener noreferrer" className="link-accent">
               Supply Chain Bench
             </a>{" "}
             (
-            <a
-              href="https://github.com/Damon-GSY/SC-bench"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-accent underline underline-offset-2"
-            >
+            <a href="https://github.com/Damon-GSY/SC-bench" target="_blank" rel="noopener noreferrer" className="link-accent">
               code
             </a>
             ), a HUD benchmark held out from every model.
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-x-7 gap-y-3">
+          <div className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
             <Stat label="Golden env" value="Supply Chain Bench" />
             <Stat label="Authors" value="Opus 4.8 · GPT-5.5" />
             <Stat label="Student" value="Qwen-8B" />
           </div>
 
           {/* STEPPER */}
-          <div className="mb-3.5 mt-8 flex items-center justify-between">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          <div className="mb-3.5 mt-10 flex items-center justify-between">
+            <span id="bc-pipeline-label" className="eyebrow">
               Walk the pipeline
             </span>
             <button
+              type="button"
               onClick={() => setActive(0)}
-              className="font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition hover:brightness-110"
+              className="press font-mono text-[0.68rem] font-medium uppercase tracking-[0.12em] text-accent transition-colors hover:text-foreground"
             >
               Show all
             </button>
           </div>
 
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5" role="group" aria-labelledby="bc-pipeline-label">
             {STEPS.map((step, i) => {
               const s = i + 1;
               const on = active === s;
               return (
                 <button
                   key={step.n}
+                  type="button"
                   onClick={() => toggle(s)}
-                  className={`flex gap-3.5 rounded-lg border p-4 text-left transition ${
-                    on ? "border-accent bg-accent/10" : "border-border bg-card hover:border-accent/40"
+                  aria-pressed={on}
+                  className={`press flex gap-3.5 rounded-lg border p-4 text-left transition-colors ${
+                    on ? "border-accent bg-accent/[0.07]" : "border-border bg-card hover:border-foreground/30"
                   }`}
                 >
                   <span
-                    className={`flex size-[30px] flex-none items-center justify-center rounded-md border font-mono text-[13px] font-bold ${
+                    className={`readout flex size-[30px] flex-none items-center justify-center rounded-md border text-[13px] font-medium ${
                       on ? "border-accent text-accent" : "border-border text-muted-foreground"
                     }`}
                   >
                     {step.n}
                   </span>
                   <span>
-                    <span className="mb-1 block text-sm font-semibold text-foreground">{step.title}</span>
+                    <span className="mb-1 block text-sm font-medium text-foreground">{step.title}</span>
                     <span className="block text-[13px] leading-[1.45] text-muted-foreground">{step.body}</span>
                   </span>
                 </button>
@@ -139,19 +140,17 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             })}
           </div>
 
-          <Callout symbol="!">
-            <strong className="text-foreground">No contamination.</strong> The golden environment is never shown to
-            either author or student during authoring or training; it is revealed only at evaluation. Models can&apos;t
-            memorize the test, only learn to teach.
+          <Callout symbol="!" className="mt-[18px]">
+            <strong className="font-medium text-foreground">No contamination.</strong> The golden environment is never
+            shown to either author or student during authoring or training; it is revealed only at evaluation. Models
+            can&apos;t memorize the test, only learn to teach.
           </Callout>
         </div>
 
         {/* DIAGRAM */}
         <div className="min-w-[300px] flex-[1_1_440px] self-stretch">
           <div className="mb-2.5 flex items-baseline justify-between">
-            <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              Architecture
-            </span>
+            <span className="eyebrow">Architecture</span>
             <div className="flex gap-3.5 font-mono text-[10px] uppercase tracking-[0.04em] text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <span className="size-[9px] rounded-sm border border-border bg-card" />
@@ -167,10 +166,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             </div>
           </div>
 
-          <div
-            className="relative w-full rounded-lg border border-border"
-            style={{ aspectRatio: "600 / 880", background: "hsl(var(--secondary) / 0.6)" }}
-          >
+          <div className="figure-frame dot-grid w-full" style={{ aspectRatio: "600 / 880" }}>
             <svg viewBox="0 0 600 880" preserveAspectRatio="xMidYMid meet" className="absolute inset-0 h-full w-full">
               <defs>
                 <marker id="bcArw" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
@@ -224,7 +220,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
 
             <DiagNode pos={{ left: "3%", top: "57.045%", width: "30%", height: "10%" }} style={nodeStyle("qO")}>
               <NodeKicker>Student</NodeKicker>
-              <NodeTitle className="font-bold">Qwen-8B</NodeTitle>
+              <NodeTitle className="font-semibold">Qwen-8B</NodeTitle>
               <NodeSub>trained · Opus env</NodeSub>
             </DiagNode>
             <DiagNode
@@ -234,12 +230,12 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               bg="hsl(var(--secondary))"
             >
               <NodeKicker>Baseline</NodeKicker>
-              <NodeTitle className="font-bold">Qwen-8B</NodeTitle>
+              <NodeTitle className="font-semibold">Qwen-8B</NodeTitle>
               <NodeSub>untrained</NodeSub>
             </DiagNode>
             <DiagNode pos={{ left: "67%", top: "57.045%", width: "30%", height: "10%" }} style={nodeStyle("qG")}>
               <NodeKicker>Student</NodeKicker>
-              <NodeTitle className="font-bold">Qwen-8B</NodeTitle>
+              <NodeTitle className="font-semibold">Qwen-8B</NodeTitle>
               <NodeSub>trained · GPT env</NodeSub>
             </DiagNode>
 
@@ -250,7 +246,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
                 top: "73.864%",
                 width: "50%",
                 height: "10.682%",
-                background: "hsl(var(--accent) / 0.1)",
+                background: "hsl(var(--accent) / 0.08)",
                 borderWidth: 1.5,
                 borderColor: ACCENT,
                 opacity: nodeOn("arena") ? 1 : 0.28,
@@ -258,10 +254,10 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
                 transition: "0.3s",
               }}
             >
-              <div className="font-mono text-[9.5px] font-bold uppercase tracking-[0.13em] text-accent">
+              <div className="font-mono text-[9.5px] font-medium uppercase tracking-[0.13em] text-accent">
                 Held-out evaluation
               </div>
-              <div className="text-[13.5px] font-bold leading-[1.25] text-foreground">Three-Way Contest on Golden Bench</div>
+              <div className="text-[13.5px] font-semibold leading-[1.25] text-foreground">Three-Way Contest on Golden Bench</div>
               <div className="text-[10.5px] leading-[1.3] text-muted-foreground">all three play the held-out Supply Chain Bench</div>
             </div>
 
@@ -276,7 +272,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
                 transition: "0.3s",
               }}
             >
-              <div className="text-[13px] font-semibold text-foreground">
+              <div className="font-serif text-[15px] font-medium leading-snug text-foreground">
                 Winning student ⇒ the model that authored the better environment
               </div>
             </div>
@@ -285,19 +281,10 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       </section>
 
       {/* RESULTS / LEADERBOARD ------------------------------------------- */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-16 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10"
-      >
+      <motion.section {...reveal} className="mt-20 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10">
         <div className="flex flex-wrap items-start gap-x-14 gap-y-10">
           <div className="min-w-[300px] flex-[1_1_360px]">
-            <p className="eyebrow mb-3">Results</p>
-            <h2 className="font-serif text-3xl font-semibold leading-[1.05] tracking-tight text-foreground">
-              All three students tied
-            </h2>
+            <SectionHeading eyebrow="Results" title="All three students tied" />
             <p className="mt-4 max-w-[32em] text-base leading-relaxed text-muted-foreground">
               We ran the full pipeline end to end: both authors generated environments, both trained a Qwen-8B, and
               all three students played the held-out Supply Chain Bench. They finished in a dead heat.
@@ -306,18 +293,16 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               When we looked closer, the environments the models authored were low-quality and, honestly, a little
               sloppy, so neither trained student learned much the untrained baseline didn&apos;t already know.
             </p>
-            <Callout symbol="✓">
-              <strong className="text-foreground">The tie is the signal.</strong> A flat leaderboard isn&apos;t a
-              broken experiment; it is evidence that authoring a good RL environment is genuinely hard. The models
-              fail for a valid reason, which is exactly what a strong benchmark should expose.
+            <Callout symbol="✓" className="mt-[18px]">
+              <strong className="font-medium text-foreground">The tie is the signal.</strong> A flat leaderboard
+              isn&apos;t a broken experiment; it is evidence that authoring a good RL environment is genuinely hard. The
+              models fail for a valid reason, which is exactly what a strong benchmark should expose.
             </Callout>
           </div>
 
           <div className="min-w-[300px] flex-[1_1_400px] card-surface px-7 py-6">
             <div className="mb-2 flex items-baseline justify-between gap-3">
-              <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Leaderboard
-              </span>
+              <span className="eyebrow">Leaderboard</span>
               <span className="font-mono text-[11px] text-muted-foreground">success rate</span>
             </div>
             <LeaderRow rank="T-1" label="Qwen-8B · untrained baseline" pct={45} tone="neutral" />
@@ -332,24 +317,15 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       </motion.section>
 
       {/* BLOCKS → SPEC --------------------------------------------------- */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-16 flex flex-wrap items-start gap-x-14 gap-y-10"
-      >
+      <motion.section {...reveal} className="mt-20 flex flex-wrap items-start gap-x-14 gap-y-10">
         <div className="min-w-[300px] flex-[1_1_420px]">
-          <p className="eyebrow mb-3.5">How we built the environments in-house</p>
-          <h2 className="font-serif text-3xl font-semibold leading-[1.05] tracking-tight text-foreground">
-            From blocks to a spec
-          </h2>
+          <SectionHeading eyebrow="How we built the environments in-house" title="From blocks to a spec" />
           <p className="mt-4 max-w-[34em] text-base leading-relaxed text-muted-foreground">
             Build is a Scratch-style canvas. We drag four kinds of blocks out of the tray (
-            <strong className="text-foreground">Environment, Tool, Task, Train</strong>), snap detail blocks into
-            them, and describe each in plain language. The blocks form a recursive tree that the builder projects
-            into a plain-language description, written to help a model rebuild Supply Chain Bench. That description,
-            not code or JSON, is the only thing each model receives.
+            <strong className="font-medium text-foreground">Environment, Tool, Task, Train</strong>), snap detail
+            blocks into them, and describe each in plain language. The blocks form a recursive tree that the builder
+            projects into a plain-language description, written to help a model rebuild Supply Chain Bench. That
+            description, not code or JSON, is the only thing each model receives.
           </p>
           <div className="mt-6 flex flex-wrap gap-6">
             <MiniNote label="Why blocks">
@@ -367,34 +343,32 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             Build · canvas
           </div>
           <div className="flex flex-col gap-2.5">
-            <MockBlock kind="Environment" color="#9AA4B8">
+            <MockBlock kind="Environment" color="hsl(var(--fig-3))">
               a supply-chain operator working a live order queue…
             </MockBlock>
-            <MockBlock kind="Tool" color="#6FB5C4">
+            <MockBlock kind="Tool" color="hsl(var(--fig-4))">
               check_inventory(sku) → units on hand
             </MockBlock>
             <MockBlock kind="Task" color="hsl(var(--accent))">
               fulfil the backlog without stocking out…
             </MockBlock>
-            <MockBlock kind="Train" color="#8CC287">
+            <MockBlock kind="Train" color="hsl(var(--fig-2))">
               algorithm: auto · reward from rubric
             </MockBlock>
           </div>
           <div className="my-4 flex items-center gap-2.5 px-0.5 text-muted-foreground">
             <span className="h-px flex-1 bg-border" />
             <span className="font-mono text-[10px] uppercase tracking-[0.14em]">extract description</span>
-            <span className="text-sm">↓</span>
-          </div>
-          <div
-            className="rounded-md border border-border p-4 text-[13.5px] leading-[1.55]"
-            style={{ background: "hsl(225 35% 4%)", color: "#D7DCE3" }}
-          >
-            <span
-              className="mb-[7px] block font-mono text-[9px] uppercase tracking-[0.16em]"
-              style={{ color: "hsl(21 89% 65%)" }}
-            >
-              spec handed to the models
+            <span className="text-sm" aria-hidden="true">
+              ↓
             </span>
+          </div>
+          {/* A deliberate "terminal" block: ink on paper inverted. */}
+          <div
+            className="rounded-md p-4 font-mono text-[12.5px] leading-[1.6]"
+            style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}
+          >
+            <span className="mb-2 block text-[9px] uppercase tracking-[0.16em] text-accent">spec handed to the models</span>
             &quot;Build an RL environment where an agent operates a supply chain: it queries inventory and supplier
             tools to clear an order backlog, scored by fill-rate without stock-outs. Train a policy to maximize the
             rubric reward.&quot;
@@ -403,20 +377,9 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       </motion.section>
 
       {/* ROADMAP --------------------------------------------------------- */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-16 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10"
-      >
+      <motion.section {...reveal} className="mt-20 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-7">
-          <div>
-            <p className="eyebrow mb-3">Roadmap</p>
-            <h2 className="font-serif text-3xl font-semibold leading-[1.05] tracking-tight text-foreground">
-              How we&apos;d improve it
-            </h2>
-          </div>
+          <SectionHeading eyebrow="Roadmap" title="How we'd improve it" />
           <p className="m-0 max-w-[30em] text-base leading-relaxed text-muted-foreground">
             Because every environment is a task in itself, the breadth and integrity of the golden set is the whole
             experiment. We&apos;re really measuring how well models build HUD tasks.
@@ -439,51 +402,21 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
         </div>
       </motion.section>
 
-      <div className="mt-10 flex flex-wrap items-center justify-end gap-4 font-mono text-[11.5px] uppercase tracking-[0.06em] text-muted-foreground">
-        <a
-          href="https://arxiv.org/pdf/2602.07342"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="transition hover:text-accent"
-        >
+      <div className="mt-10 flex flex-wrap items-center justify-end gap-5 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted-foreground">
+        <a href="https://arxiv.org/pdf/2602.07342" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent">
           Paper
         </a>
-        <a
-          href="https://github.com/Damon-GSY/SC-bench"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="transition hover:text-accent"
-        >
+        <a href="https://github.com/Damon-GSY/SC-bench" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent">
           SC-Bench code
         </a>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 // ---------------------------------------------------------------------------
 // Small presentational helpers
 // ---------------------------------------------------------------------------
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{label}</div>
-      <div className="text-sm font-semibold text-foreground">{value}</div>
-    </div>
-  );
-}
-
-function Callout({ symbol, children }: { symbol: string; children: React.ReactNode }) {
-  return (
-    <div className="mt-[18px] flex gap-3 rounded-lg border border-accent/30 bg-accent/10 px-4 py-3.5">
-      <span className="mt-px flex size-[18px] flex-none items-center justify-center rounded-full border-[1.5px] border-accent text-[11px] font-bold text-accent">
-        {symbol}
-      </span>
-      <p className="m-0 text-[13px] leading-[1.5] text-muted-foreground">{children}</p>
-    </div>
-  );
-}
 
 function DiagNode({
   pos,
@@ -517,13 +450,13 @@ function DiagNode({
 
 function NodeKicker({ children }: { children: React.ReactNode }) {
   return (
-    <div className="font-mono text-[8.5px] font-semibold uppercase leading-[1.4] tracking-[0.09em] text-muted-foreground">
+    <div className="font-mono text-[8.5px] font-medium uppercase leading-[1.4] tracking-[0.09em] text-muted-foreground">
       {children}
     </div>
   );
 }
 function NodeTitle({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`text-[13px] font-semibold leading-[1.25] text-foreground ${className}`}>{children}</div>;
+  return <div className={`text-[13px] font-medium leading-[1.25] text-foreground ${className}`}>{children}</div>;
 }
 function NodeSub({ children }: { children: React.ReactNode }) {
   return <div className="text-[10.5px] leading-[1.3] text-muted-foreground">{children}</div>;
@@ -545,14 +478,14 @@ function LeaderRow({
   last?: boolean;
 }) {
   return (
-    <div className={`flex items-center gap-4 border-t border-border/60 py-4 ${last ? "border-b" : ""}`}>
-      <span className="w-[34px] flex-none font-mono text-[12px] font-bold tracking-[0.04em] text-muted-foreground">
+    <div className={`flex items-center gap-4 border-t border-border py-4 ${last ? "border-b" : ""}`}>
+      <span className="readout w-[34px] flex-none text-[12px] font-medium tracking-[0.04em] text-muted-foreground">
         {rank}
       </span>
       <div className="min-w-0 flex-1">
         <div className="mb-[7px] flex items-baseline justify-between gap-3">
-          <span className="text-[13.5px] font-semibold text-foreground">{label}</span>
-          <span className="readout text-sm font-bold">{pct}%</span>
+          <span className="text-[13.5px] font-medium text-foreground">{label}</span>
+          <span className="readout text-sm font-medium">{pct}%</span>
         </div>
         <div className="h-2 rounded-sm border border-border bg-muted">
           <motion.div
@@ -578,22 +511,14 @@ function MiniNote({ label, children }: { label: string; children: React.ReactNod
   );
 }
 
-function MockBlock({
-  kind,
-  color,
-  children,
-}: {
-  kind: string;
-  color: string;
-  children: React.ReactNode;
-}) {
+function MockBlock({ kind, color, children }: { kind: string; color: string; children: React.ReactNode }) {
   return (
     <div
       className="flex items-start gap-3 rounded-md border border-border bg-card px-3 py-2.5"
-      style={{ borderLeft: `5px solid ${color}` }}
+      style={{ borderLeft: `4px solid ${color}` }}
     >
       <span
-        className="w-[88px] flex-none whitespace-nowrap font-mono text-[9.5px] font-bold uppercase leading-[1.5] tracking-[0.08em]"
+        className="w-[88px] flex-none whitespace-nowrap font-mono text-[9.5px] font-medium uppercase leading-[1.5] tracking-[0.08em]"
         style={{ color }}
       >
         {kind}
@@ -606,8 +531,8 @@ function MockBlock({
 function RoadmapCard({ n, title, children }: { n: string; title: string; children: React.ReactNode }) {
   return (
     <div className="card-surface p-6">
-      <div className="mb-3 font-mono text-[13px] font-bold text-accent">{n}</div>
-      <h3 className="mb-2 text-[17px] font-semibold text-foreground">{title}</h3>
+      <div className="readout mb-3 text-[13px] font-medium text-accent">{n}</div>
+      <h3 className="mb-2 font-serif text-lg font-medium text-foreground">{title}</h3>
       <p className="m-0 text-[13.5px] leading-[1.55] text-muted-foreground">{children}</p>
     </div>
   );
