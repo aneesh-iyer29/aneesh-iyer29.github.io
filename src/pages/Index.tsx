@@ -1,12 +1,5 @@
 import { useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import PageBackdrop from "@/components/PageBackdrop";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Experience from "@/components/Experience";
-import Projects from "@/components/Projects";
-import Skills from "@/components/Skills";
-import Contact from "@/components/Contact";
+import PageShell from "@/components/layout/PageShell";
 
 const Index = () => {
   // Anchor targets don't exist until React mounts, so honor an incoming
@@ -17,20 +10,11 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <PageBackdrop />
-      <div className="relative z-10">
-        <Navbar />
-        <main>
-          <Hero />
-          <About />
-          <Experience />
-          <Projects />
-          <Skills />
-          <Contact />
-        </main>
+    <PageShell>
+      <div className="mx-auto max-w-page px-6 pt-32">
+        <h1 className="display text-5xl">Aneesh Iyer</h1>
       </div>
-    </div>
+    </PageShell>
   );
 };
 

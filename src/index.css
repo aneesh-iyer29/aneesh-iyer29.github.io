@@ -1,274 +1,271 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------
+   Design tokens: a warm paper ground, graphite ink, and one burnt-orange
+   accent reserved for data, live state, and the current interaction.
+   The site reads like a well-typeset research page, not a dashboard.
+   ------------------------------------------------------------------ */
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
 
-    --background: 225 28% 10%;
-    --foreground: 220 25% 93%;
+    --background: 40 25% 98%;
+    --foreground: 222 20% 11%;
 
-    --card: 224 26% 13%;
-    --card-foreground: 220 25% 93%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 20% 11%;
 
-    --popover: 224 26% 13%;
-    --popover-foreground: 220 25% 93%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 20% 11%;
 
-    --primary: 220 25% 93%;
-    --primary-foreground: 225 28% 10%;
+    --primary: 222 20% 11%;
+    --primary-foreground: 40 25% 98%;
 
-    --secondary: 224 21% 17%;
-    --secondary-foreground: 220 25% 93%;
+    --secondary: 40 18% 94%;
+    --secondary-foreground: 222 20% 11%;
 
-    --muted: 224 21% 17%;
-    --muted-foreground: 222 15% 71%;
+    --muted: 40 18% 94%;
+    --muted-foreground: 222 10% 42%;
 
-    --accent: 24 95% 55%;
-    --accent-foreground: 225 28% 10%;
+    --accent: 20 88% 47%;
+    --accent-foreground: 40 25% 98%;
 
-    --destructive: 0 72% 55%;
+    --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 223 18% 23%;
-    --input: 223 18% 27%;
-    --ring: 24 95% 55%;
+    --border: 40 12% 87%;
+    --input: 40 12% 84%;
+    --ring: 20 88% 47%;
 
     --radius: 0.5rem;
-  }
-}
 
-@layer base {
+    /* Figure palette: a small, fixed set for charts and demos. */
+    --fig-1: 20 88% 47%;   /* accent: the estimate, the winner, the live thing */
+    --fig-2: 222 20% 11%;  /* ink: ground truth */
+    --fig-3: 222 10% 62%;  /* graphite: noisy measurements, baselines */
+    --fig-4: 200 60% 42%;  /* teal: a second series when needed */
+    --fig-grid: 222 12% 88%;
+  }
+
   * {
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01", "ss03", "calt";
     text-rendering: optimizeLegibility;
   }
 
-  html {
-    scroll-behavior: smooth;
+  h1, h2, h3, h4 {
+    text-wrap: balance;
   }
 
-  /* Anchored sections clear the fixed nav when scrolled to. */
+  p {
+    text-wrap: pretty;
+  }
+
   section[id] {
-    scroll-margin-top: 4.5rem;
+    scroll-margin-top: 5rem;
   }
 
   ::selection {
-    background: hsl(var(--accent) / 0.3);
+    background: hsl(var(--accent) / 0.18);
   }
 
-  a,
-  button {
+  a, button {
     -webkit-tap-highlight-color: transparent;
   }
 
   :focus-visible {
     outline: 2px solid hsl(var(--ring));
-    outline-offset: 2px;
-  }
-}
-
-@layer utilities {
-  .section-label {
-    @apply text-xs font-mono tracking-[0.2em] uppercase text-muted-foreground;
-  }
-
-  .eyebrow {
-    @apply text-[0.7rem] font-mono font-medium tracking-[0.18em] uppercase text-muted-foreground;
-  }
-
-  .heading-serif {
-    font-family: 'IBM Plex Serif', serif;
-  }
-
-  /* Liquid glass material: blurs the backdrop, catches light on the top
-     edge, and casts a shadow scaled for the busy photographic background. */
-  .glass {
-    background: hsl(var(--card) / 0.55);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid hsl(var(--foreground) / 0.09);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.07),
-      0 8px 32px hsl(225 40% 4% / 0.35);
-  }
-  @media (prefers-reduced-transparency: reduce) {
-    .glass {
-      background: hsl(var(--card));
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-  }
-  @media (prefers-contrast: more) {
-    .glass {
-      background: hsl(var(--card));
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border-color: hsl(var(--foreground) / 0.4);
-    }
-  }
-
-  .card-surface {
-    @apply glass rounded-2xl;
-  }
-
-  .card-surface-hover {
-    @apply glass rounded-2xl transition-colors duration-200;
-  }
-  .card-surface-hover:hover {
-    border-color: hsl(var(--foreground) / 0.22);
-  }
-
-  /* Capsule controls: Apple's shape language for tappable things. */
-  .btn-primary {
-    @apply press inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90;
-  }
-  .btn-glass {
-    @apply press glass inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-foreground transition-colors;
-  }
-  .btn-glass:hover {
-    background: hsl(var(--secondary) / 0.8);
-  }
-  .btn-compact {
-    @apply px-4 py-2;
-  }
-
-  /* Floating glass capsule for the scrolled nav; content passes beneath it.
-     No hard divider: the material's own edge and shadow do the separating. */
-  .nav-capsule {
-    background: hsl(var(--background) / 0.65);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid hsl(var(--foreground) / 0.1);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.08),
-      0 8px 24px hsl(225 40% 4% / 0.4);
-  }
-  @media (prefers-reduced-transparency: reduce) {
-    .nav-capsule {
-      background: hsl(var(--background));
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-  }
-  @media (prefers-contrast: more) {
-    .nav-capsule {
-      background: hsl(var(--background));
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border-color: hsl(var(--foreground) / 0.4);
-    }
-  }
-
-  /* Bigger surfaces read as thicker material: the mobile sheet gets a
-     heavier fill and stronger blur so content can't bleed through it. */
-  .nav-sheet {
-    background: hsl(var(--background) / 0.92);
-    backdrop-filter: blur(32px) saturate(180%);
-    -webkit-backdrop-filter: blur(32px) saturate(180%);
-    border: 1px solid hsl(var(--foreground) / 0.1);
-    box-shadow:
-      inset 0 1px 0 hsl(0 0% 100% / 0.08),
-      0 16px 48px hsl(225 40% 4% / 0.5);
-  }
-  @media (prefers-reduced-transparency: reduce) {
-    .nav-sheet {
-      background: hsl(var(--background));
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-    }
-  }
-
-  /* Display type wants tighter tracking than any fixed utility gives it. */
-  .display-tracking {
-    letter-spacing: -0.035em;
-  }
-
-  /* Instant press feedback on tap targets, on pointer-down not release. */
-  .press {
-    transition: transform 100ms ease-out;
-  }
-  .press:active {
-    transform: scale(0.97);
-  }
-
-  /* Nav links get a sliding accent underline. */
-  .nav-link {
-    position: relative;
-  }
-  .nav-link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -5px;
-    height: 1px;
-    background: hsl(var(--accent));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .nav-link:hover::after,
-  .nav-link:focus-visible::after {
-    transform: scaleX(1);
-  }
-
-  /* Quiet capsule chips: fills, not outlines, so chip walls stay calm. */
-  .tag {
-    @apply text-xs font-mono px-3 py-1 rounded-full text-muted-foreground transition-colors duration-300;
-    background: hsl(var(--foreground) / 0.06);
-    border: 1px solid hsl(var(--foreground) / 0.07);
-  }
-  .tag:hover {
-    @apply text-foreground;
-    border-color: hsl(var(--accent) / 0.4);
-  }
-
-  .tag-accent {
-    @apply text-xs font-mono px-3 py-1 rounded-full bg-accent/10 text-accent;
-  }
-
-  /* Tabular figures for readout stats */
-  .readout {
-    @apply font-mono tabular-nums;
-  }
-
-  /* One quiet page-load reveal for the hero content. */
-  .fade-up {
-    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  @keyframes fade-up {
-    from {
-      opacity: 0;
-      transform: translateY(16px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
-    .fade-up {
-      animation: none;
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
     }
-    .nav-link::after {
-      transition: none;
-    }
-    .press {
-      transition: none;
-    }
-    .press:active {
-      transform: none;
-    }
+  }
+}
+
+@layer utilities {
+  /* Small caps labels used as section eyebrows and figure kickers. */
+  .eyebrow {
+    @apply font-mono text-[0.7rem] font-medium uppercase tracking-[0.16em] text-muted-foreground;
+  }
+  .section-label {
+    @apply eyebrow;
+  }
+
+  /* Display type: the serif at large sizes wants tighter tracking and
+     optical sizing turned on. */
+  .display {
+    @apply font-serif font-medium tracking-[-0.02em];
+    font-variation-settings: "opsz" 72;
+  }
+  .display-tracking {
+    letter-spacing: -0.02em;
+  }
+  .heading-serif {
+    @apply font-serif;
+  }
+
+  /* Tabular figures for anything numeric. */
+  .readout {
+    @apply font-mono tabular-nums;
+  }
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Surfaces. A hairline border and a paper-white fill; shadows are for
+     things that float (nav, menus), not for cards. */
+  .card-surface {
+    @apply rounded-lg border border-border bg-card;
+  }
+  .card-surface-hover {
+    @apply card-surface transition-colors duration-200;
+  }
+  .card-surface-hover:hover {
+    border-color: hsl(var(--foreground) / 0.3);
+  }
+  .glass {
+    @apply rounded-lg border border-border bg-card;
+  }
+
+  /* Figure frames: dot-grid paper behind every interactive demo so the
+     demos read as figures in a paper, not widgets on a dashboard. */
+  .figure-frame {
+    @apply relative overflow-hidden rounded-lg border border-border bg-card;
+  }
+  .dot-grid {
+    background-image: radial-gradient(hsl(var(--foreground) / 0.12) 0.8px, transparent 0.8px);
+    background-size: 16px 16px;
+  }
+
+  /* Buttons. */
+  .btn {
+    @apply press inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-primary-foreground hover:bg-primary/85;
+  }
+  .btn-secondary {
+    @apply btn border border-border bg-card text-foreground hover:border-foreground/40;
+  }
+  .btn-ghost {
+    @apply btn text-foreground hover:bg-secondary;
+  }
+  .btn-glass {
+    @apply btn-secondary;
+  }
+  .btn-compact {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  /* Chips. */
+  .tag {
+    @apply inline-flex items-center rounded-md border border-border bg-secondary/60 px-2 py-0.5 font-mono text-[0.7rem] text-muted-foreground transition-colors;
+  }
+  .tag:hover {
+    @apply text-foreground;
+    border-color: hsl(var(--foreground) / 0.3);
+  }
+  .tag-accent {
+    @apply inline-flex items-center rounded-md border border-accent/30 bg-accent/[0.07] px-2 py-0.5 font-mono text-[0.7rem] text-accent;
+  }
+
+  /* Links inside prose: a hairline underline that darkens on hover. */
+  .link {
+    @apply text-foreground underline decoration-foreground/30 underline-offset-[3px] transition-colors hover:decoration-accent;
+  }
+  .link-accent {
+    @apply text-accent underline decoration-accent/40 underline-offset-[3px] transition-colors hover:decoration-accent;
+  }
+
+  /* Nav link with a sliding underline. */
+  .nav-link {
+    @apply relative text-sm text-muted-foreground transition-colors hover:text-foreground;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1px;
+    background: hsl(var(--foreground));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current="true"]::after {
+    transform: scaleX(1);
+  }
+
+  /* Floating nav material. */
+  .nav-material {
+    background: hsl(var(--background) / 0.82);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .nav-capsule {
+    @apply nav-material;
+  }
+  .nav-sheet {
+    @apply bg-background border border-border shadow-lg;
+  }
+
+  /* Press feedback on pointer-down. */
+  .press {
+    transition: transform 100ms ease-out;
+  }
+  .press:active {
+    transform: scale(0.98);
+  }
+
+  /* Hairline rules with a small figure-style label on the left. */
+  .rule {
+    @apply h-px w-full bg-border;
+  }
+
+  /* Legacy names kept so older deep-dive pages render. */
+  .fade-up {
+    @apply animate-fade-up;
+  }
+  .decor-flow {
+    stroke-dasharray: 5 7;
+    animation: dash-flow 1.2s linear infinite;
+  }
+
+  /* Range inputs used by the demos. */
+  .range {
+    @apply h-1 w-full cursor-pointer appearance-none rounded-full bg-border;
+  }
+  .range::-webkit-slider-thumb {
+    @apply h-3.5 w-3.5 appearance-none rounded-full border-2 border-background bg-foreground shadow;
+    -webkit-appearance: none;
+  }
+  .range::-moz-range-thumb {
+    @apply h-3.5 w-3.5 rounded-full border-2 border-background bg-foreground shadow;
+  }
+  .range:focus-visible {
+    outline-offset: 6px;
   }
 }
