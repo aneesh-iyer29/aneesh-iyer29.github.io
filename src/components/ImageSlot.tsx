@@ -12,26 +12,23 @@ interface ImageSlotProps {
 const ImageSlot = ({ label, caption, src, alt, ratio = "16 / 10", address }: ImageSlotProps) => {
   return (
     <figure className="my-8">
-      <div className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+      <div className="overflow-hidden rounded-lg border border-border bg-card">
         {address && (
-          <div className="flex items-center gap-1.5 border-b border-border bg-secondary/60 px-4 py-2.5">
-            <span className="size-2.5 rounded-full bg-foreground/10" />
-            <span className="size-2.5 rounded-full bg-foreground/10" />
-            <span className="size-2.5 rounded-full bg-foreground/10" />
-            <span className="ml-3 truncate font-mono text-[0.65rem] text-muted-foreground">{address}</span>
+          <div className="flex items-center gap-1.5 border-b border-border bg-secondary px-3.5 py-2">
+            <span aria-hidden="true" className="size-2 rounded-full border border-border bg-card" />
+            <span aria-hidden="true" className="size-2 rounded-full border border-border bg-card" />
+            <span aria-hidden="true" className="size-2 rounded-full border border-border bg-card" />
+            <span className="ml-3 flex-1 truncate rounded-sm border border-border bg-card px-2 py-0.5 font-mono text-[0.65rem] text-muted-foreground">
+              {address}
+            </span>
           </div>
         )}
         {src ? (
-          <img src={src} alt={alt ?? caption} className="block w-full" />
+          <img src={src} alt={alt ?? caption} className="block w-full" loading="lazy" />
         ) : (
           <div
-            className="grid place-items-center bg-secondary px-6 text-center"
-            style={{
-              aspectRatio: ratio,
-              backgroundImage:
-                "linear-gradient(hsl(var(--foreground) / 0.04) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground) / 0.04) 1px, transparent 1px)",
-              backgroundSize: "28px 28px",
-            }}
+            className="dot-grid grid place-items-center bg-card px-6 text-center"
+            style={{ aspectRatio: ratio }}
           >
             <div>
               <div className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-accent">{label}</div>
@@ -42,7 +39,13 @@ const ImageSlot = ({ label, caption, src, alt, ratio = "16 / 10", address }: Ima
           </div>
         )}
       </div>
-      <figcaption className="mt-2.5 text-sm leading-relaxed text-muted-foreground">{caption}</figcaption>
+      <figcaption className="mt-3 text-xs leading-relaxed text-muted-foreground">
+        <span className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-foreground">{label}</span>
+        <span aria-hidden="true" className="mx-2 text-border">
+          |
+        </span>
+        {caption}
+      </figcaption>
     </figure>
   );
 };

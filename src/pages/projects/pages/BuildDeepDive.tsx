@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { ProjectDetailBodyProps } from "@/pages/projects/types";
 import ImageSlot from "@/components/ImageSlot";
+import { P, SectionHeading, Step, Strong } from "@/components/casestudy";
 import buildCanvas from "@/assets/build-canvas.png";
 import buildRunTrain from "@/assets/build-run-train.png";
 
@@ -11,32 +12,18 @@ const BLOCKS = [
   { name: "Train", body: "How the policy learns. Left on auto, a model picks a fitting RL framework for the environment you built." },
 ];
 
-function Step({ n, title, children }: { n: string; title: string; children: React.ReactNode }) {
-  return (
-    <div className="border-t border-border pt-10">
-      <div className="flex items-baseline gap-4">
-        <span className="font-mono text-sm font-semibold text-accent">{n}</span>
-        <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-foreground">{title}</h2>
-      </div>
-      <div className="mt-4">{children}</div>
-    </div>
-  );
-}
-
-function P({ children }: { children: React.ReactNode }) {
-  return <p className="mt-4 text-base leading-relaxed text-muted-foreground first:mt-0">{children}</p>;
-}
+const reveal = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] },
+};
 
 export function BuildDeepDive(_props: ProjectDetailBodyProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.08 }}
-      className="max-w-4xl"
-    >
-      <div className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/[0.06] px-4 py-2 text-sm font-medium text-foreground">
-        <span className="font-mono text-xs text-accent">🏆</span>
+    <div className="max-w-[52rem]">
+      <div className="tag-accent gap-2 px-3 py-1.5 text-xs normal-case tracking-normal">
+        <span aria-hidden="true">🏆</span>
         1st place of 70 teams at the HUD × Y Combinator Frontier/RSI RL Environments Hackathon
       </div>
 
@@ -55,34 +42,25 @@ export function BuildDeepDive(_props: ProjectDetailBodyProps) {
           code, but no one has to touch it.
         </P>
         <P>
-          We built and demoed Build end to end at the hackathon, taking{" "}
-          <strong className="text-foreground">first place out of 70 teams</strong> with over $50K in prizes and
-          credits on the line. The platform is open source.
+          We built and demoed Build end to end at the hackathon, taking <Strong>first place out of 70 teams</Strong>{" "}
+          with over $50K in prizes and credits on the line. The platform is open source.
         </P>
       </section>
 
-      <section className="mt-12">
-        <p className="eyebrow">The building blocks</p>
-        <h2 className="mt-3 font-serif text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
-          Four blocks, nested to any depth
-        </h2>
-        <div className="mt-7 grid gap-4 sm:grid-cols-2">
+      <motion.section {...reveal} className="mt-16">
+        <SectionHeading eyebrow="The building blocks" title="Four blocks, nested to any depth" />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2">
           {BLOCKS.map((b) => (
             <div key={b.name} className="card-surface p-6">
-              <h3 className="font-serif text-lg font-semibold text-foreground">{b.name}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
+              <h3 className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-foreground">{b.name}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mt-16 flex flex-col gap-12">
-        <div>
-          <p className="eyebrow">How it works</p>
-          <h2 className="mt-3 font-serif text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
-            From blank canvas to a trained policy
-          </h2>
-        </div>
+      <motion.section {...reveal} className="mt-20 flex flex-col gap-10">
+        <SectionHeading eyebrow="How it works" title="From blank canvas to a trained policy" size="lg" />
 
         <Step n="01" title="Start from a template or a blank canvas">
           <P>
@@ -125,11 +103,10 @@ export function BuildDeepDive(_props: ProjectDetailBodyProps) {
         <Step n="05" title="Run a baseline, then train">
           <P>
             With the environment live, run every task on HUD across a spanning set of models, a few attempts each. The
-            results tell you whether the environment is any good:{" "}
-            <strong className="text-foreground">solvable</strong> (a strong model can actually do it) and{" "}
-            <strong className="text-foreground">discriminating</strong> (it separates weak models from strong ones).
-            Once it's both, fork a base model from the same screen and start an RL run against the reward you
-            described in blocks, closing the loop from a plain-language idea to a measurably better model.
+            results tell you whether the environment is any good: <Strong>solvable</Strong> (a strong model can
+            actually do it) and <Strong>discriminating</Strong> (it separates weak models from strong ones). Once it's
+            both, fork a base model from the same screen and start an RL run against the reward you described in
+            blocks, closing the loop from a plain-language idea to a measurably better model.
           </P>
           <ImageSlot
             src={buildRunTrain}
@@ -138,34 +115,26 @@ export function BuildDeepDive(_props: ProjectDetailBodyProps) {
             caption="From one screen: launch a run of every task in the deployed taskset on HUD across several models, then fork a base model (qwen3-14b) into a trainable one and start an RL run on the tasks you defined. Rollouts and inference both route through HUD."
           />
         </Step>
-      </section>
+      </motion.section>
 
-      <section className="mt-16 card-surface p-8 sm:p-10">
-        <p className="eyebrow">Under the hood</p>
-        <h2 className="mt-3 font-serif text-xl md:text-2xl font-semibold tracking-tight text-foreground">
-          Blocks become a canonical spec, then real code
-        </h2>
-        <P>
+      <motion.section {...reveal} className="card-surface mt-20 p-7 sm:p-9">
+        <SectionHeading eyebrow="Under the hood" title="Blocks become a canonical spec, then real code" />
+        <P className="mt-5">
           Every block tree projects into a normalized intermediate representation: the canonical description of the
           environment. That representation is what gets checked, compiled to HUD SDK code, and deployed. Because the
           spec is consistent and human-readable, the same environment is auditable by a person and buildable by a
           machine, with nothing lost in translation.
         </P>
-      </section>
+      </motion.section>
 
-      <section className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-border pt-10">
-        <h2 className="font-serif text-2xl md:text-3xl font-semibold tracking-tight text-foreground max-w-[16em]">
+      <section className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-border pt-10">
+        <h2 className="display max-w-[16em] text-2xl leading-[1.15] text-foreground md:text-3xl">
           Build an environment without writing code.
         </h2>
-        <a
-          href="https://build.transpiralabs.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
-        >
-          Try Build →
+        <a href="https://build.transpiralabs.com" target="_blank" rel="noopener noreferrer" className="btn-primary">
+          Try Build <span aria-hidden="true">→</span>
         </a>
       </section>
-    </motion.div>
+    </div>
   );
 }
