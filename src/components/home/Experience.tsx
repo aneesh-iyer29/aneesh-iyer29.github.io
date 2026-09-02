@@ -38,7 +38,7 @@ const Experience = () => (
               <ul className="mt-4 space-y-2">
                 {job.bullets.map((b) => (
                   <li key={b} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
-                    <span className="mt-[0.6rem] h-px w-3 shrink-0 bg-accent" aria-hidden="true" />
+                    <span className="mt-[9px] h-[1.5px] w-3 shrink-0 bg-accent" aria-hidden="true" />
                     {b}
                   </li>
                 ))}

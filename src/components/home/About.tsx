@@ -52,7 +52,7 @@ const About = () => (
               {education.inProgress.map((c) => (
                 <li key={c} className="flex items-center gap-2">
                   {c}
-                  <span className="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-accent">in progress</span>
+                  <span className="shrink-0 whitespace-nowrap font-mono text-[0.6rem] uppercase tracking-[0.12em] text-accent">in progress</span>
                 </li>
               ))}
             </ul>

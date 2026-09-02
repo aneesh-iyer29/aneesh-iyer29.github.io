@@ -68,7 +68,7 @@ const Hero = () => {
       <div className="mx-auto max-w-page px-6 pb-20">
         <dl className="grid grid-cols-2 gap-x-8 gap-y-8 border-t border-border pt-8 md:grid-cols-4">
           {stats.map((s, i) => (
-            <motion.div key={s.label} {...rise(0.4 + i * 0.06)}>
+            <motion.div key={s.label} {...rise(0.4 + i * 0.06)} className="flex flex-col">
               <dt className="order-2 mt-1.5 text-xs leading-relaxed text-muted-foreground">{s.label}</dt>
               <dd className="flex items-baseline gap-2">
                 <CountUp value={s.value} className="display text-3xl text-foreground md:text-4xl" />

@@ -48,7 +48,7 @@ const Work = () => (
               <ul className="mt-5 space-y-2">
                 {p.highlights.slice(0, 2).map((h) => (
                   <li key={h} className="flex gap-3 text-sm leading-relaxed text-muted-foreground">
-                    <span className="mt-[0.6rem] h-px w-3 shrink-0 bg-foreground/40" aria-hidden="true" />
+                    <span className="mt-[9px] h-[1.5px] w-3 shrink-0 bg-foreground/40" aria-hidden="true" />
                     {h}
                   </li>
                 ))}
