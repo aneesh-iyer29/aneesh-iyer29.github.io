@@ -324,38 +324,40 @@ const BuildCanvas = ({ interactive = true, compact = false, className = "" }: De
           <span className="eyebrow text-[0.62rem]">compiled · v1 blocks</span>
           <span className="font-mono text-[0.6rem] text-muted-foreground">toV1Blocks(toIR(doc))</span>
         </div>
-        <motion.div
-          className={`relative min-w-0 rounded-md border border-border bg-card ${compact ? "max-h-[21rem] overflow-hidden" : "max-h-[26rem] overflow-auto md:h-full md:max-h-none"}`}
-          initial={false}
-          animate={{ opacity: drawn ? 1 : 0 }}
-          transition={{ duration: reduce ? 0 : 0.5, delay: reduce || !drawn ? 0 : 0.4 }}
-        >
-          <pre className="whitespace-pre-wrap break-words px-3.5 py-3 font-mono text-[0.64rem] leading-[1.6] text-foreground">
-            {"[\n"}
-            {compiled.map((c, i) => {
-              const lit = active === c.source;
-              const dim = active !== null && !lit;
-              const handlers = interactive ? { onMouseEnter: () => setActive(c.source), onMouseLeave: () => setActive(null) } : {};
-              return (
-                <span
-                  key={c.source}
-                  id={`${uid}-${c.source}`}
-                  className={`block rounded-sm transition-colors ${lit ? "bg-accent/10" : ""} ${dim ? "text-muted-foreground" : ""}`}
-                  {...handlers}
-                >
-                  {JSON.stringify(c.v1, null, 2)
-                    .split("\n")
-                    .map((line) => `  ${line}`)
-                    .join("\n")}
-                  {i < compiled.length - 1 ? "," : ""}
-                  {"\n"}
-                </span>
-              );
-            })}
-            {"]"}
-          </pre>
-          {compact && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent" aria-hidden="true" />}
-        </motion.div>
+        <div className={compact ? "relative min-h-[18rem] flex-1 md:min-h-0" : "flex-1"}>
+          <motion.div
+            className={`min-w-0 rounded-md border border-border bg-card ${compact ? "absolute inset-0 overflow-hidden" : "relative max-h-[26rem] overflow-auto md:h-full md:max-h-none"}`}
+            initial={false}
+            animate={{ opacity: drawn ? 1 : 0 }}
+            transition={{ duration: reduce ? 0 : 0.5, delay: reduce || !drawn ? 0 : 0.4 }}
+          >
+            <pre className="whitespace-pre-wrap break-words px-3.5 py-3 font-mono text-[0.64rem] leading-[1.6] text-foreground">
+              {"[\n"}
+              {compiled.map((c, i) => {
+                const lit = active === c.source;
+                const dim = active !== null && !lit;
+                const handlers = interactive ? { onMouseEnter: () => setActive(c.source), onMouseLeave: () => setActive(null) } : {};
+                return (
+                  <span
+                    key={c.source}
+                    id={`${uid}-${c.source}`}
+                    className={`block rounded-sm transition-colors ${lit ? "bg-accent/10" : ""} ${dim ? "text-muted-foreground" : ""}`}
+                    {...handlers}
+                  >
+                    {JSON.stringify(c.v1, null, 2)
+                      .split("\n")
+                      .map((line) => `  ${line}`)
+                      .join("\n")}
+                    {i < compiled.length - 1 ? "," : ""}
+                    {"\n"}
+                  </span>
+                );
+              })}
+              {"]"}
+            </pre>
+            {compact && <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent" aria-hidden="true" />}
+          </motion.div>
+        </div>
         {interactive && <p className="font-mono text-[0.6rem] text-muted-foreground">Hover or focus a block to trace it to the object it compiles into.</p>}
       </div>
     </div>
