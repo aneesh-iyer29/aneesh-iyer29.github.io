@@ -7,11 +7,12 @@ interface ImageSlotProps {
   alt?: string;
   ratio?: string;
   address?: string;
+  className?: string;
 }
 
-const ImageSlot = ({ label, caption, src, alt, ratio = "16 / 10", address }: ImageSlotProps) => {
+const ImageSlot = ({ label, caption, src, alt, ratio = "16 / 10", address, className = "my-8" }: ImageSlotProps) => {
   return (
-    <figure className="my-8">
+    <figure className={className}>
       <div className="overflow-hidden rounded-lg border border-border bg-card">
         {address && (
           <div className="flex items-center gap-1.5 border-b border-border bg-secondary px-3.5 py-2">
