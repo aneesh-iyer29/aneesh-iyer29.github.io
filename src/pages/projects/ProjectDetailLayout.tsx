@@ -5,7 +5,7 @@ import type { PropsWithChildren } from "react";
 import PageShell from "@/components/layout/PageShell";
 import { ImgFigure } from "@/components/casestudy";
 import { projects, type ProjectItem, type ProjectLink } from "@/data/projects";
-import { heroCaptions, heroNotes } from "@/pages/projects/heroCaptions";
+import { heroCaptions, heroInset, heroNotes } from "@/pages/projects/heroCaptions";
 
 const linkIcons: Record<ProjectLink["label"], typeof Github> = {
   Code: Github,
@@ -78,6 +78,7 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
             label="Fig. 1"
             note={note}
             caption={caption}
+            inset={heroInset.has(project.slug)}
             loading="eager"
             className="mt-12"
           />

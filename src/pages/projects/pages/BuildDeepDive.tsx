@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import type { ProjectDetailBodyProps } from "@/pages/projects/types";
 import ImageSlot from "@/components/ImageSlot";
 import { P, SectionHeading, Step, Strong } from "@/components/casestudy";
-import buildCanvas from "@/assets/build-canvas.png";
 import buildRunTrain from "@/assets/build-run-train.png";
 
 const BLOCKS = [
@@ -27,14 +26,10 @@ export function BuildDeepDive(_props: ProjectDetailBodyProps) {
         1st place of 70 teams at the HUD × Y Combinator Frontier/RSI RL Environments Hackathon
       </div>
 
-      <ImageSlot
-        src={buildCanvas}
-        address="build.transpiralabs.com"
-        label="Canvas overview"
-        caption="An environment open on the Build canvas: here, SupChain-Bench. The block tray sits on the left; on the right, an Environment block, a Taskset of Tasks (each with a Question and a Scoring group of Good and Bad answers), and a column of Tool blocks, every one describing its goal, inputs, and outputs in plain language."
-      />
+      {/* The canvas overview screenshot (build-canvas.png) is this project's
+          hero figure, shown once in the page header with its full caption. */}
 
-      <section>
+      <section className="mt-8">
         <P>
           A good RL environment is hard to write and easy to get subtly wrong. Build turns authoring into something
           you can see and reason about: every part of the environment is a labelled block, and the whole thing reads

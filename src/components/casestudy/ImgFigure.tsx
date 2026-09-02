@@ -8,6 +8,8 @@ interface ImgFigureProps {
   label?: string;
   /** Optional right-aligned mono note beside the label. */
   note?: string;
+  /** Show the image at its natural size, centred on dot-grid paper, instead of stretching it to the frame. */
+  inset?: boolean;
   className?: string;
   imgClassName?: string;
   loading?: "lazy" | "eager";
@@ -20,10 +22,19 @@ export function ImgFigure({
   caption,
   label,
   note,
+  inset = false,
   className = "",
   imgClassName = "",
   loading = "lazy",
 }: ImgFigureProps) {
+  const img = (
+    <img
+      src={src}
+      alt={alt}
+      className={inset ? `mx-auto block h-auto w-auto max-w-full rounded-md ${imgClassName}` : `block h-auto w-full ${imgClassName}`}
+      loading={loading}
+    />
+  );
   return (
     <figure className={`figure-frame ${className}`}>
       {label || note ? (
@@ -34,7 +45,7 @@ export function ImgFigure({
           ) : null}
         </div>
       ) : null}
-      <img src={src} alt={alt} className={`block h-auto w-full ${imgClassName}`} loading={loading} />
+      {inset ? <div className="dot-grid p-6 sm:p-10">{img}</div> : img}
       {caption ? (
         <figcaption className="border-t border-border px-4 py-3 text-xs leading-relaxed text-muted-foreground">
           {caption}
