@@ -39,25 +39,36 @@ const Nav = () => {
     };
   }, []);
 
+  // Track the section whose top has passed 40% of the viewport. Hero
+  // (no section) leaves every link unmarked.
   useEffect(() => {
     if (!onHome) {
       setActive(null);
       return;
     }
     const ids = links.map((l) => l.href.split("#")[1]);
-    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    if (!sections.length) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id);
-      },
-      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.2, 0.5] },
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+    let raf: number | null = null;
+    const update = () => {
+      raf = null;
+      const line = window.innerHeight * 0.4;
+      let current: string | null = null;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) current = id;
+      }
+      setActive(current);
+    };
+    const onScroll = () => {
+      if (raf === null) raf = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf !== null) window.cancelAnimationFrame(raf);
+    };
   }, [onHome, location.key]);
 
   useEffect(() => {
