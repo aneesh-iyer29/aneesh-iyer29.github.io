@@ -242,10 +242,10 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             <div
               className="absolute flex flex-col justify-center rounded-md border px-4"
               style={{
-                left: "25%",
-                top: "73.864%",
-                width: "50%",
-                height: "10.682%",
+                left: "9%",
+                top: "73.4%",
+                width: "82%",
+                height: "11.6%",
                 background: "hsl(var(--accent) / 0.08)",
                 borderWidth: 1.5,
                 borderColor: ACCENT,
