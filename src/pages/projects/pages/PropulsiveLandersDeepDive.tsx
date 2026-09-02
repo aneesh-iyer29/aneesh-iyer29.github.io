@@ -35,7 +35,7 @@ fn nominal_prediction(&self, state: &Array1<f64>, imu: &[f64], dt: f64) -> Array
 
 export function PropulsiveLandersDeepDive({ project }: ProjectDetailBodyProps) {
   return (
-    <div className="max-w-[52rem]">
+    <div>
       <section>
         <SectionHeading eyebrow="Key notes" title="How the filter is built" />
         <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-12">

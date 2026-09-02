@@ -39,7 +39,7 @@ function FigureExplanation({ children }: { children: React.ReactNode }) {
 
 export function M3DeepDive({ project }: ProjectDetailBodyProps) {
   return (
-    <div className="max-w-[52rem]">
+    <div>
       <section>
         <p className="eyebrow mb-4">Deep dive</p>
         <P>

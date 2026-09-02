@@ -45,7 +45,7 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
         initial={reduce ? { opacity: 1 } : { opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-auto max-w-page px-6 pb-24 pt-28 md:pt-32"
+        className="mx-auto max-w-[60rem] px-6 pb-24 pt-28 md:pt-32"
       >
         <Link
           to="/#work"
@@ -54,7 +54,7 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
           <ArrowLeft size={13} aria-hidden="true" /> All work
         </Link>
 
-        <header className="mt-10 max-w-[52rem]">
+        <header className="mt-10">
           <p className="eyebrow">{project.category}</p>
           <h1 className="display mt-4 text-4xl leading-[1.05] text-foreground md:text-5xl">{project.title}</h1>
 
