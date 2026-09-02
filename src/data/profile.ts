@@ -5,7 +5,7 @@ export const profile = {
   name: "Aneesh Iyer",
   headline: "Software engineer working on RL environments, evals, and benchmarks for frontier LLMs.",
   positioning:
-    "Most recently a software engineer at Transpira Labs, where I built the task-authoring platform and validation suites behind frontier AI training data. I also lead guidance, navigation, and control software for a self-landing rocket at Georgia Tech.",
+    "Most recently a software engineer at Transpira Labs, where I built the task-authoring platform and validation suites behind frontier AI training data. I also help lead guidance, navigation, and control software for a self-landing rocket at Georgia Tech.",
   seeking: "Seeking Summer 2027 SWE and ML infrastructure internships",
   location: "Atlanta, GA",
   email: "aiyer@gatech.edu",

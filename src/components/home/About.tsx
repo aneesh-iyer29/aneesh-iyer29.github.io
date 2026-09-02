@@ -21,7 +21,7 @@ const About = () => (
             directed eight engineers delivering RL environments and adversarial evaluations for LLM agents.
           </p>
           <p>
-            On <span className="font-medium text-foreground">GT Propulsive Landers</span> I lead the guidance, navigation,
+            On <span className="font-medium text-foreground">GT Propulsive Landers</span> I help lead the guidance, navigation,
             and control subteam and write the estimation software for a self-landing rocket. The thread through all of
             it is the same: benchmarks with deterministic rewards, estimators checked against ground truth, and models
             judged on held-out tasks. It started with the{" "}
