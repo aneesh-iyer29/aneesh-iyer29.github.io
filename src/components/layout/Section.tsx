@@ -6,7 +6,7 @@ interface SectionProps {
   /** Running index rendered like a paper section number, e.g. "01". */
   index: string;
   eyebrow: string;
-  title: ReactNode;
+  title?: ReactNode;
   lede?: ReactNode;
   className?: string;
 }
@@ -22,10 +22,12 @@ const Section = ({ id, index, eyebrow, title, lede, className = "", children }: 
             <span className="text-accent">{index}</span>
             {eyebrow}
           </p>
-          <div>
-            <h2 className="display text-3xl md:text-4xl">{title}</h2>
-            {lede ? <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">{lede}</p> : null}
-          </div>
+          {title || lede ? (
+            <div>
+              {title ? <h2 className="display text-3xl md:text-4xl">{title}</h2> : null}
+              {lede ? <p className={`${title ? "mt-4" : ""} max-w-prose text-base leading-relaxed text-muted-foreground`}>{lede}</p> : null}
+            </div>
+          ) : null}
         </div>
       </Reveal>
       {children}

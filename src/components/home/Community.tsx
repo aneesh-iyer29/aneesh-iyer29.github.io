@@ -10,7 +10,6 @@ const Community = () => (
     index="04"
     eyebrow="Community"
     title="Teaching and Science Olympiad."
-    lede="Six years competing, then giving back: maintaining the platform a thousand coaches use and writing the tests students sit."
   >
     <div className="grid gap-6 md:grid-cols-2">
       {volunteering.map((v, i) => (
