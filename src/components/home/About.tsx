@@ -32,27 +32,22 @@ const About = () => (
           </p>
         </div>
 
-        <div className="mt-10 border-t border-border pt-8">
-          <div>
-            <p className="eyebrow">Education</p>
-            <p className="mt-3 font-medium text-foreground">{education.school}</p>
-            <p className="text-sm text-muted-foreground">{education.degree}</p>
-            <p className="text-sm text-muted-foreground">{education.threads}</p>
-            <p className="mt-2 font-mono text-xs text-muted-foreground">
-              GPA <span className="readout text-foreground">{education.gpa}</span> · Expected{" "}
-              <span className="text-foreground">{education.graduation}</span>
-            </p>
-          </div>
-        </div>
       </Reveal>
 
       <Reveal delay={0.1} className="lg:col-span-3">
         <figure className="figure-frame max-w-[16rem] lg:max-w-none">
-          <div className="aspect-[4/5] overflow-hidden">
-            <img src={aneeshPhoto} alt="Aneesh Iyer" className="h-full w-full object-cover object-top" loading="lazy" />
+          <div className="aspect-square overflow-hidden">
+            <img src={aneeshPhoto} alt="Aneesh Iyer" className="h-full w-full object-cover object-[center_15%]" loading="lazy" />
           </div>
-          <figcaption className="border-t border-border px-4 py-3 font-mono text-[0.68rem] text-muted-foreground">
-            Atlanta, GA
+          <figcaption className="border-t border-border px-4 py-3">
+            <p className="eyebrow">Education</p>
+            <p className="mt-2 text-sm font-medium text-foreground">{education.school}</p>
+            <p className="text-xs text-muted-foreground">{education.degree}</p>
+            <p className="text-xs text-muted-foreground">{education.threads}</p>
+            <p className="mt-2 font-mono text-[0.68rem] text-muted-foreground">
+              GPA <span className="readout text-foreground">{education.gpa}</span> · Expected{" "}
+              <span className="text-foreground">{education.graduation}</span>
+            </p>
           </figcaption>
         </figure>
       </Reveal>
