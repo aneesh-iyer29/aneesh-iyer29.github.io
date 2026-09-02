@@ -10,8 +10,14 @@ const ProjectDetail = () => {
   const { slug } = useParams();
   const project = getProjectBySlug(slug);
 
+  // Open each project at the top, without animating up through the
+  // previous page's scroll position.
   useEffect(() => {
+    const html = document.documentElement;
+    const prev = html.style.scrollBehavior;
+    html.style.scrollBehavior = "auto";
     window.scrollTo(0, 0);
+    html.style.scrollBehavior = prev;
   }, [slug]);
 
   if (!project) {
@@ -21,7 +27,7 @@ const ProjectDetail = () => {
   const Body = (slug && projectDetailBodies[slug]) ?? DefaultProjectDetailBody;
 
   return (
-    <ProjectDetailLayout project={project}>
+    <ProjectDetailLayout key={project.slug} project={project}>
       <Body project={project} />
     </ProjectDetailLayout>
   );
