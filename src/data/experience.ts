@@ -47,7 +47,7 @@ export const experience: ExperienceItem[] = [
     role: "Vice Lead, Guidance, Navigation, and Controls Subteam",
     period: "Jan 2026 – Present",
     location: "Atlanta, GA",
-    link: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV",
+    link: "https://github.com/Propulsive-Landers-GT",
     summary: "Estimation and control software for a student-built vertical take-off and landing rocket.",
     bullets: [
       "Built a 16-state error-state EKF in Rust fusing IMU, GPS, and magnetometer data, with process noise derived from the VN-200 IMU datasheet.",

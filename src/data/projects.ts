@@ -92,8 +92,8 @@ export const projects: ProjectItem[] = [
     result: "0.14% average deviation from simulated ground truth",
     year: "2026",
     period: "Jan 2026 – Present",
-    link: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV",
-    links: [{ label: "Code", href: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV" }],
+    link: "https://github.com/Propulsive-Landers-GT",
+    links: [{ label: "Code", href: "https://github.com/Propulsive-Landers-GT" }],
     image: "/projects/landers/generated/esekf_attitude.gif",
     demo: "ekf-replay",
     figureCaption:

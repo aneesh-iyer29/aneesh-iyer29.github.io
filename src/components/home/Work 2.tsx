@@ -19,7 +19,8 @@ const Work = () => (
     id="work"
     index="01"
     eyebrow="Selected work"
-    title="Projects"
+    title="Four projects, each with a figure."
+    lede="Each figure is drawn from the real thing: the paper's own model, the filter's own test data, the benchmark's own numbers. Open a project for the interactive version and the full write-up."
   >
     <div className="space-y-20 md:space-y-28">
       {projects.map((p, i) => {
