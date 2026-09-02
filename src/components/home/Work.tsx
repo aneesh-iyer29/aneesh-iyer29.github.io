@@ -17,7 +17,7 @@ const linkIcons: Record<ProjectLink["label"], typeof Github> = {
 const Work = () => (
   <Section
     id="work"
-    index="01"
+    index="02"
     eyebrow="Selected work"
     title="Previous Projects"
   >

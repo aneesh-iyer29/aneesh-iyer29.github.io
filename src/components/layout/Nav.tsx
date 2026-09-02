@@ -5,9 +5,9 @@ import { FileText, Menu, X } from "lucide-react";
 import { profile } from "@/data/profile";
 
 const links = [
+  { label: "About", href: "/#about" },
   { label: "Work", href: "/#work" },
   { label: "Experience", href: "/#experience" },
-  { label: "About", href: "/#about" },
   { label: "Contact", href: "/#contact" },
 ];
 

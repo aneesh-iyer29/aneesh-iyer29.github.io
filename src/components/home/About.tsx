@@ -4,9 +4,9 @@ import { education } from "@/data/profile";
 import aneeshPhoto from "@/assets/aneesh-photo.jpeg";
 
 const About = () => (
-  <Section id="about" index="03" eyebrow="About">
-    <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-      <Reveal className="lg:col-span-7">
+  <Section id="about" index="01" eyebrow="About">
+    <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+      <Reveal className="lg:col-span-9">
         <div className="space-y-5 text-base leading-relaxed text-muted-foreground">
           <p>
             I am a Computer Engineering student at <span className="font-medium text-foreground">Georgia Tech</span> on the
@@ -46,8 +46,8 @@ const About = () => (
         </div>
       </Reveal>
 
-      <Reveal delay={0.1} className="lg:col-span-5">
-        <figure className="figure-frame">
+      <Reveal delay={0.1} className="lg:col-span-3">
+        <figure className="figure-frame max-w-[16rem] lg:max-w-none">
           <div className="aspect-[4/5] overflow-hidden">
             <img src={aneeshPhoto} alt="Aneesh Iyer" className="h-full w-full object-cover object-top" loading="lazy" />
           </div>

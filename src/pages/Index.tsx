@@ -19,9 +19,9 @@ const Index = () => {
   return (
     <PageShell>
       <Hero />
+      <About />
       <Work />
       <Experience />
-      <About />
       <Community />
       <Skills />
       <Contact />
