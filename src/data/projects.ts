@@ -51,7 +51,7 @@ export const projects: ProjectItem[] = [
     image: buildCanvas,
     demo: "build-canvas",
     figureCaption:
-      "How Build compiles a block tree into an environment: nested Environment, Task, Tool, and Train blocks on the left project into the plain-language specification on the right, which is what gets deployed to HUD.",
+      "How Build compiles a block tree into an environment: the Environment, Tool, and Taskset blocks on the left, with their nested detail blocks, project into the canonical environment, tool, and task records on the right, which is what gets deployed to HUD.",
     highlights: [
       "Compiles plain-language block trees into real, deployable HUD reinforcement-learning environments.",
       "Enforces valid block nesting so environments are structurally correct by construction.",
