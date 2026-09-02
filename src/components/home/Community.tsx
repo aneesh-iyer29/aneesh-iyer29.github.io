@@ -9,7 +9,7 @@ const Community = () => (
     id="community"
     index="04"
     eyebrow="Community"
-    title="Teaching and Science Olympiad."
+    title="Volunteering Work"
   >
     <div className="grid gap-6 md:grid-cols-2">
       {volunteering.map((v, i) => (
@@ -45,7 +45,7 @@ const Community = () => (
     </div>
     <Reveal delay={0.12}>
       <Link to="/scioly-tests" className="link mt-8 inline-flex items-center gap-1 text-sm font-medium">
-        Browse the Science Olympiad test bank <ArrowUpRight size={14} />
+        Browse my Science Olympiad test bank <ArrowUpRight size={14} />
       </Link>
     </Reveal>
   </Section>
