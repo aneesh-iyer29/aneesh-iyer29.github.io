@@ -78,7 +78,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       {/* PIPELINE + DIAGRAM ------------------------------------------------ */}
       <section className="flex flex-wrap items-start gap-x-14 gap-y-12">
         <div className="min-w-[300px] flex-[1_1_360px] pt-1.5">
-          <p className="max-w-[32em] text-base leading-relaxed text-muted-foreground">
+          <p className="text-base leading-relaxed text-muted-foreground">
             For this experiment, our golden environment is{" "}
             <a href="https://arxiv.org/pdf/2602.07342" target="_blank" rel="noopener noreferrer" className="link-accent">
               Supply Chain Bench
@@ -285,11 +285,11 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
         <div className="flex flex-wrap items-start gap-x-14 gap-y-10">
           <div className="min-w-[300px] flex-[1_1_360px]">
             <SectionHeading eyebrow="Results" title="All three students tied" />
-            <p className="mt-4 max-w-[32em] text-base leading-relaxed text-muted-foreground">
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
               We ran the full pipeline end to end: both authors generated environments, both trained a Qwen-8B, and
               all three students played the held-out Supply Chain Bench. They finished in a dead heat.
             </p>
-            <p className="mt-4 max-w-[32em] text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               When we looked closer, the environments the models authored were low-quality and, honestly, a little
               sloppy, so neither trained student learned much the untrained baseline didn&apos;t already know.
             </p>
@@ -320,7 +320,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       <motion.section {...reveal} className="mt-20 flex flex-wrap items-start gap-x-14 gap-y-10">
         <div className="min-w-[300px] flex-[1_1_420px]">
           <SectionHeading eyebrow="How we built the environments in-house" title="From blocks to a spec" />
-          <p className="mt-4 max-w-[34em] text-base leading-relaxed text-muted-foreground">
+          <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             Build is a Scratch-style canvas. We drag four kinds of blocks out of the tray (
             <strong className="font-medium text-foreground">Environment, Tool, Task, Train</strong>), snap detail
             blocks into them, and describe each in plain language. The blocks form a recursive tree that the builder
@@ -380,7 +380,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       <motion.section {...reveal} className="mt-20 rounded-lg border border-border bg-secondary/50 p-7 sm:p-10">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-7">
           <SectionHeading eyebrow="Roadmap" title="How we'd improve it" />
-          <p className="m-0 max-w-[30em] text-base leading-relaxed text-muted-foreground">
+          <p className="m-0 text-base leading-relaxed text-muted-foreground">
             Because every environment is a task in itself, the breadth and integrity of the golden set is the whole
             experiment. We&apos;re really measuring how well models build HUD tasks.
           </p>

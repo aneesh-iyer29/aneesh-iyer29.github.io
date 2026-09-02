@@ -21,7 +21,7 @@ function Part({ n, title, impact, children }: { n: string; title: string; impact
       <span className="readout text-sm font-medium text-accent">{n}</span>
       <div>
         <h2 className="display text-2xl leading-[1.15] text-foreground md:text-3xl">{title}</h2>
-        <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">{impact}</p>
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground">{impact}</p>
         <div className="mt-8">{children}</div>
       </div>
     </motion.section>

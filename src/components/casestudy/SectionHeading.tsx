@@ -15,7 +15,7 @@ export function SectionHeading({ eyebrow, title, lede, size = "md", className = 
     <div className={className}>
       {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
       <h2 className={`display ${eyebrow ? "mt-3" : ""} ${titleSize} leading-[1.1] text-foreground`}>{title}</h2>
-      {lede ? <p className="mt-4 max-w-prose text-base leading-relaxed text-muted-foreground">{lede}</p> : null}
+      {lede ? <p className="mt-4 text-base leading-relaxed text-muted-foreground">{lede}</p> : null}
     </div>
   );
 }
