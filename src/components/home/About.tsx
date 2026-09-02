@@ -32,7 +32,7 @@ const About = () => (
           </p>
         </div>
 
-        <div className="mt-10 grid gap-6 border-t border-border pt-8 sm:grid-cols-2">
+        <div className="mt-10 border-t border-border pt-8">
           <div>
             <p className="eyebrow">Education</p>
             <p className="mt-3 font-medium text-foreground">{education.school}</p>
@@ -42,20 +42,6 @@ const About = () => (
               GPA <span className="readout text-foreground">{education.gpa}</span> · Expected{" "}
               <span className="text-foreground">{education.graduation}</span>
             </p>
-          </div>
-          <div>
-            <p className="eyebrow">Coursework</p>
-            <ul className="mt-3 space-y-1.5 text-sm text-muted-foreground">
-              {education.coursework.map((c) => (
-                <li key={c}>{c}</li>
-              ))}
-              {education.inProgress.map((c) => (
-                <li key={c} className="flex items-center gap-2">
-                  {c}
-                  <span className="shrink-0 whitespace-nowrap font-mono text-[0.6rem] uppercase tracking-[0.12em] text-accent">in progress</span>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </Reveal>
