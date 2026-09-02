@@ -317,8 +317,8 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
       </motion.section>
 
       {/* BLOCKS → SPEC --------------------------------------------------- */}
-      <motion.section {...reveal} className="mt-20 flex flex-wrap items-start gap-x-14 gap-y-10">
-        <div className="min-w-[300px] flex-[1_1_420px]">
+      <motion.section {...reveal} className="mt-20 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,21rem)] md:gap-14">
+        <div className="min-w-0">
           <SectionHeading eyebrow="How we built the environments in-house" title="From blocks to a spec" />
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
             Build is a Scratch-style canvas. We drag four kinds of blocks out of the tray (
@@ -338,7 +338,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
         </div>
 
         {/* block mock */}
-        <div className="min-w-[300px] flex-[0_1_440px] card-surface p-6">
+        <div className="min-w-0 card-surface p-6">
           <div className="mb-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
             Build · canvas
           </div>
