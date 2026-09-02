@@ -9,7 +9,7 @@ export interface ProjectLink {
 
 /* Which interactive figure a project renders on the home page.
    Components live in src/components/demos and are keyed by this id. */
-export type DemoId = "build-canvas" | "bench-race" | "heat-map" | "pid-tuner";
+export type DemoId = "build-canvas" | "bench-race" | "heat-map" | "ekf-replay";
 
 export interface ProjectItem {
   slug: string;
@@ -27,7 +27,7 @@ export interface ProjectItem {
   highlights: string[];
   /** Static media for the detail page header and social previews. */
   image?: string;
-  /** Interactive figure shown on the home page. */
+  /** Figure shown on the home page (static) and the project page (interactive). */
   demo: DemoId;
   /** Caption under the interactive figure, written like a paper figure. */
   figureCaption: string;
@@ -51,7 +51,7 @@ export const projects: ProjectItem[] = [
     image: buildCanvas,
     demo: "build-canvas",
     figureCaption:
-      "A block tree describing an environment, compiled live into the plain-language spec that becomes a runnable HUD environment. Drag blocks to reorder them.",
+      "How Build compiles a block tree into an environment: nested Environment, Task, Tool, and Train blocks on the left project into the plain-language specification on the right, which is what gets deployed to HUD.",
     highlights: [
       "Compiles plain-language block trees into real, deployable HUD reinforcement-learning environments.",
       "Enforces valid block nesting so environments are structurally correct by construction.",
@@ -73,7 +73,7 @@ export const projects: ProjectItem[] = [
     image: benchceptionLeaderboard,
     demo: "bench-race",
     figureCaption:
-      "Three Qwen-8B students evaluated on the held-out Supply Chain Bench. Replay the training runs to watch the trained students fail to separate from the untrained baseline.",
+      "Success rate of three Qwen-8B students on the held-out Supply Chain Bench. Neither student trained on a model-authored environment separates from the untrained baseline within noise.",
     highlights: [
       "Designed a contamination-free evaluation: the golden benchmark is revealed only at final evaluation.",
       "Trained Qwen-8B students on environments authored by Claude Opus 4.8 and GPT-5.5 from identical specs.",
@@ -95,9 +95,9 @@ export const projects: ProjectItem[] = [
     link: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV",
     links: [{ label: "Code", href: "https://github.com/Avionics-Propulsion-Landers-GT/MonopropUAV" }],
     image: "/projects/landers/generated/esekf_attitude.gif",
-    demo: "pid-tuner",
+    demo: "ekf-replay",
     figureCaption:
-      "Closed-loop step response of a thrust controller. Drag the gains and watch the step-response metrics the tuner logs each run: rise time, overshoot, settling time, and steady-state error.",
+      "Roll, pitch, and yaw estimated by the 16-state error-state EKF (dashed) over the true attitude (solid) across a 23 second simulated flight, with the geodesic attitude error below. Data and metrics are exported from the filter's own test harness: 0.14% average deviation, 0.17 degrees average error.",
     highlights: [
       "Built a 16-state error-state EKF in Rust fusing IMU, GPS, and magnetometer data, with process noise derived from the VN-200 IMU datasheet.",
       "Made yaw observable through magnetometer fusion and diagnosed a covariance tuning bug, cutting average deviation from simulated ground truth to 0.14% (0.17 degrees of attitude error).",
@@ -121,7 +121,7 @@ export const projects: ProjectItem[] = [
     image: m3Finals,
     demo: "heat-map",
     figureCaption:
-      "Indoor temperature of a home without air conditioning over a 24-hour heatwave, from a Newton's-law-of-cooling model. Adjust outdoor peak temperature and insulation to see the indoor curve respond.",
+      "Reproduction of the paper's Figure 2.5.2: predicted indoor temperature of four Memphis homes without air conditioning over a heatwave day, from the paper's heat-transfer ODE, against the fitted outdoor temperature. The unshaded home peaks near 31.7 °C, matching a resident's reported 89 °F.",
     highlights: [
       "Quantified heat vulnerability across 27 Memphis zip codes by reducing variables to 4 significant features via backward selection.",
       "Modeled urban electricity demand over five emissions pathways with simulations and sensitivity analysis.",

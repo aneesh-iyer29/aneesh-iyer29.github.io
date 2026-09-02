@@ -29,7 +29,7 @@ const Work = () => (
           <article key={p.slug} className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
             <Reveal className={`lg:col-span-7 ${flip ? "lg:order-2" : ""}`}>
               <Figure label={`Fig. ${i + 1}`} caption={p.figureCaption}>
-                <Demo id={p.demo} />
+                <Demo id={p.demo} interactive={false} />
               </Figure>
             </Reveal>
 

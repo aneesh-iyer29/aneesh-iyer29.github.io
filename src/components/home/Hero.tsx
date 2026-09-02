@@ -1,48 +1,50 @@
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "framer-motion";
-import { profile, stats } from "@/data/profile";
-import EkfFigure from "./EkfFigure";
-import CountUp from "./CountUp";
+import { profile } from "@/data/profile";
+import { projects } from "@/data/projects";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+/* The hero is typographic. Left: who and what. Right: an index of the
+   four works with their results, the way a paper's contents page tells
+   you what is inside before you read a word of it. */
 const Hero = () => {
   const reduce = useReducedMotion();
   const rise = (delay: number) => ({
-    initial: reduce ? { opacity: 1 } : { opacity: 0, y: 14 },
+    initial: reduce ? { opacity: 1 } : { opacity: 0, y: 10 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, delay, ease },
+    transition: { duration: 0.6, delay, ease },
   });
 
   return (
     <section id="top" className="relative">
-      <div className="mx-auto grid max-w-page items-center gap-12 px-6 pb-16 pt-32 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pb-24 lg:pt-40">
+      <div className="mx-auto grid max-w-page gap-14 px-6 pb-20 pt-32 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20 lg:pb-28 lg:pt-44">
         <div>
-          <motion.p {...rise(0)} className="eyebrow mb-6">
+          <motion.p {...rise(0)} className="eyebrow mb-7">
             Computer Engineering · Georgia Tech · Class of 2028
           </motion.p>
-          <motion.h1 {...rise(0.06)} className="display text-[3.4rem] leading-[0.98] sm:text-6xl md:text-7xl">
+          <motion.h1 {...rise(0.05)} className="display text-[3.4rem] leading-[0.98] sm:text-6xl md:text-7xl">
             {profile.name}
           </motion.h1>
-          <motion.p {...rise(0.12)} className="mt-6 max-w-[34rem] text-lg leading-relaxed text-foreground md:text-xl">
+          <motion.p {...rise(0.1)} className="mt-7 max-w-[32rem] text-lg leading-[1.55] text-foreground md:text-[1.35rem]">
             {profile.headline}
           </motion.p>
-          <motion.p {...rise(0.18)} className="mt-4 max-w-[36rem] text-base leading-relaxed text-muted-foreground">
+          <motion.p {...rise(0.15)} className="mt-4 max-w-[34rem] text-base leading-relaxed text-muted-foreground">
             {profile.positioning}
           </motion.p>
-          <motion.p {...rise(0.22)} className="mt-5 flex items-center gap-2 font-mono text-xs text-accent">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-            {profile.seeking}
+          <motion.p {...rise(0.2)} className="mt-6 font-mono text-xs text-muted-foreground">
+            <span className="text-accent">●</span> {profile.seeking}
           </motion.p>
 
-          <motion.div {...rise(0.28)} className="mt-8 flex flex-wrap items-center gap-3">
+          <motion.div {...rise(0.25)} className="mt-9 flex flex-wrap items-center gap-3">
             <a href="#work" className="btn-primary">
-              Selected work <ArrowDown size={14} />
+              Selected work
             </a>
-            <a href="#contact" className="btn-secondary">
-              Contact
+            <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer" className="btn-secondary">
+              Resume
             </a>
-            <div className="ml-1 flex items-center gap-4 text-muted-foreground">
+            <div className="ml-2 flex items-center gap-4 text-muted-foreground">
               <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="transition-colors hover:text-foreground">
                 <Github size={17} />
               </a>
@@ -56,27 +58,31 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        <motion.div
-          initial={reduce ? { opacity: 1 } : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease }}
-        >
-          <EkfFigure />
-        </motion.div>
-      </div>
-
-      <div className="mx-auto max-w-page px-6 pb-20">
-        <dl className="grid grid-cols-2 gap-x-8 gap-y-8 border-t border-border pt-8 md:grid-cols-4">
-          {stats.map((s, i) => (
-            <motion.div key={s.label} {...rise(0.4 + i * 0.06)} className="flex flex-col">
-              <dt className="order-2 mt-1.5 text-xs leading-relaxed text-muted-foreground">{s.label}</dt>
-              <dd className="flex items-baseline gap-2">
-                <CountUp value={s.value} className="display text-3xl text-foreground md:text-4xl" />
-                <span className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-muted-foreground">{s.of}</span>
-              </dd>
-            </motion.div>
-          ))}
-        </dl>
+        <motion.nav {...rise(0.3)} aria-label="Selected work index" className="lg:pt-3">
+          <p className="eyebrow mb-3">Contents</p>
+          <ol className="border-t border-border">
+            {projects.map((p, i) => (
+              <li key={p.slug} className="border-b border-border">
+                <Link
+                  to={`/projects/${p.slug}`}
+                  className="group grid grid-cols-[2rem_1fr_auto] items-baseline gap-4 py-4"
+                >
+                  <span className="readout text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
+                  <span>
+                    <span className="block font-serif text-lg leading-snug text-foreground transition-colors group-hover:text-accent">
+                      {p.title}
+                    </span>
+                    <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{p.result}</span>
+                  </span>
+                  <span className="readout flex items-center gap-1 text-xs text-muted-foreground">
+                    {p.year}
+                    <ArrowUpRight size={12} className="opacity-0 transition-opacity group-hover:opacity-100" />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </motion.nav>
       </div>
     </section>
   );
