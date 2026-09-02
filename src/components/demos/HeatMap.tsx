@@ -3,106 +3,119 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import type { DemoProps } from "./index";
 
 /* ------------------------------------------------------------------
-   Indoor temperature of a home without air conditioning over a 24 h
-   heatwave, from the Newton's-law-of-cooling model in the M3 paper.
-   Two sliders drive the outdoor peak and the envelope insulation.
+   Reproduction of Figure 2.5.2 from Shao, Iyer, Rajan, Tang, Zhang,
+   "Hot Button Issue: Staying Cool as the World Heats Up" (SIAM
+   Undergraduate Research Online, doi 10.1137/25S1777554): indoor
+   temperature of four Memphis homes without air conditioning over a
+   24 h heat day. The model and parameters are the paper's, unchanged.
    ------------------------------------------------------------------ */
 
-const DT_HOURS = 0.05;
-const WARMUP_DAYS = 2;
-const THRESHOLD_F = 90;
-const DIURNAL_SWING_F = 22;
-const Y_MIN = 65;
-const Y_MAX = 115;
-
-interface Simulation {
-  hours: number[];
-  indoor: number[];
-  outdoor: number[];
-  peakIndoor: number;
-  peakHour: number;
-  hoursAbove: number;
+interface Home {
+  id: string;
+  label: string;
+  /** Floor area A_b in m^2. */
+  area: number;
+  /** Solar exposure ratio r_s (1 = no shade). */
+  shade: number;
+  note: string;
+  color: string;
 }
 
-/* Outdoor temperature: a 24 h sinusoid peaking at 15:00 with a 22 F diurnal swing. */
-function outdoorTemp(peak: number, t: number): number {
-  const half = DIURNAL_SWING_F / 2;
-  return peak - half + half * Math.cos((2 * Math.PI * (t - 15)) / 24);
-}
-
-/* Solar gain through the envelope (F/h): a half-sine over daylight, 07:00 to 19:00,
-   attenuated by insulation. */
-function solarGain(t: number, insulation: number): number {
-  const h = ((t % 24) + 24) % 24;
-  if (h <= 7 || h >= 19) return 0;
-  return 1.6 * Math.sin((Math.PI * (h - 7)) / 12) * (1 - 0.6 * insulation);
-}
-
-/* Heat transfer coefficient k (1/h) from the insulation slider: leaky at 0, tight at 1. */
-function coolingRate(insulation: number): number {
-  return 0.45 + (0.08 - 0.45) * insulation;
-}
-
-/* Newton's law of cooling, dT_in/dt = k (T_out(t) - T_in) + solar(t), integrated
-   with RK4 for three days; only the final day is returned so the start-up
-   transient is gone. */
-function simulateIndoor(peak: number, insulation: number): Simulation {
-  const k = coolingRate(insulation);
-  const dTdt = (t: number, temp: number) => k * (outdoorTemp(peak, t) - temp) + solarGain(t, insulation);
-  const totalHours = 24 * (WARMUP_DAYS + 1);
-  const steps = Math.round(totalHours / DT_HOURS);
-  let temp = outdoorTemp(peak, 0);
-  const hours: number[] = [];
-  const indoor: number[] = [];
-  const outdoor: number[] = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = i * DT_HOURS;
-    if (t >= 24 * WARMUP_DAYS) {
-      hours.push(t - 24 * WARMUP_DAYS);
-      indoor.push(temp);
-      outdoor.push(outdoorTemp(peak, t));
-    }
-    const k1 = dTdt(t, temp);
-    const k2 = dTdt(t + DT_HOURS / 2, temp + (DT_HOURS / 2) * k1);
-    const k3 = dTdt(t + DT_HOURS / 2, temp + (DT_HOURS / 2) * k2);
-    const k4 = dTdt(t + DT_HOURS, temp + DT_HOURS * k3);
-    temp += (DT_HOURS / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
-  }
-  let peakIndoor = -Infinity;
-  let peakHour = 0;
-  let hoursAbove = 0;
-  indoor.forEach((value, i) => {
-    if (value > peakIndoor) {
-      peakIndoor = value;
-      peakHour = hours[i];
-    }
-    if (value > THRESHOLD_F && i < indoor.length - 1) hoursAbove += DT_HOURS;
-  });
-  return { hours, indoor, outdoor, peakIndoor, peakHour, hoursAbove };
-}
-
-/* Fixed, deterministic vulnerability scores for 27 zip codes (a 9x3 strip). */
-const ZIP_SCORES = [
-  0.31, 0.52, 0.87, 0.44, 0.18, 0.66, 0.27, 0.73, 0.39,
-  0.58, 0.92, 0.35, 0.21, 0.79, 0.47, 0.63, 0.14, 0.55,
-  0.42, 0.29, 0.84, 0.36, 0.69, 0.23, 0.51, 0.95, 0.33,
+const HOMES: Home[] = [
+  { id: "home1", label: "Home 1", area: 88, shade: 0.1, note: "heavy shade", color: "hsl(var(--fig-2))" },
+  { id: "home2", label: "Home 2", area: 63, shade: 0.6, note: "partial shade", color: "hsl(var(--fig-3))" },
+  { id: "home3", label: "Home 3", area: 74, shade: 0.95, note: "no shade", color: "hsl(var(--fig-1))" },
+  { id: "home4", label: "Home 4", area: 278, shade: 0.95, note: "no shade, large", color: "hsl(var(--fig-4))" },
 ];
-const TOP_N = 4;
-const topThreshold = [...ZIP_SCORES].sort((a, b) => b - a)[TOP_N - 1];
 
-function linePath(xs: number[], ys: number[], sx: (x: number) => number, sy: (y: number) => number): string {
+/* Shared parameters from Table 2.5.1: wall height h (m), specific heat c,
+   air density D, window ratio r_w, thermal resistance R, and n floors. */
+const WALL_HEIGHT = 3.048;
+const SPECIFIC_HEAT = 1.005;
+const DENSITY = 1293;
+const WINDOW_RATIO = 0.2;
+const RESISTANCE = 13;
+const FLOORS = 1;
+const T_IN_0 = 29.444;
+const STEPS = 2000;
+const HIGHLIGHTED = "home3";
+
+const X_MIN = 0;
+const X_MAX = 24;
+const Y_MIN = 27;
+const Y_MAX = 38;
+const X_TICKS = [0, 4, 8, 12, 16, 20, 24];
+const Y_TICKS = [28, 30, 32, 34, 36, 38];
+
+/* Outdoor temperature (deg C) at t hours after midnight: the paper's fitted sinusoid (Fig. 2.4.1). */
+function outdoorTemp(t: number): number {
+  return 4.9796776692867555 * Math.sin(0.31958467920431916 * t + -2.7753696625091497) + 32.23606417137194;
+}
+
+/* Global horizontal irradiance (W/m^2): the paper's piecewise quadratic (Fig. 2.4.2), zero before 7 AM. */
+function irradiance(t: number): number {
+  return t < 7 ? 0 : -24.099845890995997 * t * t + 623.6904007623635 * t + -3166.8881716727808;
+}
+
+interface Series {
+  t: number[];
+  temp: number[];
+  peak: number;
+  peakHour: number;
+}
+
+/* The paper's indoor model, dT_in/dt = (r_s r_w I(t) A_w + (T_out(t) + 50 - T_in) A_w / R) / (A_b h c D),
+   with wall area A_w = 4 sqrt(A_b / n) n h, integrated by RK4 over 0 to 24 h. */
+function simulateHome(area: number, shade: number): Series {
+  const wallArea = 4 * Math.sqrt(area / FLOORS) * FLOORS * WALL_HEIGHT;
+  const capacity = area * WALL_HEIGHT * SPECIFIC_HEAT * DENSITY;
+  const dTdt = (t: number, temp: number) =>
+    (1 / capacity) * (shade * WINDOW_RATIO * irradiance(t) * wallArea + ((outdoorTemp(t) + 50 - temp) * wallArea) / RESISTANCE);
+  const dt = (X_MAX - X_MIN) / STEPS;
+  const t: number[] = [0];
+  const temp: number[] = [T_IN_0];
+  let value = T_IN_0;
+  for (let i = 0; i < STEPS; i++) {
+    const time = i * dt;
+    const k1 = dTdt(time, value);
+    const k2 = dTdt(time + dt / 2, value + (dt / 2) * k1);
+    const k3 = dTdt(time + dt / 2, value + (dt / 2) * k2);
+    const k4 = dTdt(time + dt, value + dt * k3);
+    value += (dt / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
+    t.push((i + 1) * dt);
+    temp.push(value);
+  }
+  let peak = -Infinity;
+  let peakHour = 0;
+  temp.forEach((v, i) => {
+    if (v > peak) {
+      peak = v;
+      peakHour = t[i];
+    }
+  });
+  return { t, temp, peak, peakHour };
+}
+
+function outdoorSeries(): Series {
+  const t: number[] = [];
+  const temp: number[] = [];
+  for (let i = 0; i <= 240; i++) {
+    const time = (i / 240) * X_MAX;
+    t.push(time);
+    temp.push(outdoorTemp(time));
+  }
+  return { t, temp, peak: Math.max(...temp), peakHour: t[temp.indexOf(Math.max(...temp))] };
+}
+
+function linePath(xs: number[], ys: number[], sx: (x: number) => number, sy: (y: number) => number, stride = 1): string {
   let d = "";
-  for (let i = 0; i < xs.length; i++) {
-    d += `${i === 0 ? "M" : "L"}${sx(xs[i]).toFixed(1)},${sy(ys[i]).toFixed(1)}`;
+  for (let i = 0; i < xs.length; i += stride) {
+    d += `${d === "" ? "M" : "L"}${sx(xs[i]).toFixed(1)},${sy(ys[i]).toFixed(1)}`;
   }
   return d;
 }
 
-function formatHour(h: number): string {
-  const whole = Math.floor(h);
-  const minutes = Math.round((h - whole) * 60);
-  return `${String(whole).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
-}
+const toFahrenheit = (c: number) => (c * 9) / 5 + 32;
 
 /* Tracks the rendered width of an element so the SVG can draw in real pixels. */
 function useElementWidth<T extends HTMLElement>(fallback: number): [RefObject<T>, number] {
@@ -124,49 +137,34 @@ function useElementWidth<T extends HTMLElement>(fallback: number): [RefObject<T>
 const HeatMap = ({ compact = false, className = "" }: DemoProps) => {
   const reduce = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(rootRef, { amount: 0.25, once: true });
-  const [plotRef, width] = useElementWidth<HTMLDivElement>(480);
+  const inView = useInView(rootRef, { amount: 0.3, once: true });
+  const [plotRef, width] = useElementWidth<HTMLDivElement>(560);
+  const [active, setActive] = useState<string | null>(null);
 
-  const [peak, setPeak] = useState(100);
-  const [insulationPct, setInsulationPct] = useState(35);
-  const insulation = insulationPct / 100;
+  const homes = useMemo(() => HOMES.map((home) => ({ ...home, series: simulateHome(home.area, home.shade) })), []);
+  const outdoor = useMemo(outdoorSeries, []);
+  const readoutHome = homes.find((home) => home.id === (active ?? HIGHLIGHTED)) ?? homes[2];
 
-  const sim = useMemo(() => simulateIndoor(peak, insulation), [peak, insulation]);
-
-  const height = compact ? 128 : 168;
-  const pad = { left: 30, right: 10, top: 10, bottom: 20 };
-  const plotW = Math.max(40, width - pad.left - pad.right);
+  const height = compact ? 200 : 260;
+  const pad = { left: 46, right: 12, top: 10, bottom: 36 };
+  const plotW = Math.max(60, width - pad.left - pad.right);
   const plotH = height - pad.top - pad.bottom;
-  const sx = (h: number) => pad.left + (h / 24) * plotW;
-  const sy = (f: number) => pad.top + (1 - (f - Y_MIN) / (Y_MAX - Y_MIN)) * plotH;
+  const sx = (x: number) => pad.left + ((x - X_MIN) / (X_MAX - X_MIN)) * plotW;
+  const sy = (y: number) => pad.top + (1 - (y - Y_MIN) / (Y_MAX - Y_MIN)) * plotH;
 
-  const indoorPath = linePath(sim.hours, sim.indoor, sx, sy);
-  const outdoorPath = linePath(sim.hours, sim.outdoor, sx, sy);
-  const areaPath = `${indoorPath}L${sx(24).toFixed(1)},${sy(Y_MIN).toFixed(1)}L${sx(0).toFixed(1)},${sy(Y_MIN).toFixed(1)}Z`;
-  const thresholdY = sy(THRESHOLD_F);
-
-  const yTicks = [70, 80, 90, 100, 110];
-  const xTicks = [0, 6, 12, 18, 24];
-  const drawn = reduce || inView;
-  const drawTransition = { duration: reduce ? 0 : 0.9, ease: "easeInOut" as const };
+  const drawn = Boolean(reduce) || inView;
+  const lineTransition = (delay: number) => ({ duration: reduce ? 0 : 0.8, ease: "easeOut" as const, delay: reduce ? 0 : delay });
+  const labelColor = "hsl(var(--muted-foreground))";
 
   return (
-    <div ref={rootRef} className={`flex flex-col gap-3 p-4 ${compact ? "min-h-[16rem]" : "min-h-[20rem]"} ${className}`}>
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className="eyebrow text-[0.62rem]">indoor vs outdoor · 24 h · no air conditioning</span>
-        <span className="flex items-center gap-3 font-mono text-[0.62rem] text-muted-foreground" aria-hidden="true">
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block h-0 w-3.5 border-t-[1.5px] border-[hsl(var(--fig-1))]" />
-            indoor
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block h-0 w-3.5 border-t-[1.5px] border-dashed border-[hsl(var(--fig-3))]" />
-            outdoor
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="inline-block h-0 w-3.5 border-t border-dashed border-accent" />
-            {THRESHOLD_F} F threshold
-          </span>
+    <div ref={rootRef} className={`flex flex-col gap-3 p-4 ${compact ? "min-h-[18rem]" : "min-h-[22rem]"} ${className}`}>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <span className="eyebrow text-[0.62rem]">indoor temperature without air conditioning · four memphis homes</span>
+        <span className="readout text-[0.68rem] text-foreground" aria-live="polite">
+          <span className="text-muted-foreground">{readoutHome.label} peak </span>
+          {readoutHome.series.peak.toFixed(1)} °C ({toFahrenheit(readoutHome.series.peak).toFixed(1)} °F)
+          <span className="text-muted-foreground"> at </span>
+          {readoutHome.series.peakHour.toFixed(1)} h
         </span>
       </div>
 
@@ -176,145 +174,113 @@ const HeatMap = ({ compact = false, className = "" }: DemoProps) => {
           height={height}
           viewBox={`0 0 ${width} ${height}`}
           role="img"
-          aria-label={`Indoor temperature peaks at ${sim.peakIndoor.toFixed(1)} degrees Fahrenheit and stays above ${THRESHOLD_F} degrees for ${sim.hoursAbove.toFixed(1)} hours`}
+          aria-label="Outdoor temperature and modeled indoor temperature of four homes over 24 hours"
           className="block overflow-visible"
         >
-          <defs>
-            <clipPath id="heat-above-threshold">
-              <rect x={pad.left} y={pad.top} width={plotW} height={Math.max(0, thresholdY - pad.top)} />
-            </clipPath>
-          </defs>
-          {yTicks.map((tick) => (
+          <rect x={pad.left} y={pad.top} width={plotW} height={plotH} fill="hsl(var(--card))" />
+          {Y_TICKS.map((tick) => (
             <g key={`y${tick}`}>
               <line x1={pad.left} x2={pad.left + plotW} y1={sy(tick)} y2={sy(tick)} stroke="hsl(var(--fig-grid))" strokeWidth={1} />
-              <text x={pad.left - 6} y={sy(tick)} textAnchor="end" dominantBaseline="middle" fontSize={9} className="font-mono" fill={tick === THRESHOLD_F ? "hsl(var(--fig-1))" : "hsl(var(--muted-foreground))"}>
+              <text x={pad.left - 7} y={sy(tick)} textAnchor="end" dominantBaseline="middle" fontSize={9} className="font-mono" fill={labelColor}>
                 {tick}
               </text>
             </g>
           ))}
-          {xTicks.map((tick) => (
+          {X_TICKS.map((tick) => (
             <g key={`x${tick}`}>
-              {tick > 0 && tick < 24 && <line x1={sx(tick)} x2={sx(tick)} y1={pad.top} y2={pad.top + plotH} stroke="hsl(var(--fig-grid))" strokeWidth={1} />}
-              <text x={sx(tick)} y={height - 6} textAnchor={tick === 0 ? "start" : tick === 24 ? "end" : "middle"} fontSize={9} className="font-mono" fill="hsl(var(--muted-foreground))">
-                {tick === 24 ? "24 h" : `${String(tick).padStart(2, "0")}:00`}
+              <line x1={sx(tick)} x2={sx(tick)} y1={pad.top + plotH} y2={pad.top + plotH + 4} stroke={labelColor} strokeWidth={1} />
+              <text x={sx(tick)} y={pad.top + plotH + 14} textAnchor="middle" fontSize={9} className="font-mono" fill={labelColor}>
+                {tick}
               </text>
             </g>
           ))}
+          <line x1={pad.left} x2={pad.left} y1={pad.top} y2={pad.top + plotH} stroke={labelColor} strokeWidth={1} />
+          <line x1={pad.left} x2={pad.left + plotW} y1={pad.top + plotH} y2={pad.top + plotH} stroke={labelColor} strokeWidth={1} />
+          <text x={pad.left + plotW / 2} y={height - 6} textAnchor="middle" fontSize={9} className="font-mono" fill={labelColor}>
+            Hours after 12:00 AM
+          </text>
+          <text
+            x={12}
+            y={pad.top + plotH / 2}
+            textAnchor="middle"
+            fontSize={9}
+            className="font-mono"
+            fill={labelColor}
+            transform={`rotate(-90 12 ${pad.top + plotH / 2})`}
+          >
+            Temperature (°C)
+          </text>
+
           <motion.path
-            d={areaPath}
-            fill="hsl(var(--fig-1))"
-            clipPath="url(#heat-above-threshold)"
-            initial={false}
-            animate={{ opacity: drawn ? 0.12 : 0 }}
-            transition={{ duration: reduce ? 0 : 0.5, delay: reduce ? 0 : 0.6 }}
-          />
-          <line x1={pad.left} x2={pad.left + plotW} y1={thresholdY} y2={thresholdY} stroke="hsl(var(--fig-1))" strokeWidth={1} strokeDasharray="2 3" />
-          <motion.path
-            d={outdoorPath}
+            d={linePath(outdoor.t, outdoor.temp, sx, sy)}
             fill="none"
             stroke="hsl(var(--fig-3))"
             strokeWidth={1.5}
-            strokeDasharray="4 3"
+            strokeDasharray="5 4"
             initial={false}
-            animate={{ pathLength: drawn ? 1 : 0, opacity: drawn ? 1 : 0 }}
-            transition={drawTransition}
+            animate={{ pathLength: drawn ? 1 : 0, opacity: drawn ? (active ? 0.35 : 1) : 0 }}
+            transition={lineTransition(0)}
           />
-          <motion.path
-            d={indoorPath}
-            fill="none"
-            stroke="hsl(var(--fig-1))"
-            strokeWidth={1.5}
-            strokeLinejoin="round"
-            initial={false}
-            animate={{ pathLength: drawn ? 1 : 0, opacity: drawn ? 1 : 0 }}
-            transition={{ ...drawTransition, delay: reduce ? 0 : 0.15 }}
-          />
+          {homes.map((home, i) => {
+            const emphasized = active === home.id;
+            const dimmed = active !== null && !emphasized;
+            return (
+              <motion.path
+                key={home.id}
+                d={linePath(home.series.t, home.series.temp, sx, sy, 4)}
+                fill="none"
+                stroke={home.color}
+                strokeWidth={emphasized ? 2.25 : 1.5}
+                strokeLinejoin="round"
+                initial={false}
+                animate={{ pathLength: drawn ? 1 : 0, opacity: drawn ? (dimmed ? 0.22 : 1) : 0 }}
+                transition={lineTransition(0.1 + i * 0.08)}
+              />
+            );
+          })}
           <motion.g initial={false} animate={{ opacity: drawn ? 1 : 0 }} transition={{ duration: reduce ? 0 : 0.3, delay: reduce ? 0 : 0.9 }}>
-            <circle cx={sx(sim.peakHour)} cy={sy(sim.peakIndoor)} r={3} fill="hsl(var(--background))" stroke="hsl(var(--fig-1))" strokeWidth={1.5} />
+            <circle
+              cx={sx(readoutHome.series.peakHour)}
+              cy={sy(readoutHome.series.peak)}
+              r={3}
+              fill="hsl(var(--card))"
+              stroke={readoutHome.color}
+              strokeWidth={1.5}
+            />
           </motion.g>
         </svg>
       </div>
 
-      <div className={`grid gap-4 ${compact ? "" : "md:grid-cols-[minmax(0,1fr)_auto]"}`}>
-        <div className="grid grid-cols-2 gap-4">
-          <label className="flex flex-col gap-1.5">
-            <span className="flex items-baseline justify-between font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">
-              <span>outdoor peak</span>
-              <span className="readout text-xs normal-case tracking-normal text-foreground">{peak} F</span>
-            </span>
-            <input
-              type="range"
-              className="range"
-              min={90}
-              max={110}
-              step={1}
-              value={peak}
-              aria-label="Outdoor peak temperature in degrees Fahrenheit"
-              aria-valuetext={`${peak} degrees`}
-              onChange={(e) => setPeak(Number(e.target.value))}
-            />
-          </label>
-          <label className="flex flex-col gap-1.5">
-            <span className="flex items-baseline justify-between font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">
-              <span>insulation</span>
-              <span className="readout text-xs normal-case tracking-normal text-foreground">k = {coolingRate(insulation).toFixed(2)} /h</span>
-            </span>
-            <input
-              type="range"
-              className="range"
-              min={0}
-              max={100}
-              step={1}
-              value={insulationPct}
-              aria-label="Insulation, from low to high"
-              aria-valuetext={`${insulationPct} percent`}
-              onChange={(e) => setInsulationPct(Number(e.target.value))}
-            />
-            <span className="flex justify-between font-mono text-[0.58rem] uppercase tracking-[0.12em] text-muted-foreground/70" aria-hidden="true">
-              <span>low</span>
-              <span>high</span>
-            </span>
-          </label>
-        </div>
-        <dl className="grid grid-cols-3 gap-x-4 gap-y-2">
-          <div className="flex flex-col gap-0.5">
-            <dt className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">peak indoor</dt>
-            <dd className={`readout text-xs ${sim.peakIndoor > THRESHOLD_F ? "text-accent" : "text-foreground"}`}>{sim.peakIndoor.toFixed(1)} F</dd>
-          </div>
-          <div className="flex flex-col gap-0.5">
-            <dt className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">hours &gt; {THRESHOLD_F} F</dt>
-            <dd className={`readout text-xs ${sim.hoursAbove > 0 ? "text-accent" : "text-foreground"}`}>{sim.hoursAbove.toFixed(1)} h</dd>
-          </div>
-          <div className="flex flex-col gap-0.5">
-            <dt className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted-foreground">indoor peak at</dt>
-            <dd className="readout text-xs text-foreground">{formatHour(sim.peakHour)}</dd>
-          </div>
-        </dl>
-      </div>
+      <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-[0.64rem] text-muted-foreground" aria-label="Legend">
+        <li className="flex items-center gap-2">
+          <span className="inline-block h-0 w-4 border-t-[1.5px] border-dashed border-[hsl(var(--fig-3))]" aria-hidden="true" />
+          <span>Outdoor</span>
+        </li>
+        {homes.map((home) => {
+          const emphasized = active === home.id;
+          return (
+            <li key={home.id}>
+              <button
+                type="button"
+                className={`flex items-center gap-2 rounded-sm px-1 py-0.5 text-left transition-opacity ${active !== null && !emphasized ? "opacity-50" : ""}`}
+                aria-label={`Highlight ${home.label}, floor area ${home.area} square meters, solar exposure ${home.shade}`}
+                onMouseEnter={() => setActive(home.id)}
+                onMouseLeave={() => setActive(null)}
+                onFocus={() => setActive(home.id)}
+                onBlur={() => setActive(null)}
+              >
+                <span className="inline-block h-0 w-4 border-t-[1.5px]" style={{ borderColor: home.color }} aria-hidden="true" />
+                <span className="text-foreground">{home.label}</span>
+                <span>
+                  A<sub>b</sub> {home.area} m² · r<sub>s</sub> {home.shade}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
 
-      {!compact && (
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-3">
-          <div className="grid grid-cols-9 gap-[3px]" role="img" aria-label="Vulnerability index across 27 Memphis zip codes, with the four most vulnerable highlighted">
-            {ZIP_SCORES.map((score, i) => {
-              const top = score >= topThreshold;
-              return (
-                <span
-                  key={i}
-                  className="h-2.5 w-2.5 rounded-[2px]"
-                  style={{
-                    background: top ? "hsl(var(--fig-1))" : `hsl(var(--fig-3) / ${(0.15 + 0.55 * score).toFixed(2)})`,
-                    outline: top ? "1px solid hsl(var(--fig-1))" : undefined,
-                    outlineOffset: 1,
-                  }}
-                />
-              );
-            })}
-          </div>
-          <p className="min-w-0 flex-1 font-mono text-[0.6rem] leading-relaxed text-muted-foreground">
-            <span className="text-foreground">27 zip codes</span>, top {TOP_N} in accent. Four significant features after backward selection: elderly share, children share, population, transit and walk commuters.
-          </p>
-        </div>
-      )}
+      <p className="font-mono text-[0.6rem] text-muted-foreground">Model and parameters from Table 2.5.1 and Appendix 7.1 of the paper.</p>
     </div>
   );
 };
