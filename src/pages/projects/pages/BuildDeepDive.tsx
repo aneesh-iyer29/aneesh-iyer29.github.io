@@ -56,6 +56,7 @@ export function BuildDeepDive(_props: ProjectDetailBodyProps) {
       <motion.section {...reveal} className="mt-20 flex flex-col gap-10">
         <SectionHeading eyebrow="How it works" title="From blank canvas to a trained policy" size="lg" />
 
+        <div className="grid gap-x-10 gap-y-10 md:grid-cols-2">
         <Step n="01" title="Start from a template or a blank canvas">
           <P>
             Open Build and either start a new environment or fork one of the ready-made templates: SupChain-Bench,
@@ -95,24 +96,25 @@ export function BuildDeepDive(_props: ProjectDetailBodyProps) {
         </Step>
 
         <Step n="05" title="Run a baseline, then train">
-          <div className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,23rem)]">
-            <P>
-              With the environment live, run every task on HUD across a spanning set of models, a few attempts each.
-              The results tell you whether the environment is any good: <Strong>solvable</Strong> (a strong model can
-              actually do it) and <Strong>discriminating</Strong> (it separates weak models from strong ones). Once
-              it's both, fork a base model from the same screen and start an RL run against the reward you described
-              in blocks, closing the loop from a plain-language idea to a measurably better model.
-            </P>
-            {/* Shown at about half its pixel size so it stays sharp on 2x displays. */}
-            <ImageSlot
-              src={buildRunTrain}
-              ratio="740 / 430"
-              label="Run and train"
-              className="my-0"
-              caption="From one screen: launch a run of every task in the deployed taskset on HUD across several models, then fork a base model (qwen3-14b) into a trainable one and start an RL run on the tasks you defined. Rollouts and inference both route through HUD."
-            />
-          </div>
+          <P>
+            With the environment live, run every task on HUD across a spanning set of models, a few attempts each. The
+            results tell you whether the environment is any good: <Strong>solvable</Strong> (a strong model can
+            actually do it) and <Strong>discriminating</Strong> (it separates weak models from strong ones). Once it's
+            both, fork a base model from the same screen and start an RL run against the reward you described in
+            blocks, closing the loop from a plain-language idea to a measurably better model.
+          </P>
         </Step>
+        {/* Sits beside step 05 at about half its pixel size, so it stays sharp on 2x displays. */}
+        <div className="border-t border-border pt-8 md:pt-8">
+          <ImageSlot
+            src={buildRunTrain}
+            ratio="740 / 430"
+            label="Run and train"
+            className="my-0"
+            caption="From one screen: launch a run of every task in the deployed taskset on HUD across several models, then fork a base model (qwen3-14b) into a trainable one and start an RL run on the tasks you defined. Rollouts and inference both route through HUD."
+          />
+        </div>
+        </div>
       </motion.section>
 
       <motion.section {...reveal} className="card-surface mt-20 p-7 sm:p-9">
