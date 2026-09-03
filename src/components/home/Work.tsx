@@ -19,7 +19,7 @@ const Work = () => (
     id="work"
     index="02"
     eyebrow="Selected work"
-    title="Previous Projects"
+    title="What I have built."
   >
     <div className="space-y-20 md:space-y-28">
       {projects.map((p, i) => {

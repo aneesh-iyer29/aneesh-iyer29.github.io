@@ -9,7 +9,7 @@ const Community = () => (
     id="community"
     index="04"
     eyebrow="Community"
-    title="Volunteering Work"
+    title="How I give back."
   >
     <div className="grid gap-6 md:grid-cols-2">
       {volunteering.map((v, i) => (
