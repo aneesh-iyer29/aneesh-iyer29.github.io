@@ -140,11 +140,6 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             })}
           </div>
 
-          <Callout symbol="!" className="mt-[18px]">
-            <strong className="font-medium text-foreground">No contamination.</strong> The golden environment is never
-            shown to either author or student during authoring or training; it is revealed only at evaluation. Models
-            can&apos;t memorize the test, only learn to teach.
-          </Callout>
         </div>
 
         {/* DIAGRAM */}
@@ -277,6 +272,11 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               </div>
             </div>
           </div>
+          <Callout symbol="!" className="mt-6">
+            <strong className="font-medium text-foreground">No contamination.</strong> The golden environment is never
+            shown to either author or student during authoring or training; it is revealed only at evaluation. Models
+            can&apos;t memorize the test, only learn to teach.
+          </Callout>
         </div>
       </section>
 
@@ -293,11 +293,6 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               When we looked closer, the environments the models authored were low-quality and, honestly, a little
               sloppy, so neither trained student learned much the untrained baseline didn&apos;t already know.
             </p>
-            <Callout symbol="✓" className="mt-[18px]">
-              <strong className="font-medium text-foreground">The tie is the signal.</strong> A flat leaderboard
-              isn&apos;t a broken experiment; it is evidence that authoring a good RL environment is genuinely hard. The
-              models fail for a valid reason, which is exactly what a strong benchmark should expose.
-            </Callout>
           </div>
 
           <div className="min-w-[300px] flex-[1_1_400px] card-surface px-7 py-6">
@@ -314,6 +309,11 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
             </div>
           </div>
         </div>
+        <Callout symbol="✓" className="mt-8">
+              <strong className="font-medium text-foreground">The tie is the signal.</strong> A flat leaderboard
+              isn&apos;t a broken experiment; it is evidence that authoring a good RL environment is genuinely hard. The
+              models fail for a valid reason, which is exactly what a strong benchmark should expose.
+        </Callout>
       </motion.section>
 
       {/* BLOCKS → SPEC --------------------------------------------------- */}
@@ -342,7 +342,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
           <div className="mb-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
             Build · canvas
           </div>
-          <div className="flex flex-col gap-2.5">
+          <div className="grid gap-2.5 sm:grid-cols-2">
             <MockBlock kind="Environment" color="hsl(var(--fig-3))">
               a supply-chain operator working a live order queue…
             </MockBlock>

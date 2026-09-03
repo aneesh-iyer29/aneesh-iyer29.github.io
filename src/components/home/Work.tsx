@@ -72,7 +72,7 @@ const Work = () => (
                       href={l.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                      className="btn-secondary btn-compact"
                     >
                       <Icon size={13} /> {l.label}
                     </a>
