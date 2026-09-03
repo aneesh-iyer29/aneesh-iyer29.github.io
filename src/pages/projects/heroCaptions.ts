@@ -37,3 +37,9 @@ export const heroLabels: Record<string, string> = {
   "propulsive-landers-gnc": "Fig. 2",
   "m3-math-modeling-champion": "Fig. 6",
 };
+
+/* Optional width cap for the static media when it is a photo that reads
+   better small than stretched across the column. */
+export const heroWidth: Record<string, string> = {
+  "m3-math-modeling-champion": "mx-auto max-w-[34rem]",
+};

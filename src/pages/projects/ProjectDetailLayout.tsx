@@ -7,7 +7,7 @@ import { ImgFigure } from "@/components/casestudy";
 import { projects, type ProjectItem, type ProjectLink } from "@/data/projects";
 import Figure from "@/components/layout/Figure";
 import { Demo } from "@/components/demos";
-import { heroCaptions, heroInset, heroLabels, heroNotes, heroPlacement } from "@/pages/projects/heroCaptions";
+import { heroCaptions, heroInset, heroLabels, heroNotes, heroPlacement, heroWidth } from "@/pages/projects/heroCaptions";
 
 const linkIcons: Record<ProjectLink["label"], typeof Github> = {
   Code: Github,
@@ -35,7 +35,7 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
         caption={caption}
         inset={heroInset.has(project.slug)}
         loading={placement === "after" ? "eager" : "lazy"}
-        className={placement === "after" ? "mt-8" : "mt-16"}
+        className={`${placement === "after" ? "mt-8" : "mt-16"} ${heroWidth[project.slug] ?? ""}`}
       />
     ) : null;
 
