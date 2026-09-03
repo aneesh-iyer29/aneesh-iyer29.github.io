@@ -73,7 +73,7 @@ export function ProjectDetailLayout({ project, children }: PropsWithChildren<{ p
                 {project.links.map((l) => {
                   const Icon = linkIcons[l.label];
                   return (
-                    <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="btn-secondary btn-compact">
+                    <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className={`${l.label === "Paper" ? "btn-accent" : "btn-secondary"} btn-compact`}>
                       <Icon size={13} aria-hidden="true" /> {l.label}
                     </a>
                   );
