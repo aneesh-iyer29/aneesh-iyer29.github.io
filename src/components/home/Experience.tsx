@@ -6,7 +6,7 @@ import { experience } from "@/data/experience";
 /* A single vertical timeline: the period sits in the left gutter, the
    rail carries a dot per role, and the current role's dot is accent. */
 const Experience = () => (
-  <Section id="experience" index="03" eyebrow="Experience" title="Where I have worked.">
+  <Section id="experience" index="03" eyebrow="Experience" title="Work Experience">
     <ol className="relative">
       {experience.map((job, i) => {
         const current = job.period.endsWith("Present");

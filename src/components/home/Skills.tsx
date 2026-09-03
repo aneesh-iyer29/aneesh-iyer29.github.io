@@ -11,7 +11,9 @@ const Skills = () => (
             <span className="text-accent">A</span>
             Appendix
           </p>
-          <div className="divide-y divide-border">
+          <div>
+            <h2 className="display mb-8 text-3xl md:text-4xl">Technical Skills</h2>
+            <div className="divide-y divide-border">
             {skillGroups.map((g) => (
               <div key={g.title} className="grid gap-2 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
                 <p className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground sm:pt-1">{g.title}</p>
@@ -22,6 +24,7 @@ const Skills = () => (
                 </ul>
               </div>
             ))}
+            </div>
           </div>
         </div>
       </Reveal>

@@ -4,7 +4,7 @@ import { education } from "@/data/profile";
 import aneeshPhoto from "@/assets/aneesh-photo.jpeg";
 
 const About = () => (
-  <Section id="about" index="01" eyebrow="About" title="Who I am.">
+  <Section id="about" index="01" eyebrow="About">
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
       <Reveal className="lg:col-span-8">
         <div className="space-y-5 text-base leading-relaxed text-muted-foreground">
