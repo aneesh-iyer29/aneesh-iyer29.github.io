@@ -342,7 +342,7 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
           <div className="mb-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
             Build · canvas
           </div>
-          <div className="grid gap-2.5 sm:grid-cols-2">
+          <div className="flex flex-col gap-2.5">
             <MockBlock kind="Environment" color="hsl(var(--fig-3))">
               a supply-chain operator working a live order queue…
             </MockBlock>
@@ -356,23 +356,26 @@ export function BenchceptionDeepDive(_props: ProjectDetailBodyProps) {
               algorithm: auto · reward from rubric
             </MockBlock>
           </div>
-          <div className="my-4 flex items-center gap-2.5 px-0.5 text-muted-foreground">
-            <span className="h-px flex-1 bg-border" />
-            <span className="font-mono text-[10px] uppercase tracking-[0.14em]">extract description</span>
-            <span className="text-sm" aria-hidden="true">
-              ↓
-            </span>
-          </div>
-          {/* A deliberate "terminal" block: ink on paper inverted. */}
-          <div
-            className="rounded-md p-4 font-mono text-[12.5px] leading-[1.6]"
-            style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}
-          >
-            <span className="mb-2 block text-[9px] uppercase tracking-[0.16em] text-accent">spec handed to the models</span>
-            &quot;Build an RL environment where an agent operates a supply chain: it queries inventory and supplier
-            tools to clear an order backlog, scored by fill-rate without stock-outs. Train a policy to maximize the
-            rubric reward.&quot;
-          </div>
+        </div>
+        {/* The description spans both columns: text and blocks above feed it. */}
+        <div className="md:col-span-2">
+        <div className="mb-4 mt-0 flex items-center gap-2.5 px-0.5 text-muted-foreground">
+          <span className="h-px flex-1 bg-border" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.14em]">extract description</span>
+          <span className="text-sm" aria-hidden="true">
+            ↓
+          </span>
+        </div>
+        {/* A deliberate "terminal" block: ink on paper inverted. */}
+        <div
+          className="rounded-md p-4 font-mono text-[12.5px] leading-[1.6]"
+          style={{ background: "hsl(var(--foreground))", color: "hsl(var(--background))" }}
+        >
+          <span className="mb-2 block text-[9px] uppercase tracking-[0.16em] text-accent">spec handed to the models</span>
+          &quot;Build an RL environment where an agent operates a supply chain: it queries inventory and supplier
+          tools to clear an order backlog, scored by fill-rate without stock-outs. Train a policy to maximize the
+          rubric reward.&quot;
+        </div>
         </div>
       </motion.section>
 
